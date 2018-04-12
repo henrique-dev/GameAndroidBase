@@ -25,6 +25,7 @@ import com.br.phdev.gameandroidbase.cmp.effect.Effect;
 import com.br.phdev.gameandroidbase.cmp.effect.FadeEffect;
 import com.br.phdev.gameandroidbase.cmp.effect.FlashEffect;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
+import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
 import com.br.phdev.gameandroidbase.cmp.models.WindowEntity;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
@@ -205,6 +206,10 @@ public class Button extends WindowEntity {
      * @param listener nova escuta pra o botão.
      */
     public void addActionListener(ActionListener listener) {
+        super.addListener(listener);
+    }
+
+    public void addClickListener(ClickListener listener) {
         super.addListener(listener);
     }
 

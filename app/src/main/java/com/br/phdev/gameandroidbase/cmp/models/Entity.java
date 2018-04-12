@@ -19,6 +19,8 @@ package com.br.phdev.gameandroidbase.cmp.models;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.br.phdev.gameandroidbase.GameLog;
+
 /**
  * Classe base responsavel por todas as entidades.
  * @version 1.0

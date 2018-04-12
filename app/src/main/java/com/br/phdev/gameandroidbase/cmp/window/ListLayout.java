@@ -41,9 +41,14 @@ public class ListLayout implements Layout{
     private int alignment;
 
     /**
-     * Espaçamento entre o componente e a borda do layout.
+     * Espaçamento vertical entre o componente e a borda do layout.
      */
-    private int spaceH = GameParameters.getInstance().screenSize.height() / 50, spaceW = spaceH;
+    private int spaceV = GameParameters.getInstance().screenSize.height() / 50;
+
+    /**
+     * Espaçamento horizontal entre o componente e a borda do layout.
+     */
+    private int spaceH = spaceV;
 
     /**
      * Entidade consumidora do layout. (Exemplo: Menu)
@@ -65,10 +70,10 @@ public class ListLayout implements Layout{
         this.alignment = alignment;
     }
 
-    public ListLayout(int alignment, int spaceW, int spaceH) {
+    public ListLayout(int alignment, int spaceH, int spaceV) {
         this.alignment = alignment;
+        this.spaceV = spaceV;
         this.spaceH = spaceH;
-        this.spaceW = spaceW;
     }
 
     @Override
@@ -79,33 +84,33 @@ public class ListLayout implements Layout{
 
     @Override
     public void format() {
-        ArrayList<Entity> tmpEntity = ((Window)this.entity).get();
-        if (!(tmpEntity.size() > 0))
+        ArrayList<Entity> tmpEntities = ((Window)this.entity).get();
+        if (!(tmpEntities.size() > 0))
             return;
 
         int x = this.entity.getArea().left;
         int y = this.entity.getArea().top;
         if (this.alignment == HORIZONTAL_ALIGNMENT) {
-            int height = this.entity.getArea().height() - this.spaceH * 2;
-            int cmpWidth = (this.entity.getArea().width() - this.spaceW * (tmpEntity.size()+1)) / tmpEntity.size();
-            for (int i=0; i<tmpEntity.size(); i++) {
-                Entity tmpEnt = tmpEntity.get(i);
+            int height = this.entity.getArea().height() - this.spaceV * 2;
+            int cmpWidth = (this.entity.getArea().width() - this.spaceH * (tmpEntities.size()+1)) / tmpEntities.size();
+            for (int i=0; i<tmpEntities.size(); i++) {
+                Entity tmpEnt = tmpEntities.get(i);
                 tmpEnt.setArea(new Rect(
-                        (this.spaceW + this.spaceW*i) + x + (i * cmpWidth),
-                        this.spaceH + y,
-                        (this.spaceW + this.spaceW*i) + x + ((i+1) * cmpWidth),
-                        this.spaceH + y + height));
+                        (this.spaceH + this.spaceH *i) + x + (i * cmpWidth),
+                        this.spaceV + y,
+                        (this.spaceH + this.spaceH *i) + x + ((i+1) * cmpWidth),
+                        this.spaceV + y + height));
             }
         } else if (this.alignment == VERTICAL_ALIGNMENT) {
-            int width = this.entity.getArea().width() - this.spaceW * 2;
-            int cmpHeight = (this.entity.getArea().height() - this.spaceH * (tmpEntity.size()+1)) / tmpEntity.size();
-            for (int i=0; i<tmpEntity.size(); i++) {
-                Entity tmpEnt = tmpEntity.get(i);
-                tmpEnt.setArea(new Rect(
-                        this.spaceW + x,
-                        (this.spaceH + this.spaceH*i) + y + (i * cmpHeight),
-                        this.spaceW + x + width,
-                        (this.spaceH + this.spaceH*i) + y + ((i+1) * cmpHeight)));
+            int width = this.entity.getArea().width() - this.spaceH * 2;
+            int cmpHeight = (this.entity.getArea().height() - this.spaceV * (tmpEntities.size()+1)) / tmpEntities.size();
+            for (int i=0; i<tmpEntities.size(); i++) {
+                Entity ent = tmpEntities.get(i);
+                ent.setArea(new Rect(
+                        this.spaceH + x,
+                        (this.spaceV + this.spaceV *i) + y + (i * cmpHeight),
+                        this.spaceH + x + width,
+                        (this.spaceV + this.spaceV *i) + y + ((i+1) * cmpHeight)));
             }
         }
     }

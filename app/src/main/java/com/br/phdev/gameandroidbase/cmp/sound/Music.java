@@ -18,6 +18,8 @@
 
 package com.br.phdev.gameandroidbase.cmp.sound;
 
+import android.media.MediaPlayer;
+
 /**
  * Classe responsavel pela criação de musicas, com algumas informações.
  * @version 1.0
@@ -40,6 +42,8 @@ public class Music {
     private float leftVolume;
     private float rightVolume;
 
+    private MediaPlayer.OnCompletionListener onCompletionListener;
+
     /**
      * Cria uma musica.
      * @param resourceId id de recurso associado a esta musica.
@@ -52,6 +56,22 @@ public class Music {
         this.info = info;
         this.leftVolume = leftVolume;
         this.rightVolume = rightVolume;
+    }
+
+    /**
+     * Cria uma musica.
+     * @param resourceId id de recurso associado a esta musica.
+     * @param info informação sobre esta musica.
+     * @param leftVolume volume esquerdo da musica. (vai de 0 a 1).
+     * @param rightVolume volume direito da musica. (vai de 0 a 1).
+     * @param onCompletionListener escuta que dispara quando a musica acaba sua reprodução.
+     */
+    public Music(int resourceId, String info, float leftVolume, float rightVolume, MediaPlayer.OnCompletionListener onCompletionListener) {
+        this.resourceId = resourceId;
+        this.info = info;
+        this.leftVolume = leftVolume;
+        this.rightVolume = rightVolume;
+        this.onCompletionListener = onCompletionListener;
     }
 
     /**
@@ -116,5 +136,13 @@ public class Music {
      */
     public void setRightVolume(float rightVolume) {
         this.rightVolume = rightVolume;
+    }
+
+    public MediaPlayer.OnCompletionListener getOnCompletionListener() {
+        return onCompletionListener;
+    }
+
+    public void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
+        this.onCompletionListener = onCompletionListener;
     }
 }

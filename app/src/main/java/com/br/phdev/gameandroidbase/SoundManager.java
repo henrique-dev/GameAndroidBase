@@ -131,6 +131,7 @@ public final class SoundManager {
                 }
                 try {
                     SoundManager.this.mediaPlayer = MediaPlayer.create(context, music.getResourceId());
+                    SoundManager.this.mediaPlayer.setOnCompletionListener(music.getOnCompletionListener());
                     SoundManager.this.mediaPlayer.start();
                 } catch (Exception e) {
                     GameLog.error(this, e.getMessage());
