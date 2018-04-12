@@ -72,7 +72,11 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         GameLog.debug(this, "Surface criada.");
 
-        initComponents();
+        try {
+            initComponents();
+        } catch (Exception e) {
+            GameLog.error(this, e.getMessage());
+        }
 
         GameLog.debug(this, "MainThread iniciada");
         this.mainThread.start();
