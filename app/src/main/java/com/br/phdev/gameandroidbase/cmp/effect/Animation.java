@@ -18,7 +18,7 @@
 
 package com.br.phdev.gameandroidbase.cmp.effect;
 
-import com.br.phdev.gameandroidbase.cmp.models.Updateable;
+import com.br.phdev.gameandroidbase.cmp.Updateable;
 
 interface Animation extends Updateable {
 

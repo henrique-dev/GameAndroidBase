@@ -17,7 +17,7 @@
 package com.br.phdev.gameandroidbase.cmp.effect;
 
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
-import com.br.phdev.gameandroidbase.cmp.models.Entity;
+import com.br.phdev.gameandroidbase.cmp.Entity;
 
 /**
  * Classe responsavel pela criação de efeitos do tipo flash.
@@ -126,8 +126,8 @@ public class FlashEffect extends Effect implements ClickEffect {
                     alpha = 255;
                     super.entity.getDefaultPaint().setAlpha(alpha);
                     if (flashCounter >= maxFlash) {
+                        super.actionListener.actionPerformed(super.event);
                         this.stop();
-                        super.actionListener.actionPerformed(null);
                     } else {
                         this.flashIn = false;
                         this.flashOut = true;
@@ -156,6 +156,7 @@ public class FlashEffect extends Effect implements ClickEffect {
         super.entity.getDefaultPaint().setAlpha(this.originalAlpha);
         this.running = false;
         this.flashCounter = 0;
+        this.event = null;
     }
 
 }

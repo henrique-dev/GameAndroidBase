@@ -16,17 +16,16 @@
  *
  */
 
-package com.br.phdev.gameandroidbase.cmp.models;
+package com.br.phdev.gameandroidbase.cmp;
+
+import android.view.MotionEvent;
 
 /**
- * Interface responsavel por eventos de atualiação dos objetos.
+ * Interface responsavel por eventos de entrada do usuario.
  * @version 1.0
  */
-public interface Updateable {
+public interface Controllable {
 
-    /**
-     * Atualiza os objetos.
-     */
-    void update();
+    boolean onTouchEvent(MotionEvent motionEvent);
 
 }

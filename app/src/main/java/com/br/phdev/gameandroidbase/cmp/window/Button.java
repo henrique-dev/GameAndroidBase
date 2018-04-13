@@ -16,19 +16,11 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
-import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.view.MotionEvent;
 
-import com.br.phdev.gameandroidbase.cmp.effect.ClickEffect;
-import com.br.phdev.gameandroidbase.cmp.effect.Effect;
-import com.br.phdev.gameandroidbase.cmp.effect.FadeEffect;
-import com.br.phdev.gameandroidbase.cmp.effect.FlashEffect;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
-import com.br.phdev.gameandroidbase.cmp.listeners.Listener;
-import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
-import com.br.phdev.gameandroidbase.cmp.models.WindowEntity;
+import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
 
 /**

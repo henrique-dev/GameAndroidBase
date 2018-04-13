@@ -17,7 +17,7 @@
 package com.br.phdev.gameandroidbase.cmp.effect;
 
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
-import com.br.phdev.gameandroidbase.cmp.models.Entity;
+import com.br.phdev.gameandroidbase.cmp.Entity;
 
 /**
  * Classe responsavel pela criação de efeitos do tipo fade-in / fade-out.
@@ -95,8 +95,8 @@ public class FadeEffect extends Effect implements ClickEffect {
                 if (alpha > 255) {
                     alpha = 255;
                     super.entity.getDefaultPaint().setAlpha(alpha);
+                    super.actionListener.actionPerformed(super.event);
                     this.stop();
-                    super.actionListener.actionPerformed(null);
                 } else
                     super.entity.getDefaultPaint().setAlpha(alpha);
             } else if (this.fadeOut) {
@@ -105,7 +105,7 @@ public class FadeEffect extends Effect implements ClickEffect {
                 if (alpha < 0) {
                     alpha = 0;
                     super.entity.getDefaultPaint().setAlpha(alpha);
-                    super.actionListener.actionPerformed(null);
+                    super.actionListener.actionPerformed(super.event);
                     this.stop();
                 } else
                     super.entity.getDefaultPaint().setAlpha(alpha);
@@ -124,6 +124,7 @@ public class FadeEffect extends Effect implements ClickEffect {
             this.fadeIn = false;
             this.fadeOut = true;
         }
+        super.event = null;
     }
 
 }

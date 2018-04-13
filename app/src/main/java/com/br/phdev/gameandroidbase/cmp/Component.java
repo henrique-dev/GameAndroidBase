@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.br.phdev.gameandroidbase.cmp.models;
+package com.br.phdev.gameandroidbase.cmp;
 
 /**
  * Interface responsavel por todas as entidades desenhaveis, atualizaveis e com eventos de entrada do usuario.

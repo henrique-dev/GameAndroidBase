@@ -23,6 +23,10 @@ import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
  * @version 1.0
  */
 public interface ClickListener extends ActionListener {
+
+    int PRESSED_PERFORMED = 1;
+    int RELEASE_PERFORMED = 2;
+
     /**
      * Metodo para quando o botão for pressionado.
      * @param event evento de quem despacha a ação.

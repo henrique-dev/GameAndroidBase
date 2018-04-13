@@ -20,9 +20,8 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import com.br.phdev.gameandroidbase.GameLog;
-import com.br.phdev.gameandroidbase.cmp.models.Entity;
-import com.br.phdev.gameandroidbase.cmp.models.WindowEntity;
+import com.br.phdev.gameandroidbase.cmp.Entity;
+import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 
 import java.util.ArrayList;
 

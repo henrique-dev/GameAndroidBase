@@ -20,7 +20,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import com.br.phdev.gameandroidbase.cmp.models.WindowEntity;
+import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 
 /**
  * Classe responsavel pela criação de labels para janelas.

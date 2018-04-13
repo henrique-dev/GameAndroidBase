@@ -21,10 +21,10 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.SoundManager;
-import com.br.phdev.gameandroidbase.cmp.models.Component;
-import com.br.phdev.gameandroidbase.cmp.models.Entity;
-import com.br.phdev.gameandroidbase.cmp.models.GameEntity;
-import com.br.phdev.gameandroidbase.cmp.models.WindowEntity;
+import com.br.phdev.gameandroidbase.cmp.Component;
+import com.br.phdev.gameandroidbase.cmp.Entity;
+import com.br.phdev.gameandroidbase.cmp.GameEntity;
+import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 
 import java.util.ArrayList;
 

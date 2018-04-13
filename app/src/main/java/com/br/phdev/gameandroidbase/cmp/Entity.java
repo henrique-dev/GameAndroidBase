@@ -14,12 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.cmp.models;
+package com.br.phdev.gameandroidbase.cmp;
 
 import android.graphics.Paint;
 import android.graphics.Rect;
-
-import com.br.phdev.gameandroidbase.GameLog;
 
 /**
  * Classe base responsavel por todas as entidades.

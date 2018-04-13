@@ -16,7 +16,7 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
-import com.br.phdev.gameandroidbase.cmp.models.Entity;
+import com.br.phdev.gameandroidbase.cmp.Entity;
 
 /**
  * Interface responsavel pela os layouts aplicados em menus.

@@ -16,7 +16,7 @@
  *
  */
 
-package com.br.phdev.gameandroidbase.cmp.models;
+package com.br.phdev.gameandroidbase.cmp;
 
 import android.graphics.Canvas;
 

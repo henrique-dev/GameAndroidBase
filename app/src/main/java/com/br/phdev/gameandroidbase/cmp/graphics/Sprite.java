@@ -25,8 +25,8 @@ import android.graphics.Rect;
 
 import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.GameParameters;
-import com.br.phdev.gameandroidbase.cmp.models.Drawable;
-import com.br.phdev.gameandroidbase.cmp.models.Entity;
+import com.br.phdev.gameandroidbase.cmp.Drawable;
+import com.br.phdev.gameandroidbase.cmp.Entity;
 
 /**
  * Classe responsavel por criar sprites a partir de determinada textura.

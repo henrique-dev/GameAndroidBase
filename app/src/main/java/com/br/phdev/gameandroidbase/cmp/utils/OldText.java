@@ -23,7 +23,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.view.MotionEvent;
 
-import com.br.phdev.gameandroidbase.cmp.models.Entity;
+import com.br.phdev.gameandroidbase.cmp.Entity;
 
 /**
  * Classe para abstração e controle dos textos desenhados no canvas.

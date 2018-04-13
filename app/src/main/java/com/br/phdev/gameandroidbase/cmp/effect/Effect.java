@@ -17,7 +17,8 @@
 package com.br.phdev.gameandroidbase.cmp.effect;
 
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
-import com.br.phdev.gameandroidbase.cmp.models.Entity;
+import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
+import com.br.phdev.gameandroidbase.cmp.Entity;
 
 /**
  * Classe pai de todas as classes que forneçam efeitos visuais para entidades.
@@ -32,6 +33,8 @@ public abstract class Effect implements Animation {
      * Escuta para eventos que ocoreem após o efeito.
      */
     protected ActionListener actionListener;
+
+    protected Event event;
 
     /**
      * Entidade que consome o efeito.
@@ -81,8 +84,9 @@ public abstract class Effect implements Animation {
     /**
      * Inicia o efeito.
      */
-    public void start() {
+    public void start(Event event) {
         this.running = true;
+        this.event = event;
     }
 
     /**

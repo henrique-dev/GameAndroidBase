@@ -21,4 +21,12 @@ package com.br.phdev.gameandroidbase.cmp.listeners.events;
  * @version 1.0
  */
 public class Event {
+
+    public int x;
+    public int y;
+
+    public Event(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 }

@@ -22,8 +22,8 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import com.br.phdev.gameandroidbase.cmp.models.Component;
-import com.br.phdev.gameandroidbase.cmp.models.Entity;
+import com.br.phdev.gameandroidbase.cmp.Component;
+import com.br.phdev.gameandroidbase.cmp.Entity;
 
 public class Note extends Entity implements Component {
 

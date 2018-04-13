@@ -21,7 +21,7 @@ package com.br.phdev.gameandroidbase.test;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
-import com.br.phdev.gameandroidbase.cmp.models.Entity;
+import com.br.phdev.gameandroidbase.cmp.Entity;
 
 public class TesteEntity extends Entity {
 

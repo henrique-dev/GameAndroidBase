@@ -22,8 +22,8 @@ import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.GameEngine;
 import com.br.phdev.gameandroidbase.SoundManager;
-import com.br.phdev.gameandroidbase.cmp.models.Component;
-import com.br.phdev.gameandroidbase.cmp.models.Entity;
+import com.br.phdev.gameandroidbase.cmp.Component;
+import com.br.phdev.gameandroidbase.cmp.Entity;
 
 import java.util.ArrayList;
 

@@ -86,7 +86,6 @@ public class MainMenuScene extends Scene {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         mediaPlayer.start();
-                        GameLog.error(this, "Executou");
                     }
                 }));
         PUNCH_SOUND = super.getSoundManager().addShortSoundToList(new ShortSound(R.raw.p1, 1, 1, 0, 1f));
@@ -148,17 +147,17 @@ public class MainMenuScene extends Scene {
             this.optionButton.addClickListener(new ClickListener() {
                 @Override
                 public void pressedPerformed(Event event) {
-
+                    GameLog.error(this, "Pressionou");
                 }
 
                 @Override
                 public void releasePerformed(Event event) {
-
+                    GameLog.error(this, "Soltou");
                 }
 
                 @Override
                 public void actionPerformed(Event evt) {
-
+                    GameLog.error(this, "Executou");
                 }
             });
 
@@ -173,8 +172,8 @@ public class MainMenuScene extends Scene {
             this.exitButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(Event evt) {
-                    //sprites[0].rotate(2);
                     getSoundManager().playMusic(BORDERLANDS_MUSIC);
+                    GameLog.error(this, evt.x + "");
                 }
             });
 

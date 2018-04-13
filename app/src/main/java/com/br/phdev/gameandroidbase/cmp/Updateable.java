@@ -16,11 +16,17 @@
  *
  */
 
-package com.br.phdev.gameandroidbase.cmp.models;
+package com.br.phdev.gameandroidbase.cmp;
 
 /**
- * Classe base responsavel por todas as entidades que sejam objetos de jogo.
+ * Interface responsavel por eventos de atualiação dos objetos.
  * @version 1.0
  */
-public abstract class GameEntity extends Entity {
+public interface Updateable {
+
+    /**
+     * Atualiza os objetos.
+     */
+    void update();
+
 }

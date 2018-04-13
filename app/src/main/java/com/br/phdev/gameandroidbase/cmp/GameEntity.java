@@ -16,16 +16,11 @@
  *
  */
 
-package com.br.phdev.gameandroidbase.cmp.models;
-
-import android.view.MotionEvent;
+package com.br.phdev.gameandroidbase.cmp;
 
 /**
- * Interface responsavel por eventos de entrada do usuario.
+ * Classe base responsavel por todas as entidades que sejam objetos de jogo.
  * @version 1.0
  */
-public interface Controllable {
-
-    boolean onTouchEvent(MotionEvent motionEvent);
-
+public abstract class GameEntity extends Entity {
 }
