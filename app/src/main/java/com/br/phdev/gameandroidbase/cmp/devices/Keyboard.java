@@ -25,6 +25,7 @@ import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.WindowEntity;
+import com.br.phdev.gameandroidbase.cmp.effect.FadeEffect;
 import com.br.phdev.gameandroidbase.cmp.effect.FlashEffect;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.KeyboardListener;
@@ -41,24 +42,29 @@ public class Keyboard extends WindowEntity implements Formable{
     private Layout layout;
     private ArrayList<WindowEntity> buttonKeys;
 
+    private boolean keyboardOn;
+
     public Keyboard() {
         super(new Rect(
                 0,
-                GameParameters.getInstance().screenSize.centerY(),
+                GameParameters.getInstance().screenSize.centerY() + GameParameters.getInstance().screenSize.centerY()/4,
                 GameParameters.getInstance().screenSize.width(),
                 GameParameters.getInstance().screenSize.height()));
-        super.active = false;
-        super.visible = false;
+        //super.active = false;
+        //super.visible = false;
 
     }
 
     public void loadComponents() {
         this.buttonKeys = new ArrayList<>();
 
+        super.visible = true;
+        super.active = true;
+
         GridLayout gridLayout = new GridLayout(3 ,10);
         gridLayout.set(this);
-        gridLayout.setSpaceH(5);
-        gridLayout.setSpaceV(5);
+        gridLayout.setSpaceH(1);
+        gridLayout.setSpaceV(1);
         this.layout = gridLayout;
         super.setFireActionType(ACTION_TYPE_ON_CLICK);
         super.addListener(0, new KeyboardListener() {
@@ -76,6 +82,7 @@ public class Keyboard extends WindowEntity implements Formable{
             button.setClickEffect(flashEffect);
             button.setTextSize(GameParameters.getInstance().screenSize.width() / 20);
             button.setFireActionType(ACTION_TYPE_ON_CLICK);
+            button.setEdgeSize(1);
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(Event evt) {
@@ -86,16 +93,35 @@ public class Keyboard extends WindowEntity implements Formable{
             this.buttonKeys.add(button);
             this.layout.format();
         }
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-        super.setVisible(visible);
-        super.setActive(visible);
+        super.effects.add(0, new FadeEffect(this, FadeEffect.FADE_OUT, new ActionListener() {
+            @Override
+            public void actionPerformed(Event evt) {
+                Keyboard.this.keyboardOn = false;
+            }
+        }));
+        super.effects.add(1, new FadeEffect(this, FadeEffect.FADE_IN, new ActionListener() {
+            @Override
+            public void actionPerformed(Event evt) {
+                Keyboard.this.keyboardOn = true;
+            }
+        }));
     }
 
     public void registerListener(KeyboardListener keyboardListener) {
         super.addListener(0, keyboardListener);
+    }
+
+    public boolean isKeyboardOn() {
+        return keyboardOn;
+    }
+
+    public void setKeyboardOn(boolean keyboardOn) {
+        if (keyboardOn) {
+            super.effects.get(1).start(new Event(0, 0));
+            this.keyboardOn = true;
+        }
+        else
+            super.effects.get(0).start(new Event(0,0));
     }
 
     @Override
@@ -105,6 +131,9 @@ public class Keyboard extends WindowEntity implements Formable{
 
     @Override
     public void update() {
+        if (!super.visible)
+            return;
+        super.update();
         for (Entity ent : this.buttonKeys)
             if (ent.isActive())
                 ent.update();
@@ -112,6 +141,8 @@ public class Keyboard extends WindowEntity implements Formable{
 
     @Override
     public void draw(Canvas canvas) {
+        if (!super.visible)
+            return;
         int savedState = canvas.save();
         canvas.drawRect(super.area, super.defaultPaint);
         for (Entity ent : this.buttonKeys)
@@ -122,6 +153,8 @@ public class Keyboard extends WindowEntity implements Formable{
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
+        if (!super.visible)
+            return true;
         for (WindowEntity ent : this.buttonKeys) {
             if (ent.isActive())
                 ent.onTouchEvent(motionEvent);

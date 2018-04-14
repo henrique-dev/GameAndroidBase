@@ -154,8 +154,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public boolean keyBackPressed() {
-        //return this.screen.keyBackPressed();
-        return false;
+        return this.screen.keyBackPressed();
     }
 
     /**

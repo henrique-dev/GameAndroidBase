@@ -22,6 +22,7 @@ import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.DeviceManager;
 import com.br.phdev.gameandroidbase.GameEngine;
+import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.SoundManager;
 import com.br.phdev.gameandroidbase.cmp.Component;
 import com.br.phdev.gameandroidbase.cmp.Controllable;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
  * Possui uma lista com as cenas disponiveis no objeto de tela do contexto.
  * @version 1.0
  */
-public abstract class Screen extends Entity implements Component, Controllable {
+public abstract class Screen extends Entity implements Controllable {
 
     /**
      * Gerenciador de audio do jogo.
@@ -42,6 +43,8 @@ public abstract class Screen extends Entity implements Component, Controllable {
     protected SoundManager soundManager;
 
     protected DeviceManager deviceManager;
+
+    private boolean canFinalize = true;
 
     /**
      * Lista de cenas.
@@ -119,7 +122,7 @@ public abstract class Screen extends Entity implements Component, Controllable {
         for (Scene sc : this.scenes)
             if (sc.isActive())
                 sc.update();
-        if (this.deviceManager.getKeyboard().isActive())
+        if (this.deviceManager.getKeyboard().isKeyboardOn())
             this.deviceManager.getKeyboard().update();
     }
 
@@ -131,7 +134,7 @@ public abstract class Screen extends Entity implements Component, Controllable {
             if (sc.isVisible())
                 sc.draw(canvas);
         }
-        if (this.deviceManager.getKeyboard().isVisible())
+        if (this.deviceManager.getKeyboard().isKeyboardOn())
             this.deviceManager.getKeyboard().draw(canvas);
         canvas.restoreToCount(savedState);
     }
@@ -141,8 +144,17 @@ public abstract class Screen extends Entity implements Component, Controllable {
         for (Scene sc : this.scenes)
             if (sc.isActive())
                 sc.onTouchEvent(motionEvent);
-        if (this.deviceManager.getKeyboard().isActive())
+        if (this.deviceManager.getKeyboard().isKeyboardOn())
             this.deviceManager.getKeyboard().onTouchEvent(motionEvent);
         return true;
+    }
+
+    @Override
+    public boolean keyBackPressed() {
+        if (this.deviceManager.getKeyboard().isKeyboardOn()) {
+            this.deviceManager.getKeyboard().setKeyboardOn(false);
+        } else
+            return true;
+        return false;
     }
 }

@@ -16,6 +16,7 @@
  */
 package com.br.phdev.gameandroidbase.cmp.effect;
 
+import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 

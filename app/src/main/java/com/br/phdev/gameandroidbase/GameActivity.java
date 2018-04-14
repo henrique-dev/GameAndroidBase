@@ -53,7 +53,8 @@ public class GameActivity extends Activity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent keyEvent) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            this.gameEngine.keyBackPressed();
+            if (this.gameEngine.keyBackPressed())
+                onBackPressed();
         }
         return false;
     }

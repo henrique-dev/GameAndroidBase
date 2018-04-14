@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * Possui duas listas, uma com objetos da janela e outra com objetos de in-game.
  * @version 1.0
  */
-public abstract class Scene extends Entity implements Component, Controllable {
+public abstract class Scene extends Entity implements Controllable {
 
     /**
      * Gerenciador de audio do jogo.
@@ -140,5 +140,9 @@ public abstract class Scene extends Entity implements Component, Controllable {
         return true;
     }
 
+    @Override
+    public boolean keyBackPressed() {
+        return false;
+    }
 
 }

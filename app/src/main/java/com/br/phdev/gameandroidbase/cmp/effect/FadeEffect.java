@@ -16,6 +16,9 @@
  */
 package com.br.phdev.gameandroidbase.cmp.effect;
 
+import android.graphics.Canvas;
+
+import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 
@@ -66,13 +69,32 @@ public class FadeEffect extends Effect implements ClickEffect {
      */
     public FadeEffect(Entity entity, int fadeType, ActionListener actionListener) {
         super(entity, actionListener);
-        this.originalAlpha = entity.getDefaultPaint().getAlpha();
+        //this.originalAlpha = entity.getDefaultPaint().getAlpha();
         this.speed = 20;
         this.originalType = fadeType;
-        if (fadeType == FADE_IN)
+        if (fadeType == FADE_IN) {
             this.fadeIn = true;
-        else if (fadeType == FADE_OUT)
+            entity.getDefaultPaint().setAlpha(0);
+            this.originalAlpha = 255;
+        }
+        else if (fadeType == FADE_OUT) {
+            entity.getDefaultPaint().setAlpha(255);
+            this.originalAlpha = 0;
             this.fadeOut = true;
+        }
+    }
+
+    /**
+     * Redefine a velocidade do efeito.
+     * @param speed velocidade do efeito. (1 ate 8).
+     */
+    public void setSpeed(int speed) {
+        if (speed <= 0)
+            this.speed = 255 / 2;
+        else if (speed > 8)
+            this.speed = 255 / 9;
+        else
+            this.speed = 255 / speed + 1;
     }
 
     @Override
@@ -94,8 +116,8 @@ public class FadeEffect extends Effect implements ClickEffect {
                 alpha += this.speed;
                 if (alpha > 255) {
                     alpha = 255;
-                    super.entity.getDefaultPaint().setAlpha(alpha);
                     super.actionListener.actionPerformed(super.event);
+                    super.entity.getDefaultPaint().setAlpha(alpha);
                     this.stop();
                 } else
                     super.entity.getDefaultPaint().setAlpha(alpha);
@@ -104,8 +126,8 @@ public class FadeEffect extends Effect implements ClickEffect {
                 alpha -= this.speed;
                 if (alpha < 0) {
                     alpha = 0;
-                    super.entity.getDefaultPaint().setAlpha(alpha);
                     super.actionListener.actionPerformed(super.event);
+                    super.entity.getDefaultPaint().setAlpha(alpha);
                     this.stop();
                 } else
                     super.entity.getDefaultPaint().setAlpha(alpha);

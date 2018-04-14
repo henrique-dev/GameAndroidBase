@@ -55,10 +55,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
      */
     protected Effect clickEffect;
 
-    /**
-     * Efeito de animação/loop da entidade.
-     */
-    protected Effect loopEffect;
+    protected ArrayList<Effect> effects;
 
     /**
      * Lista de escutas da entidade para acionar eventos.
@@ -83,6 +80,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
      */
     protected WindowEntity() {
         super();
+        this.effects = new ArrayList<>();
         this.listeners = new ArrayList<>();
         this.edgeVisible = true;
         this.edgePaint = new Paint();
@@ -95,6 +93,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
      */
     protected WindowEntity(Rect area) {
         super(area);
+        this.effects = new ArrayList<>();
         this.listeners = new ArrayList<>();
         this.edgeVisible = true;
         this.edgePaint = new Paint();
@@ -103,6 +102,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
 
     protected WindowEntity(Rect area, Text entityText) {
         super(area);
+        this.effects = new ArrayList<>();
         this.listeners = new ArrayList<>();
         this.entityText = entityText;
         this.entityText.setEntity(this);
@@ -119,20 +119,20 @@ public abstract class WindowEntity extends Entity implements Controllable {
         }
     }
 
+    public int getEdgeSize() {
+        return edgeSize;
+    }
+
+    public void setEdgeSize(int edgeSize) {
+        this.edgeSize = edgeSize;
+    }
+
     /**
      * Redefine o efeito de clique associado a entidade.
      * @param effect efeito de clique para a entidade.
      */
     protected void setClickEffect(Effect effect) {
         this.clickEffect = effect;
-    }
-
-    /**
-     * Redefine o efeito de loop/animação associado a entidade.
-     * @param effect efeito de loop para a entidade.
-     */
-    protected void setLoopEffect(Effect effect) {
-        this.loopEffect = effect;
     }
 
     /**
@@ -252,11 +252,14 @@ public abstract class WindowEntity extends Entity implements Controllable {
     public void update() {
         if (clickEffect != null)
             this.clickEffect.update();
+        for (Effect effect : this.effects)
+            effect.update();
     }
 
     @Override
     public void draw(Canvas canvas) {
         int savedState = canvas.save();
+
         canvas.clipRect(super.area);
         canvas.drawRect(super.area, super.defaultPaint);
         if (this.entityText != null) {
@@ -268,6 +271,11 @@ public abstract class WindowEntity extends Entity implements Controllable {
             canvas.drawRect(super.area.left, super.area.bottom - this.edgeSize, super.area.right, super.area.bottom, this.edgePaint);
             canvas.drawRect(super.area.left, super.area.top, super.area.left + this.edgeSize, super.area.bottom, this.edgePaint);
         }
+        /*
+        for (Effect effect : this.effects)
+            effect.draw(canvas);
+            */
+
         canvas.restoreToCount(savedState);
     }
 
@@ -304,8 +312,10 @@ public abstract class WindowEntity extends Entity implements Controllable {
                             this.clicked = true;
                             if (clickEffect != null)
                                 this.clickEffect.start(event);
-                            else
+                            else {
                                 this.fireListeners(event, ActionListener.ACTION_PERFORMED);
+                                this.clicked = false;
+                            }
                         }
                         this.fireListeners(event, ClickListener.RELEASE_PERFORMED);
                     }
@@ -330,7 +340,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
         return true;
     }
 
-    //@Override
+    @Override
     public boolean keyBackPressed() {
         return false;
     }

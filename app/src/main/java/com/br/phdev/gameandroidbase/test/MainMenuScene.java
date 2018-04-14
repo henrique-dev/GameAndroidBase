@@ -118,7 +118,7 @@ public class MainMenuScene extends Scene {
             //super.setLayout(new ListLayout(ListLayout.HORIZONTAL_ALIGNMENT));
             super.setLayout(new GridLayout(6 ,2));
 
-            this.startButton = new Button("Digite algo");
+            this.startButton = new Button("Toque em algum campo\n e digite algo");
             this.startButton.setColor(Color.RED);
             //this.startButton.setTextSize(85);
 
@@ -132,83 +132,18 @@ public class MainMenuScene extends Scene {
             super.add(this.startButton);
 
             TextField textField = new TextField();
-            //keyboard.registerListener(textField);
-            getDeviceManager().getKeyboard().registerListener(textField);
-            textField.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(Event evt) {
-                    getDeviceManager().getKeyboard().setVisible(true);
-                }
-            });
+            textField.setKeyboard(getDeviceManager().getKeyboard());
             super.add(textField);
 
-            //this.optionButton = new Button("Paulo\nHenrique\nGoncalves\nBacelar");
-            this.optionButton = new Button("B");
-            this.optionButton.setColor(Color.GRAY);
-            //this.optionButton.setTextSize(defaultTextSize);
-            //this.optionButton.setTextSize(150);
+            TextField textField2 = new TextField();
+            textField2.setKeyboard(getDeviceManager().getKeyboard());
+            super.add(textField2);
 
-            /*
-            this.optionButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(Event evt) {
-                    //sprites[0].invertV();
-                    optionButton.setText("Nani");
-                    getSoundManager().playSound(PUNCH_SOUND);
-                }
-            });*/
-            this.optionButton.addClickListener(new ClickListener() {
-                @Override
-                public void pressedPerformed(Event event) {
-                    GameLog.debug(this, "Pressionou");
-                }
+            TextField textField3 = new TextField();
+            textField3.setKeyboard(getDeviceManager().getKeyboard());
+            super.add(textField3);
 
-                @Override
-                public void releasePerformed(Event event) {
-                    GameLog.debug(this, "Soltou");
-                }
 
-                @Override
-                public void actionPerformed(Event evt) {
-                    GameLog.debug(this, "Executou");
-                }
-            });
-
-            super.add(this.optionButton);
-
-            //this.exitButton = new Button("Paulo Henrique");
-            this.exitButton = new Button("C");
-            this.exitButton.setColor(Color.GREEN);
-            //this.exitButton.setTextSize(defaultTextSize);
-
-            this.exitButton.setClickEffect(new FadeEffect());
-            this.exitButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(Event evt) {
-                    getSoundManager().playMusic(BORDERLANDS_MUSIC);
-                    GameLog.error(this, evt.x + "");
-                }
-            });
-
-            super.add(this.exitButton);
-
-            Button botao4 = new Button("O rato roeu\na roupa\ndo rei\nde Roma.");
-            botao4.setColor(Color.YELLOW);
-            super.add(botao4);
-
-            Button botao5 = new Button("E");
-            botao5.setColor(Color.BLUE);
-            super.add(botao5);
-
-            super.add(new Label());
-
-            super.add(new Label());
-
-            super.add(new Label());
-
-            super.add(new Label());
-
-            super.add(new Label());
 
         }
     }

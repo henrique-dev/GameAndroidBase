@@ -20,15 +20,29 @@ import android.graphics.Color;
 import android.graphics.Rect;
 
 import com.br.phdev.gameandroidbase.cmp.WindowEntity;
+import com.br.phdev.gameandroidbase.cmp.devices.Keyboard;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.KeyboardListener;
+import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
 
 public class TextField extends WindowEntity implements KeyboardListener {
 
+    private Keyboard keyboard;
+
     public TextField() {
         super(new Rect(), new Text(""));
         super.defaultPaint.setColor(Color.WHITE);
+    }
+
+    public void setKeyboard(final Keyboard keyboard) {
+        super.addListener(0, new ActionListener() {
+            @Override
+            public void actionPerformed(Event evt) {
+                keyboard.registerListener(TextField.this);
+                keyboard.setKeyboardOn(true);
+            }
+        });
     }
 
     @Override
