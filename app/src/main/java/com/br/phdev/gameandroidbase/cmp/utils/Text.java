@@ -233,25 +233,25 @@ public class Text extends Entity {
             Paint tmpPaint = new Paint(text.defaultPaint);
             float tempTextSize = 1;
             tmpPaint.setTextSize(tempTextSize);
+            
             String biggerLine = getBiggerLine(text.textToDraw);
-
             String stringWithSpacesChanged = biggerLine.replace(' ', '-');
-            GameLog.error(Text.class, stringWithSpacesChanged);
 
             Rect rectTextBounds;
             while (true) {
                 rectTextBounds = new Rect();
-                tmpPaint.getTextBounds(biggerLine, 0, biggerLine.length(), rectTextBounds);
+                tmpPaint.getTextBounds(stringWithSpacesChanged, 0, stringWithSpacesChanged.length(), rectTextBounds);
                 if (text.entity.getArea().height() > rectTextBounds.height() * text.textToDraw.length + text.spaceH * 2)
                     tempTextSize += 5;
                 else
                     break;
                 tmpPaint.setTextSize(tempTextSize);
             }
-            biggerLine = getBiggerLine(text.textToDraw);
+
+            //biggerLine = getBiggerLine(text.textToDraw);
             while (true) {
                 rectTextBounds = new Rect();
-                tmpPaint.getTextBounds(biggerLine, 0, biggerLine.length(), rectTextBounds);
+                tmpPaint.getTextBounds(stringWithSpacesChanged, 0, stringWithSpacesChanged.length(), rectTextBounds);
 
                 if (text.entity.getArea().width() < rectTextBounds.width() + text.spaceW * 2)
                     tempTextSize -= 1;
