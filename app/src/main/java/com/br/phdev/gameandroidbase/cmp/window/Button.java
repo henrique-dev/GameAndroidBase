@@ -56,8 +56,7 @@ public class Button extends WindowEntity {
      * @param buttonText texto a ser exibido no botão.
      */
     public Button(Rect area, String buttonText) {
-        super(area);
-        super.entityText = new Text(this, buttonText);
+        super(area, new Text(buttonText));
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
     }
 
@@ -67,8 +66,7 @@ public class Button extends WindowEntity {
      * @param buttonText {@link Text} para o botão.
      */
     public Button(Rect area, Text buttonText) {
-        super(area);
-        super.entityText = buttonText;
+        super(area, buttonText);
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
     }
 
@@ -78,17 +76,13 @@ public class Button extends WindowEntity {
      * @param textButton texto a ser exibido no botão.
      */
     public Button(String textButton) {
-        super(new Rect());
-        super.entityText = new Text(this, textButton);
+        super(new Rect(), new Text(textButton));
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
     }
 
     @Override
-    public void setArea(Rect area) {
-        super.setArea(area);
-        if (super.entityText != null) {
-            super.entityText.setArea(new Rect(area));
-        }
+    public void setFireActionType(int fireActionType) {
+        this.fireActionType = fireActionType;
     }
 
     /**

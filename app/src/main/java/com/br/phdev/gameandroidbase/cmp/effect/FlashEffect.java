@@ -94,15 +94,15 @@ public class FlashEffect extends Effect implements ClickEffect {
 
     /**
      * Redefine a velocidade do efeito.
-     * @param speed velocidade do efeito.
+     * @param speed velocidade do efeito. (1 ate 8).
      */
     public void setSpeed(int speed) {
         if (speed <= 0)
-            this.speed = 1;
-        else if (speed > 255)
-            this.speed = 255;
+            this.speed = 255 / 2;
+        else if (speed > 8)
+            this.speed = 255 / 9;
         else
-            this.speed = speed;
+            this.speed = 255 / speed + 1;
     }
 
     /**

@@ -16,17 +16,22 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
-import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.cmp.WindowEntity;
+import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
+import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
+import com.br.phdev.gameandroidbase.cmp.utils.Text;
 
 /**
  * Classe responsavel pela criação de labels para janelas.
  * (Entidades que exibem algo, ou não, e não interagiveis por padrão).
  */
 public class Label extends WindowEntity {
+
+    public Label() {
+        super();
+    }
 
     /**
      * Cria um label em uma area.
@@ -47,18 +52,24 @@ public class Label extends WindowEntity {
         super(area);
     }
 
-    @Override
-    public void update() {
-
+    public Label(Rect area, String labelText) {
+        super(area, new Text(labelText));
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-
+    public Label(Rect area, Text text) {
+        super(area, text);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        return false;
+    public Label(String text) {
+        super(new Rect(), new Text(text));
     }
+
+    public void addActionListener(ActionListener actionListener) {
+        super.addListener(actionListener);
+    }
+
+    public void addClickListener(ClickListener clickListener) {
+        super.addListener(clickListener);
+    }
+
 }

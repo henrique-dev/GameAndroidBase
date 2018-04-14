@@ -27,6 +27,7 @@ import android.view.MotionEvent;
 import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.R;
+import com.br.phdev.gameandroidbase.cmp.devices.Keyboard;
 import com.br.phdev.gameandroidbase.cmp.effect.FadeEffect;
 import com.br.phdev.gameandroidbase.cmp.environment.Scene;
 import com.br.phdev.gameandroidbase.cmp.graphics.Sprite;
@@ -38,7 +39,9 @@ import com.br.phdev.gameandroidbase.cmp.sound.Music;
 import com.br.phdev.gameandroidbase.cmp.sound.ShortSound;
 import com.br.phdev.gameandroidbase.cmp.window.Button;
 import com.br.phdev.gameandroidbase.cmp.window.GridLayout;
+import com.br.phdev.gameandroidbase.cmp.window.Label;
 import com.br.phdev.gameandroidbase.cmp.window.ListLayout;
+import com.br.phdev.gameandroidbase.cmp.window.TextField;
 import com.br.phdev.gameandroidbase.cmp.window.Window;
 
 public class MainMenuScene extends Scene {
@@ -62,11 +65,10 @@ public class MainMenuScene extends Scene {
 
     TesteEntity heroi;
 
+    Keyboard keyboard;
+
     public MainMenuScene(int x, int y, int width, int height) {
         super(x, y, width, height);
-        mainWindow = new MainWindow();
-        super.getDefaultPaint().setAlpha(0);
-        super.add(mainWindow);
     }
 
     @Override
@@ -81,6 +83,8 @@ public class MainMenuScene extends Scene {
             GameLog.error(this, ioe.getMessage());
         }
 
+        keyboard = new Keyboard();
+
         BORDERLANDS_MUSIC = super.getSoundManager().addMusicToList(new Music(R.raw.music, "", 1, 1,
                 new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -89,6 +93,14 @@ public class MainMenuScene extends Scene {
                     }
                 }));
         PUNCH_SOUND = super.getSoundManager().addShortSoundToList(new ShortSound(R.raw.p1, 1, 1, 0, 1f));
+
+        mainWindow = new MainWindow();
+        super.getDefaultPaint().setAlpha(0);
+        super.add(mainWindow);
+
+        super.add(keyboard);
+
+
 
 
         //this.sprites = Sprite.getSpriteFromTexture(heroi, this.texture, 9, 7, 62);
@@ -114,9 +126,9 @@ public class MainMenuScene extends Scene {
 
             //super.setLayout(new ListLayout(ListLayout.HORIZONTAL_ALIGNMENT, spaceW, spaceH));
             //super.setLayout(new ListLayout(ListLayout.HORIZONTAL_ALIGNMENT));
-            super.setLayout(new GridLayout(3 ,3));
+            super.setLayout(new GridLayout(6 ,2));
 
-            this.startButton = new Button("A");
+            this.startButton = new Button("Digite algo");
             this.startButton.setColor(Color.RED);
             //this.startButton.setTextSize(85);
 
@@ -128,6 +140,10 @@ public class MainMenuScene extends Scene {
             });
 
             super.add(this.startButton);
+
+            TextField textField = new TextField();
+            keyboard.registerListener(textField);
+            super.add(textField);
 
             //this.optionButton = new Button("Paulo\nHenrique\nGoncalves\nBacelar");
             this.optionButton = new Button("B");
@@ -147,17 +163,17 @@ public class MainMenuScene extends Scene {
             this.optionButton.addClickListener(new ClickListener() {
                 @Override
                 public void pressedPerformed(Event event) {
-                    GameLog.error(this, "Pressionou");
+                    GameLog.debug(this, "Pressionou");
                 }
 
                 @Override
                 public void releasePerformed(Event event) {
-                    GameLog.error(this, "Soltou");
+                    GameLog.debug(this, "Soltou");
                 }
 
                 @Override
                 public void actionPerformed(Event evt) {
-                    GameLog.error(this, "Executou");
+                    GameLog.debug(this, "Executou");
                 }
             });
 
@@ -186,6 +202,16 @@ public class MainMenuScene extends Scene {
             Button botao5 = new Button("E");
             botao5.setColor(Color.BLUE);
             super.add(botao5);
+
+            super.add(new Label());
+
+            super.add(new Label());
+
+            super.add(new Label());
+
+            super.add(new Label());
+
+            super.add(new Label());
 
         }
     }

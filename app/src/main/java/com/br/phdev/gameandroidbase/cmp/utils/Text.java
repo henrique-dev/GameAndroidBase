@@ -25,6 +25,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.view.MotionEvent;
 
+import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
 /**
@@ -105,16 +106,38 @@ public class Text extends Entity {
         align(this);
     }
 
+    public Text(String text) {
+        super();
+        super.defaultPaint.setColor(Color.BLACK);
+        super.defaultPaint.setAntiAlias(true);
+        this.textToDraw = checkAndFormatText(text);
+        this.originalHashString = text.hashCode();
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
+        this.spaceH = entity.getArea().height() / 20;
+        this.spaceW = entity.getArea().width() / 10;
+        defineTextSize(this, this.textSize);
+        align(this);
+    }
+
     /**
      * Redefine a {@link String} do texto.
      * @param text texto.
      */
     public void setText(String text) {
+        /*
         int tempHash = text.hashCode();
         if (tempHash == this.originalHashString) {
             return;
         }
         this.originalHashString = tempHash;
+        */
         this.textToDraw = checkAndFormatText(text);
         defineTextSize(this, this.textSize);
         align(this);
@@ -202,12 +225,19 @@ public class Text extends Entity {
     private static void defineTextSize(Text text, float textSize) {
         if (text.entity.getArea().width() == 0 && text.entity.getArea().height() == 0)
             return;
+        if (text.toString().trim().length() == 0) {
+            return;
+        }
 
         if (textSize < 0) {
             Paint tmpPaint = new Paint(text.defaultPaint);
             float tempTextSize = 1;
             tmpPaint.setTextSize(tempTextSize);
             String biggerLine = getBiggerLine(text.textToDraw);
+
+            String stringWithSpacesChanged = biggerLine.replace(' ', '-');
+            GameLog.error(Text.class, stringWithSpacesChanged);
+
             Rect rectTextBounds;
             while (true) {
                 rectTextBounds = new Rect();
@@ -345,11 +375,14 @@ public class Text extends Entity {
     @Override
     public String toString() {
         StringBuilder tmpString = new StringBuilder();
-        for (int i=0; i<textToDraw.length; i++) {
-            tmpString.append(textToDraw[i]);
-            if (!(textToDraw.length == i-1))
-                tmpString.append('\n' + "");
-        }
-        return tmpString.toString();
+        if (textToDraw != null) {
+            for (int i = 0; i < textToDraw.length; i++) {
+                tmpString.append(textToDraw[i]);
+                if (!(textToDraw.length-1 == i))
+                    tmpString.append('\n' + "");
+            }
+            return tmpString.toString();
+        } else
+            return "";
     }
 }

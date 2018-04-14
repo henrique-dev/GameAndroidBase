@@ -224,6 +224,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
                     }
                 } catch (Exception e) {
                     GameLog.error(this, e.getMessage());
+                    this.running = false;
                 } finally {
                     if (canvas != null) {
                         try {

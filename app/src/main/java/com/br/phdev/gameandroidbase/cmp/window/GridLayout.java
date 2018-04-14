@@ -41,6 +41,38 @@ public class GridLayout implements Layout {
         this.columns = columns;
     }
 
+    public int getSpaceH() {
+        return spaceH;
+    }
+
+    public void setSpaceH(int spaceH) {
+        this.spaceH = spaceH;
+    }
+
+    public int getSpaceV() {
+        return spaceV;
+    }
+
+    public void setSpaceV(int spaceV) {
+        this.spaceV = spaceV;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public void setColumns(int columns) {
+        this.columns = columns;
+    }
+
     @Override
     public void set(Entity entity) {
         this.entity = entity;
@@ -49,7 +81,7 @@ public class GridLayout implements Layout {
 
     @Override
     public void format() {
-        ArrayList<Entity> tmpEntities = ((Window)this.entity).get();
+        ArrayList<Entity> tmpEntities = ((Formable)this.entity).get();
         if (!(tmpEntities.size() > 0))
             return;
 
@@ -61,8 +93,8 @@ public class GridLayout implements Layout {
 
         int counter = 0;
 
-        for (int i=0; i<this.columns; i++) {
-            for (int j=0; j<this.rows; j++) {
+        for (int i=0; i<this.rows; i++) {
+            for (int j=0; j<this.columns; j++) {
                 Entity ent = tmpEntities.get(counter);
                 ent.setArea( new Rect(
                         (this.spaceH + this.spaceH * j) + this.spaceH + x + (j * cmpWidth),

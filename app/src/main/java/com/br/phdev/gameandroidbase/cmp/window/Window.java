@@ -28,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Classe responsavel pela criação de janelas.
  */
-public class Window extends WindowEntity {
+public class Window extends WindowEntity implements Formable {
 
     /**
      * Lista de entidades contidas na janela.
@@ -152,7 +152,7 @@ public class Window extends WindowEntity {
             if (ent.isActive())
                 ent.onTouchEvent(motionEvent);
         }
-        return false;
+        return true;
     }
 
 }

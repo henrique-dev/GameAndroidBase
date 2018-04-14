@@ -47,7 +47,7 @@ public abstract class WindowEntity extends Entity {
      */
     protected int DEFAULT_CLICK_EFFECT = Effect.FLASHING;
 
-    protected int FIRE_ACTION_TYPE = ACTION_TYPE_ON_RELEASE;
+    protected int fireActionType = ACTION_TYPE_ON_RELEASE;
 
     /**
      * Efeito de clique da entidade.
@@ -62,7 +62,7 @@ public abstract class WindowEntity extends Entity {
     /**
      * Lista de escutas da entidade para acionar eventos.
      */
-    protected ArrayList<Listener> listeners;
+    private ArrayList<Listener> listeners;
 
     /**
      * Texto a ser vinculado com a entidade.
@@ -89,6 +89,21 @@ public abstract class WindowEntity extends Entity {
     protected WindowEntity(Rect area) {
         super(area);
         this.listeners = new ArrayList<>();
+    }
+
+    protected WindowEntity(Rect area, Text entityText) {
+        super(area);
+        this.listeners = new ArrayList<>();
+        this.entityText = entityText;
+        this.entityText.setEntity(this);
+    }
+
+    @Override
+    public void setArea(Rect area) {
+        super.setArea(area);
+        if (this.entityText != null) {
+            this.entityText.setArea(new Rect(area));
+        }
     }
 
     /**
@@ -131,6 +146,22 @@ public abstract class WindowEntity extends Entity {
         this.listeners.add(listener);
     }
 
+    protected void addListener(int index, Listener listener) {
+        this.listeners.add(index, listener);
+    }
+
+    protected Listener getListener(int index) {
+        return this.listeners.get(index);
+    }
+
+    protected int getFireActionType() {
+        return fireActionType;
+    }
+
+    protected void setFireActionType(int fireActionType) {
+        this.fireActionType = fireActionType;
+    }
+
     /**
      * Aciona as escutas do botão.
      * @param evt evento lançado.
@@ -167,7 +198,8 @@ public abstract class WindowEntity extends Entity {
             this.clickEffect = new FadeEffect(this, FadeEffect.FADE_OUT, new ActionListener() {
                 @Override
                 public void actionPerformed(Event evt) {
-                    fireActionListeners(evt);
+                    //fireActionListeners(evt);
+                    fireListeners(evt, ActionListener.ACTION_PERFORMED);
                     clicked = false;
                 }
             });
@@ -175,7 +207,8 @@ public abstract class WindowEntity extends Entity {
             this.clickEffect = new FlashEffect(this, new ActionListener() {
                 @Override
                 public void actionPerformed(Event evt) {
-                    fireActionListeners(evt);
+                    //fireActionListeners(evt);
+                    fireListeners(evt, ActionListener.ACTION_PERFORMED);
                     clicked = false;
                 }
             });
@@ -196,6 +229,10 @@ public abstract class WindowEntity extends Entity {
                 WindowEntity.this.clicked = false;
             }
         });
+    }
+
+    protected void fireEffect(Event event) {
+        this.clickEffect.start(event);
     }
 
     @Override
@@ -219,7 +256,7 @@ public abstract class WindowEntity extends Entity {
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         if (this.clicked)
-            return true;
+            return false;
 
         int action = motionEvent.getActionMasked();
         float x = motionEvent.getX();
@@ -234,16 +271,22 @@ public abstract class WindowEntity extends Entity {
                     this.fireListeners(event, ClickListener.PRESSED_PERFORMED);
                     this.onArea = true;
                     this.clickedOnArea = true;
-                    if (FIRE_ACTION_TYPE == ACTION_TYPE_ON_CLICK) {
-                        this.clickEffect.start(event);
+                    if (fireActionType == ACTION_TYPE_ON_CLICK) {
+                        if (clickEffect != null)
+                            this.clickEffect.start(event);
+                        else
+                            this.fireListeners(event, ActionListener.ACTION_PERFORMED);
                         this.clicked = true;
                     }
                     break;
                 case MotionEvent.ACTION_UP:
                     if (this.onArea && this.clickedOnArea) {
-                        if (FIRE_ACTION_TYPE == ACTION_TYPE_ON_RELEASE) {
-                            this.clickEffect.start(event);
+                        if (fireActionType == ACTION_TYPE_ON_RELEASE) {
                             this.clicked = true;
+                            if (clickEffect != null)
+                                this.clickEffect.start(event);
+                            else
+                                this.fireListeners(event, ActionListener.ACTION_PERFORMED);
                         }
                         this.fireListeners(event, ClickListener.RELEASE_PERFORMED);
                     }
