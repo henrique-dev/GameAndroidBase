@@ -33,15 +33,13 @@ import com.br.phdev.gameandroidbase.cmp.window.Button;
 import com.br.phdev.gameandroidbase.cmp.window.Formable;
 import com.br.phdev.gameandroidbase.cmp.window.GridLayout;
 import com.br.phdev.gameandroidbase.cmp.window.Layout;
-import com.br.phdev.gameandroidbase.cmp.window.Window;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Keyboard extends WindowEntity implements Formable{
 
     private Layout layout;
-    private ArrayList<Entity> buttonKeys;
+    private ArrayList<WindowEntity> buttonKeys;
 
     public Keyboard() {
         super(new Rect(
@@ -49,6 +47,12 @@ public class Keyboard extends WindowEntity implements Formable{
                 GameParameters.getInstance().screenSize.centerY(),
                 GameParameters.getInstance().screenSize.width(),
                 GameParameters.getInstance().screenSize.height()));
+        super.active = false;
+        super.visible = false;
+
+    }
+
+    public void loadComponents() {
         this.buttonKeys = new ArrayList<>();
 
         GridLayout gridLayout = new GridLayout(3 ,10);
@@ -57,26 +61,21 @@ public class Keyboard extends WindowEntity implements Formable{
         gridLayout.setSpaceV(5);
         this.layout = gridLayout;
         super.setFireActionType(ACTION_TYPE_ON_CLICK);
-
         super.addListener(0, new KeyboardListener() {
             @Override
             public void keyPressed(char key) {
                 GameLog.debug(this, "Nenhum entidade registrada no teclado! Key: " + key);
             }
         });
-
         char keys[] = {'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F',
                 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '_'};
-
         for (int i=0; i<28; i++) {
-
             final Button button = new Button(keys[i] + "");
             FlashEffect flashEffect = new FlashEffect();
             flashEffect.setSpeed(1);
             button.setClickEffect(flashEffect);
             button.setTextSize(GameParameters.getInstance().screenSize.width() / 20);
             button.setFireActionType(ACTION_TYPE_ON_CLICK);
-
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(Event evt) {
@@ -89,12 +88,18 @@ public class Keyboard extends WindowEntity implements Formable{
         }
     }
 
+    @Override
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+        super.setActive(visible);
+    }
+
     public void registerListener(KeyboardListener keyboardListener) {
         super.addListener(0, keyboardListener);
     }
 
     @Override
-    public ArrayList<Entity> get() {
+    public ArrayList<WindowEntity> get() {
         return this.buttonKeys;
     }
 
@@ -117,7 +122,7 @@ public class Keyboard extends WindowEntity implements Formable{
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        for (Entity ent : this.buttonKeys) {
+        for (WindowEntity ent : this.buttonKeys) {
             if (ent.isActive())
                 ent.onTouchEvent(motionEvent);
         }

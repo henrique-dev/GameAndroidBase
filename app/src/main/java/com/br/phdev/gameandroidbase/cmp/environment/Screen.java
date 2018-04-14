@@ -20,9 +20,11 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.br.phdev.gameandroidbase.DeviceManager;
 import com.br.phdev.gameandroidbase.GameEngine;
 import com.br.phdev.gameandroidbase.SoundManager;
 import com.br.phdev.gameandroidbase.cmp.Component;
+import com.br.phdev.gameandroidbase.cmp.Controllable;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
 import java.util.ArrayList;
@@ -32,12 +34,14 @@ import java.util.ArrayList;
  * Possui uma lista com as cenas disponiveis no objeto de tela do contexto.
  * @version 1.0
  */
-public abstract class Screen extends Entity implements Component {
+public abstract class Screen extends Entity implements Component, Controllable {
 
     /**
      * Gerenciador de audio do jogo.
      */
     protected SoundManager soundManager;
+
+    protected DeviceManager deviceManager;
 
     /**
      * Lista de cenas.
@@ -68,6 +72,7 @@ public abstract class Screen extends Entity implements Component {
      */
     protected void addScene(Scene scene) {
         scene.setSoundManager(this.soundManager);
+        scene.setDeviceManager(this.deviceManager);
         this.scenes.add(scene);
     }
 
@@ -105,11 +110,17 @@ public abstract class Screen extends Entity implements Component {
         this.soundManager = soundManager;
     }
 
+    public void setDeviceManager(DeviceManager deviceManager) {
+        this.deviceManager = deviceManager;
+    }
+
     @Override
     public void update() {
         for (Scene sc : this.scenes)
             if (sc.isActive())
                 sc.update();
+        if (this.deviceManager.getKeyboard().isActive())
+            this.deviceManager.getKeyboard().update();
     }
 
     @Override
@@ -120,6 +131,8 @@ public abstract class Screen extends Entity implements Component {
             if (sc.isVisible())
                 sc.draw(canvas);
         }
+        if (this.deviceManager.getKeyboard().isVisible())
+            this.deviceManager.getKeyboard().draw(canvas);
         canvas.restoreToCount(savedState);
     }
 
@@ -128,6 +141,8 @@ public abstract class Screen extends Entity implements Component {
         for (Scene sc : this.scenes)
             if (sc.isActive())
                 sc.onTouchEvent(motionEvent);
+        if (this.deviceManager.getKeyboard().isActive())
+            this.deviceManager.getKeyboard().onTouchEvent(motionEvent);
         return true;
     }
 }

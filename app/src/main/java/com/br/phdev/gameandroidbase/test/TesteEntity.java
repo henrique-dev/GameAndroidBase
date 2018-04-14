@@ -19,7 +19,6 @@
 package com.br.phdev.gameandroidbase.test;
 
 import android.graphics.Canvas;
-import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
@@ -34,10 +33,5 @@ public class TesteEntity extends Entity {
     @Override
     public void draw(Canvas canvas) {
 
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        return false;
     }
 }

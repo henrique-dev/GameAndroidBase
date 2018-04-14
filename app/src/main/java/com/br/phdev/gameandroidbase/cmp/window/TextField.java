@@ -19,8 +19,8 @@ package com.br.phdev.gameandroidbase.cmp.window;
 import android.graphics.Color;
 import android.graphics.Rect;
 
-import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.cmp.WindowEntity;
+import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.KeyboardListener;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
 
@@ -44,6 +44,10 @@ public class TextField extends WindowEntity implements KeyboardListener {
             String currentText = super.entityText.toString();
             super.entityText.setText(currentText + String.valueOf(key));
         }
+    }
+
+    public void addActionListener(ActionListener actionListener) {
+        super.addListener(actionListener);
     }
 
 }

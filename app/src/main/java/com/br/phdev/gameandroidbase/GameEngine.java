@@ -46,6 +46,8 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      */
     private SoundManager soundManager;
 
+    private DeviceManager deviceManager;
+
     /**
      * Aplica o contexto da activity na view e repassa callback para comunicação entre ambas.
      * Tambem instancia a {@link MainThread}.
@@ -151,13 +153,20 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         return true;
     }
 
+    public boolean keyBackPressed() {
+        //return this.screen.keyBackPressed();
+        return false;
+    }
+
     /**
      * Inicializa os componentes principais do jogo, como tela e gerenciador de audio.
      */
     private void initComponents() {
         this.soundManager = new SoundManager(getContext());
+        this.deviceManager = new DeviceManager();
         this.screen = new GameScreen(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom);
         this.screen.setSoundManager(this.soundManager);
+        this.screen.setDeviceManager(this.deviceManager);
         this.screen.init();
     }
 

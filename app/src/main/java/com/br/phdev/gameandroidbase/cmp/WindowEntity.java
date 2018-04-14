@@ -17,6 +17,7 @@
 package com.br.phdev.gameandroidbase.cmp;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
@@ -37,7 +38,7 @@ import java.util.ArrayList;
  * Classe base responsavel por todas as entidades que sejam objetos da janela como menus, botões, etc.
  * @version 1.0
  */
-public abstract class WindowEntity extends Entity {
+public abstract class WindowEntity extends Entity implements Controllable {
 
     protected final int ACTION_TYPE_ON_CLICK = 0;
     protected final int ACTION_TYPE_ON_RELEASE = 1;
@@ -69,6 +70,9 @@ public abstract class WindowEntity extends Entity {
      */
     protected Text entityText;
 
+    private boolean edgeVisible;
+    private Paint edgePaint;
+    private int edgeSize;
 
     private boolean clicked;
     private boolean onArea;
@@ -80,6 +84,9 @@ public abstract class WindowEntity extends Entity {
     protected WindowEntity() {
         super();
         this.listeners = new ArrayList<>();
+        this.edgeVisible = true;
+        this.edgePaint = new Paint();
+        this.edgeSize = 5;
     }
 
     /**
@@ -89,6 +96,9 @@ public abstract class WindowEntity extends Entity {
     protected WindowEntity(Rect area) {
         super(area);
         this.listeners = new ArrayList<>();
+        this.edgeVisible = true;
+        this.edgePaint = new Paint();
+        this.edgeSize = 5;
     }
 
     protected WindowEntity(Rect area, Text entityText) {
@@ -96,6 +106,9 @@ public abstract class WindowEntity extends Entity {
         this.listeners = new ArrayList<>();
         this.entityText = entityText;
         this.entityText.setEntity(this);
+        this.edgeVisible = true;
+        this.edgePaint = new Paint();
+        this.edgeSize = 5;
     }
 
     @Override
@@ -249,6 +262,12 @@ public abstract class WindowEntity extends Entity {
         if (this.entityText != null) {
             this.entityText.draw(canvas);
         }
+        if (this.edgeVisible) {
+            canvas.drawRect(super.area.left, super.area.top, super.area.right, super.area.top + this.edgeSize, this.edgePaint);
+            canvas.drawRect(super.area.right - this.edgeSize, super.area.top, super.area.right, super.area.bottom, this.edgePaint);
+            canvas.drawRect(super.area.left, super.area.bottom - this.edgeSize, super.area.right, super.area.bottom, this.edgePaint);
+            canvas.drawRect(super.area.left, super.area.top, super.area.left + this.edgeSize, super.area.bottom, this.edgePaint);
+        }
         canvas.restoreToCount(savedState);
     }
 
@@ -309,6 +328,11 @@ public abstract class WindowEntity extends Entity {
                 }
         }
         return true;
+    }
+
+    //@Override
+    public boolean keyBackPressed() {
+        return false;
     }
 
     /*

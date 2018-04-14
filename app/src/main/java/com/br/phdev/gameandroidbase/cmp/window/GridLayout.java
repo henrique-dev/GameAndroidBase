@@ -20,6 +20,7 @@ import android.graphics.Rect;
 
 import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.cmp.Entity;
+import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 
 import java.util.ArrayList;
 
@@ -81,7 +82,7 @@ public class GridLayout implements Layout {
 
     @Override
     public void format() {
-        ArrayList<Entity> tmpEntities = ((Formable)this.entity).get();
+        ArrayList<WindowEntity> tmpEntities = ((Formable)this.entity).get();
         if (!(tmpEntities.size() > 0))
             return;
 

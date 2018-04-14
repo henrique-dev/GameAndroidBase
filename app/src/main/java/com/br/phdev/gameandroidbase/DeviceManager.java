@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
+ * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,20 +13,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
+package com.br.phdev.gameandroidbase;
 
-package com.br.phdev.gameandroidbase.cmp;
+import com.br.phdev.gameandroidbase.cmp.devices.Keyboard;
 
-import android.view.MotionEvent;
+public class DeviceManager {
 
-/**
- * Interface responsavel por eventos de entrada do usuario.
- * @version 1.0
- */
-public interface Controllable {
+    private Keyboard keyboard;
 
-    boolean onTouchEvent(MotionEvent motionEvent);
-    //boolean keyBackPressed();
+    DeviceManager() {
+        this.keyboard = new Keyboard();
+    }
+
+    public void initKeyboard() {
+        this.keyboard.loadComponents();
+    }
+
+    public Keyboard getKeyboard() {
+        return this.keyboard;
+    }
 
 }

@@ -20,6 +20,7 @@ import android.graphics.Rect;
 
 import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.cmp.Entity;
+import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 
 import java.util.ArrayList;
 
@@ -84,7 +85,7 @@ public class ListLayout implements Layout{
 
     @Override
     public void format() {
-        ArrayList<Entity> tmpEntities = ((Window)this.entity).get();
+        ArrayList<WindowEntity> tmpEntities = ((Window)this.entity).get();
         if (!(tmpEntities.size() > 0))
             return;
 

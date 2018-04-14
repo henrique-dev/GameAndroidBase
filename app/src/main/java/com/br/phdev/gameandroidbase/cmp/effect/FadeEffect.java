@@ -16,8 +16,8 @@
  */
 package com.br.phdev.gameandroidbase.cmp.effect;
 
-import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.Entity;
+import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 
 /**
  * Classe responsavel pela criação de efeitos do tipo fade-in / fade-out.

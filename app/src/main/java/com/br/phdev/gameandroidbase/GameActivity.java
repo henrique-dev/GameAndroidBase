@@ -21,6 +21,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -29,11 +30,32 @@ import android.view.WindowManager;
  */
 public class GameActivity extends Activity {
 
+    private GameEngine gameEngine;
+
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setupParameters();
-        super.setContentView( new GameEngine(this) );
+        this.gameEngine = new GameEngine(this);
+        super.setContentView(this.gameEngine);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent keyEvent) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            this.gameEngine.keyBackPressed();
+        }
+        return false;
     }
 
     /**

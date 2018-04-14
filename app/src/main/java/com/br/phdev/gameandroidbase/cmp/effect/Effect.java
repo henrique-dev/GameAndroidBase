@@ -16,9 +16,9 @@
  */
 package com.br.phdev.gameandroidbase.cmp.effect;
 
+import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
-import com.br.phdev.gameandroidbase.cmp.Entity;
 
 /**
  * Classe pai de todas as classes que forneçam efeitos visuais para entidades.

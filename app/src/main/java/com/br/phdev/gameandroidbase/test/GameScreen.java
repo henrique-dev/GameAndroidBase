@@ -36,6 +36,9 @@ public class GameScreen extends Screen {
     public void init() {
         this.mainMenuScene = new MainMenuScene(0, 0, GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
         super.addScene(this.mainMenuScene);
+
+        super.deviceManager.initKeyboard();
+
         this.mainMenuScene.init();
     }
 }

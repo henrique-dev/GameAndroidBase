@@ -20,7 +20,6 @@ package com.br.phdev.gameandroidbase.test;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.cmp.Component;
 import com.br.phdev.gameandroidbase.cmp.Entity;
@@ -39,14 +38,6 @@ public class Note extends Entity implements Component {
     @Override
     public void draw(Canvas canvas) {
         int savedState = canvas.save();
-
-
-
         canvas.restoreToCount(savedState);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        return false;
     }
 }

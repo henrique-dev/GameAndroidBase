@@ -20,8 +20,10 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.br.phdev.gameandroidbase.DeviceManager;
 import com.br.phdev.gameandroidbase.SoundManager;
 import com.br.phdev.gameandroidbase.cmp.Component;
+import com.br.phdev.gameandroidbase.cmp.Controllable;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.GameEntity;
 import com.br.phdev.gameandroidbase.cmp.WindowEntity;
@@ -33,12 +35,14 @@ import java.util.ArrayList;
  * Possui duas listas, uma com objetos da janela e outra com objetos de in-game.
  * @version 1.0
  */
-public abstract class Scene extends Entity implements Component {
+public abstract class Scene extends Entity implements Component, Controllable {
 
     /**
      * Gerenciador de audio do jogo.
      */
     private SoundManager soundManager;
+
+    private DeviceManager deviceManager;
 
     /**
      * Lista de objetos out-game.
@@ -88,7 +92,7 @@ public abstract class Scene extends Entity implements Component {
      * Define o gerenciador de audio.
      * @param soundManager gerenciador de audio.
      */
-    public void setSoundManager(SoundManager soundManager) {
+    void setSoundManager(SoundManager soundManager) {
         this.soundManager = soundManager;
     }
 
@@ -98,6 +102,14 @@ public abstract class Scene extends Entity implements Component {
      */
     public SoundManager getSoundManager() {
         return this.soundManager;
+    }
+
+    void setDeviceManager(DeviceManager deviceManager) {
+        this.deviceManager = deviceManager;
+    }
+
+    public DeviceManager getDeviceManager() {
+        return this.deviceManager;
     }
 
     @Override
@@ -122,7 +134,7 @@ public abstract class Scene extends Entity implements Component {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        for (Entity ent : this.windowEntities)
+        for (WindowEntity ent : this.windowEntities)
             if (ent.isActive())
                 ent.onTouchEvent(motionEvent);
         return true;

@@ -33,7 +33,7 @@ public class Window extends WindowEntity implements Formable {
     /**
      * Lista de entidades contidas na janela.
      */
-    private ArrayList<Entity> entities = new ArrayList<>();
+    private ArrayList<WindowEntity> entities = new ArrayList<>();
 
     /**
      * Botão padrão para fechar a janela. (AINDA FALTA IMPLEMENTAR)
@@ -97,10 +97,10 @@ public class Window extends WindowEntity implements Formable {
 
     /**
      * Adiciona um componente na janela.
-     * @param entity componente a ser adicionado (Exemplo: botão, label, etc).
+     * @param windowEntity componente a ser adicionado (Exemplo: botão, label, etc).
      */
-    public void add(Entity entity) {
-        this.entities.add(entity);
+    public void add(WindowEntity windowEntity) {
+        this.entities.add(windowEntity);
         this.layout.format();
     }
 
@@ -125,7 +125,7 @@ public class Window extends WindowEntity implements Formable {
      * Retorna toda a lista de componentes contidos na janela.
      * @return lista de componentes da janela.
      */
-    public ArrayList<Entity> get() {
+    public ArrayList<WindowEntity> get() {
         return this.entities;
     }
 
@@ -148,7 +148,7 @@ public class Window extends WindowEntity implements Formable {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        for (Entity ent : entities) {
+        for (WindowEntity ent : entities) {
             if (ent.isActive())
                 ent.onTouchEvent(motionEvent);
         }

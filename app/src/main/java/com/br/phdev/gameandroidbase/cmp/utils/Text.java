@@ -23,9 +23,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
-import android.view.MotionEvent;
 
-import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
 /**
@@ -233,7 +231,7 @@ public class Text extends Entity {
             Paint tmpPaint = new Paint(text.defaultPaint);
             float tempTextSize = 1;
             tmpPaint.setTextSize(tempTextSize);
-            
+
             String biggerLine = getBiggerLine(text.textToDraw);
             String stringWithSpacesChanged = biggerLine.replace(' ', '-');
 
@@ -344,11 +342,6 @@ public class Text extends Entity {
                 text.setX(text.entity.getArea().width());
                 break;
         }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        return false;
     }
 
     @Override

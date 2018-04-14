@@ -16,12 +16,12 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
-import com.br.phdev.gameandroidbase.cmp.Entity;
+import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 
 import java.util.ArrayList;
 
 public interface Formable {
 
-    ArrayList<Entity> get();
+    ArrayList<WindowEntity> get();
 
 }

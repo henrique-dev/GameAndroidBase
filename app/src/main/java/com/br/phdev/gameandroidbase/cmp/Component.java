@@ -21,6 +21,6 @@ package com.br.phdev.gameandroidbase.cmp;
  * Interface responsavel por todas as entidades desenhaveis, atualizaveis e com eventos de entrada do usuario.
  * @version 1.0
  */
-public interface Component extends Updateable, Drawable, Controllable{
+public interface Component extends Updateable, Drawable{
 
 }
