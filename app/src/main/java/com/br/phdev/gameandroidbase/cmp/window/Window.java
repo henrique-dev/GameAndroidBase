@@ -104,6 +104,16 @@ public class Window extends WindowEntity implements Formable {
         this.layout.format();
     }
 
+    public void add(int borderLayoutSide, WindowEntity windowEntity) {
+        if (this.layout instanceof BorderLayout) {
+            this.entities.add(windowEntity);
+            ((BorderLayout)this.layout).getPanel(borderLayoutSide).add(windowEntity);
+            this.layout.format();
+        } else {
+            this.add(windowEntity);
+        }
+    }
+
     /**
      * Remove um componente da janela.
      * @param entity componente a ser removido (Exemplo: botão, label, etc).

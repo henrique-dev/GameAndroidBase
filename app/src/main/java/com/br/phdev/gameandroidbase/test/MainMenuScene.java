@@ -36,9 +36,11 @@ import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
 import com.br.phdev.gameandroidbase.cmp.sound.Music;
 import com.br.phdev.gameandroidbase.cmp.sound.ShortSound;
+import com.br.phdev.gameandroidbase.cmp.window.BorderLayout;
 import com.br.phdev.gameandroidbase.cmp.window.Button;
 import com.br.phdev.gameandroidbase.cmp.window.GridLayout;
 import com.br.phdev.gameandroidbase.cmp.window.Label;
+import com.br.phdev.gameandroidbase.cmp.window.ListLayout;
 import com.br.phdev.gameandroidbase.cmp.window.TextField;
 import com.br.phdev.gameandroidbase.cmp.window.Window;
 
@@ -116,7 +118,8 @@ public class MainMenuScene extends Scene {
 
             //super.setLayout(new ListLayout(ListLayout.HORIZONTAL_ALIGNMENT, spaceW, spaceH));
             //super.setLayout(new ListLayout(ListLayout.HORIZONTAL_ALIGNMENT));
-            super.setLayout(new GridLayout(6 ,2));
+            //super.setLayout(new GridLayout(6 ,2));
+            super.setLayout(new BorderLayout());
 
             this.startButton = new Button("Toque em algum campo\n e digite algo");
             this.startButton.setColor(Color.RED);
@@ -129,19 +132,23 @@ public class MainMenuScene extends Scene {
                 }
             });
 
-            super.add(this.startButton);
+            //super.add(this.startButton);
+            super.add(BorderLayout.LEFT, this.startButton);
 
             TextField textField = new TextField();
             textField.setKeyboard(getDeviceManager().getKeyboard());
-            super.add(textField);
+            //super.add(textField);
+            super.add(BorderLayout.BOTTOM, textField);
 
             TextField textField2 = new TextField();
             textField2.setKeyboard(getDeviceManager().getKeyboard());
-            super.add(textField2);
+            //super.add(textField2);
+            super.add(BorderLayout.TOP, textField2);
 
             TextField textField3 = new TextField();
             textField3.setKeyboard(getDeviceManager().getKeyboard());
-            super.add(textField3);
+            //super.add(textField3);
+            super.add(BorderLayout.RIGHT, textField3);
 
 
 
