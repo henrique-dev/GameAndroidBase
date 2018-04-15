@@ -96,6 +96,8 @@ public class MainMenuScene extends Scene {
 
 
         //this.sprites = Sprite.getSpriteFromTexture(heroi, this.texture, 9, 7, 62);
+        this.active = true;
+        this.visible = true;
     }
 
     private class MainWindow extends Window {
@@ -121,38 +123,46 @@ public class MainMenuScene extends Scene {
             //super.setLayout(new GridLayout(6 ,2));
             super.setLayout(new BorderLayout());
 
-            this.startButton = new Button("Toque em algum campo\n e digite algo");
+            this.startButton = new Button("L");
             this.startButton.setColor(Color.RED);
             //this.startButton.setTextSize(85);
 
             this.startButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(Event evt) {
-                    GameLog.error(this, startButton.getText());
+                    safeAdd(BorderLayout.CENTER, new TextField("X"));
                 }
             });
 
             //super.add(this.startButton);
             super.add(BorderLayout.LEFT, this.startButton);
 
-            TextField textField = new TextField();
+            TextField textField = new TextField("BOTTOM");
             textField.setKeyboard(getDeviceManager().getKeyboard());
             //super.add(textField);
             super.add(BorderLayout.BOTTOM, textField);
 
-            TextField textField2 = new TextField();
+            TextField textField2 = new TextField("TOP");
             textField2.setKeyboard(getDeviceManager().getKeyboard());
             //super.add(textField2);
             super.add(BorderLayout.TOP, textField2);
 
-            TextField textField3 = new TextField();
-            textField3.setKeyboard(getDeviceManager().getKeyboard());
-            //super.add(textField3);
-            super.add(BorderLayout.RIGHT, textField3);
+            Button button = new Button("R");
+            button.setColor(Color.RED);
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(Event evt) {
+                    
+                }
+            });
+            super.add(BorderLayout.RIGHT, button);
 
-
+            add(BorderLayout.CENTER, new TextField("X"));
+            add(BorderLayout.CENTER, new TextField("X"));
+            add(BorderLayout.CENTER, new TextField("X"));
 
         }
+
     }
 
     int x = 0;

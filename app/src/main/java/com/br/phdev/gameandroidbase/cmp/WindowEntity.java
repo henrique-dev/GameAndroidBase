@@ -85,6 +85,8 @@ public abstract class WindowEntity extends Entity implements Controllable {
         this.edgeVisible = true;
         this.edgePaint = new Paint();
         this.edgeSize = 5;
+        super.visible = true;
+        super.active = true;
     }
 
     /**
@@ -98,6 +100,8 @@ public abstract class WindowEntity extends Entity implements Controllable {
         this.edgeVisible = true;
         this.edgePaint = new Paint();
         this.edgeSize = 5;
+        super.visible = true;
+        super.active = true;
     }
 
     protected WindowEntity(Rect area, Text entityText) {
@@ -109,6 +113,8 @@ public abstract class WindowEntity extends Entity implements Controllable {
         this.edgeVisible = true;
         this.edgePaint = new Paint();
         this.edgeSize = 5;
+        super.visible = true;
+        super.active = true;
     }
 
     @Override

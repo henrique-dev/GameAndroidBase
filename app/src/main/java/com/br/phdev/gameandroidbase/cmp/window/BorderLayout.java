@@ -18,10 +18,9 @@ package com.br.phdev.gameandroidbase.cmp.window;
 
 import android.graphics.Rect;
 
-import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
-public class BorderLayout implements Layout {
+public class BorderLayout extends Layout {
 
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
@@ -38,8 +37,6 @@ public class BorderLayout implements Layout {
     private Layout LRLayout;
     private Layout TBLayout;
 
-    private Entity entity;
-
     public BorderLayout() {
         LRLayout = new ListLayout(ListLayout.VERTICAL_ALIGNMENT);
         TBLayout = new ListLayout(ListLayout.HORIZONTAL_ALIGNMENT);
@@ -51,9 +48,9 @@ public class BorderLayout implements Layout {
                 if (this.leftPanel == null) {
                     this.leftPanel = new Window(new Rect(
                             0,
-                            (this.entity.getArea().height()/8),
-                            (this.entity.getArea().width()/8),
-                            (this.entity.getArea().height()/8)*7),
+                            (super.entity.getArea().height()/8),
+                            (super.entity.getArea().width()/8),
+                            (super.entity.getArea().height()/8)*7),
                             new ListLayout(ListLayout.VERTICAL_ALIGNMENT, 0, 0));
                     this.leftPanel.getLayout().set(this.leftPanel);
                 }
@@ -61,10 +58,10 @@ public class BorderLayout implements Layout {
             case RIGHT:
                 if (this.rightPanel == null) {
                     this.rightPanel = new Window(new Rect(
-                            (this.entity.getArea().width()/8)*7,
-                            (this.entity.getArea().height()/8),
-                            (this.entity.getArea().width()),
-                            (this.entity.getArea().height()/8)*7),
+                            (super.entity.getArea().width()/8)*7,
+                            (super.entity.getArea().height()/8),
+                            (super.entity.getArea().width()),
+                            (super.entity.getArea().height()/8)*7),
                             new ListLayout(ListLayout.VERTICAL_ALIGNMENT, 0, 0));
                     this.rightPanel.getLayout().set(this.rightPanel);
                 }
@@ -74,8 +71,8 @@ public class BorderLayout implements Layout {
                     this.topPanel = new Window(new Rect(
                             0,
                             0,
-                            (this.entity.getArea().width()),
-                            (this.entity.getArea().height()/8)),
+                            (super.entity.getArea().width()),
+                            (super.entity.getArea().height()/8)),
                             new ListLayout(ListLayout.HORIZONTAL_ALIGNMENT, 0, 0));
                     this.topPanel.getLayout().set(this.topPanel);
                 }
@@ -84,14 +81,23 @@ public class BorderLayout implements Layout {
                 if (this.bottomPanel == null) {
                     this.bottomPanel = new Window(new Rect(
                             0,
-                            (this.entity.getArea().height()/8) * 7,
-                            (this.entity.getArea().width()),
-                            (this.entity.getArea().height())),
+                            (super.entity.getArea().height()/8) * 7,
+                            (super.entity.getArea().width()),
+                            (super.entity.getArea().height())),
                             new ListLayout(ListLayout.HORIZONTAL_ALIGNMENT, 0, 0));
                     this.bottomPanel.getLayout().set(this.bottomPanel);
                 }
                 return this.bottomPanel;
             case CENTER:
+                if (this.centerPanel == null) {
+                    this.centerPanel = new Window(new Rect(
+                            (super.entity.getArea().width()/8),
+                            (super.entity.getArea().height()/8),
+                            (super.entity.getArea().width()/8)*7,
+                            (super.entity.getArea().height()/8) * 7),
+                            new SimetricGrowLayout());
+                    this.centerPanel.getLayout().set(this.centerPanel);
+                }
                 return this.centerPanel;
             default:
                 return null;
@@ -100,7 +106,7 @@ public class BorderLayout implements Layout {
 
     @Override
     public void set(Entity entity) {
-        this.entity = entity;
+        super.entity = entity;
     }
 
     @Override

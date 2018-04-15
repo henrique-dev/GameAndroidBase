@@ -16,22 +16,31 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
+import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
 /**
  * Interface responsavel pela os layouts aplicados em menus.
  */
-public interface Layout {
+public abstract class Layout {
+
+    protected int spaceH = GameParameters.getInstance().screenSize.width() / 50;
+    protected int spaceV = spaceH;
+
+    protected Entity entity;
 
     /**
      * Define a entidade que sera incluida e formatada pelo layout.
      * @param entity entidade a ser incluida.
      */
-    void set(Entity entity);
+    public void set(Entity entity) {
+        this.entity = entity;
+        this.format();
+    }
 
     /**
      * Formata a entidade de acordo com o layout.
      */
-    void format();
+    public abstract void format();
 
 }

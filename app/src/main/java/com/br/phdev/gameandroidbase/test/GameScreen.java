@@ -40,5 +40,8 @@ public class GameScreen extends Screen {
         super.deviceManager.initKeyboard();
 
         this.mainMenuScene.init();
+
+        this.active = true;
+        this.visible = true;
     }
 }

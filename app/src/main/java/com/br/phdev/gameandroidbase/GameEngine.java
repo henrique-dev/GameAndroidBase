@@ -231,7 +231,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
                         this.gameEngine.draw(this.canvas);
                     }
                 } catch (Exception e) {
-                    GameLog.error(this, e.getMessage());
+                    GameLog.error(this, e.toString());
                     this.running = false;
                 } finally {
                     if (canvas != null) {

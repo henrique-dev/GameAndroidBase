@@ -38,12 +38,12 @@ public abstract class Entity implements Component {
     /**
      * Estado ativo da entidade. Afeta updateable e controllable.
      */
-    protected boolean active = true;
+    protected boolean active;
 
     /**
      * Estado visivel da entidade. Afeta drawable.
      */
-    protected boolean visible = true;
+    protected boolean visible;
 
     /**
      * Cria uma entidade.

@@ -20,10 +20,15 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.WindowEntity;
+import com.br.phdev.gameandroidbase.cmp.environment.Screen;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Classe responsavel pela criação de janelas.
@@ -34,6 +39,7 @@ public class Window extends WindowEntity implements Formable {
      * Lista de entidades contidas na janela.
      */
     private ArrayList<WindowEntity> entities = new ArrayList<>();
+    private Queue<WindowEntity> entitiesForAdd = new LinkedList<>();
 
     /**
      * Botão padrão para fechar a janela. (AINDA FALTA IMPLEMENTAR)
@@ -106,12 +112,29 @@ public class Window extends WindowEntity implements Formable {
 
     public void add(int borderLayoutSide, WindowEntity windowEntity) {
         if (this.layout instanceof BorderLayout) {
-            this.entities.add(windowEntity);
             ((BorderLayout)this.layout).getPanel(borderLayoutSide).add(windowEntity);
+            this.entities.add(windowEntity);
             this.layout.format();
         } else {
             this.add(windowEntity);
         }
+    }
+
+    public void safeAdd(WindowEntity windowEntity) {
+        registerBeforeAdd(windowEntity);
+    }
+
+    public void safeAdd(int borderLayoutSide, WindowEntity windowEntity) {
+        if (this.layout instanceof BorderLayout) {
+            ((BorderLayout)this.layout).getPanel(borderLayoutSide).add(windowEntity);
+            this.registerBeforeAdd(windowEntity);
+        } else {
+            this.registerBeforeAdd(windowEntity);
+        }
+    }
+
+    public void registerBeforeAdd(WindowEntity windowEntity) {
+        this.entitiesForAdd.add(windowEntity);
     }
 
     /**
@@ -144,6 +167,12 @@ public class Window extends WindowEntity implements Formable {
         for (Entity ent : entities)
             if (ent.isActive())
                 ent.update();
+        if (this.entitiesForAdd.size() > 0) {
+            GameLog.error(this, this.entitiesForAdd.size() + "");
+            this.entities.addAll(this.entitiesForAdd);
+            this.entitiesForAdd.clear();
+            this.layout.format();
+        }
     }
 
     @Override

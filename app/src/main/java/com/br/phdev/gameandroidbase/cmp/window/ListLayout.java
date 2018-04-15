@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Classe responsavel pela criação de layouts para menus.
  * Este tipo cria um layout que exibe os componentes alinhados verticalmente ou horizontalmente.
  */
-public class ListLayout implements Layout{
+public class ListLayout extends Layout{
 
     /**
      * Constantes para definir o tipo de alinhamento.
@@ -40,21 +40,6 @@ public class ListLayout implements Layout{
      * Alinhamento atual.
      */
     private int alignment;
-
-    /**
-     * Espaçamento vertical entre o componente e a borda do layout.
-     */
-    private int spaceV = GameParameters.getInstance().screenSize.height() / 50;
-
-    /**
-     * Espaçamento horizontal entre o componente e a borda do layout.
-     */
-    private int spaceH = spaceV;
-
-    /**
-     * Entidade consumidora do layout. (Exemplo: Menu)
-     */
-    private Entity entity;
 
     /**
      * Cria um layout padrão (Alinhamento vertical dos componentes).
@@ -73,45 +58,39 @@ public class ListLayout implements Layout{
 
     public ListLayout(int alignment, int spaceH, int spaceV) {
         this.alignment = alignment;
-        this.spaceV = spaceV;
-        this.spaceH = spaceH;
-    }
-
-    @Override
-    public void set(Entity entity) {
-        this.entity = entity;
-        this.format();
+        super.spaceV = spaceV;
+        super.spaceH = spaceH;
     }
 
     @Override
     public void format() {
-        ArrayList<WindowEntity> tmpEntities = ((Window)this.entity).get();
+        ArrayList<WindowEntity> tmpEntities = ((Window)super.entity).get();
         if (!(tmpEntities.size() > 0))
             return;
 
-        int x = this.entity.getArea().left;
-        int y = this.entity.getArea().top;
+        int x = super.entity.getArea().left;
+        int y = super.entity.getArea().top;
         if (this.alignment == HORIZONTAL_ALIGNMENT) {
-            int height = this.entity.getArea().height() - this.spaceV * 2;
-            int cmpWidth = (this.entity.getArea().width() - this.spaceH * (tmpEntities.size()+1)) / tmpEntities.size();
+            int height = super.entity.getArea().height() - super.spaceV * 2;
+            int cmpWidth = (super.entity.getArea().width() - super.spaceH * (tmpEntities.size()+1)) / tmpEntities.size();
             for (int i=0; i<tmpEntities.size(); i++) {
                 Entity tmpEnt = tmpEntities.get(i);
                 tmpEnt.setArea(new Rect(
-                        (this.spaceH + this.spaceH *i) + x + (i * cmpWidth),
-                        this.spaceV + y,
-                        (this.spaceH + this.spaceH *i) + x + ((i+1) * cmpWidth),
-                        this.spaceV + y + height));
+                        (super.spaceH + super.spaceH *i) + x + (i * cmpWidth),
+                        super.spaceV + y,
+                        (super.spaceH + super.spaceH *i) + x + ((i+1) * cmpWidth),
+                        super.spaceV + y + height));
             }
         } else if (this.alignment == VERTICAL_ALIGNMENT) {
-            int width = this.entity.getArea().width() - this.spaceH * 2;
-            int cmpHeight = (this.entity.getArea().height() - this.spaceV * (tmpEntities.size()+1)) / tmpEntities.size();
+            int width = super.entity.getArea().width() - super.spaceH * 2;
+            int cmpHeight = (super.entity.getArea().height() - super.spaceV * (tmpEntities.size()+1)) / tmpEntities.size();
             for (int i=0; i<tmpEntities.size(); i++) {
                 Entity ent = tmpEntities.get(i);
                 ent.setArea(new Rect(
-                        this.spaceH + x,
-                        (this.spaceV + this.spaceV *i) + y + (i * cmpHeight),
-                        this.spaceH + x + width,
-                        (this.spaceV + this.spaceV *i) + y + ((i+1) * cmpHeight)));
+                        super.spaceH + x,
+                        (super.spaceV + super.spaceV *i) + y + (i * cmpHeight),
+                        super.spaceH + x + width,
+                        (super.spaceV + super.spaceV *i) + y + ((i+1) * cmpHeight)));
             }
         }
     }

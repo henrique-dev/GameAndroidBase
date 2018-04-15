@@ -35,6 +35,11 @@ public class TextField extends WindowEntity implements KeyboardListener {
         super.defaultPaint.setColor(Color.WHITE);
     }
 
+    public TextField(String text) {
+        super(new Rect(), new Text(text));
+        super.defaultPaint.setColor(Color.WHITE);
+    }
+
     public void setKeyboard(final Keyboard keyboard) {
         super.addListener(0, new ActionListener() {
             @Override

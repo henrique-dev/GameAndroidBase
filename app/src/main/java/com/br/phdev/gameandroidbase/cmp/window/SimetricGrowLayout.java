@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
+ * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,56 +18,13 @@ package com.br.phdev.gameandroidbase.cmp.window;
 
 import android.graphics.Rect;
 
-import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 
 import java.util.ArrayList;
 
-/**
- * Classe responsavel pela criação de layouts para menus.
- * Este tipo cira layouts em forma de grade (linha x coluna).
- */
-public class GridLayout extends Layout {
+public class SimetricGrowLayout extends Layout {
 
-    private int rows, columns;
-
-    public GridLayout(int rows, int columns) {
-        this.rows = rows;
-        this.columns = columns;
-    }
-
-    public int getSpaceH() {
-        return super.spaceH;
-    }
-
-    public void setSpaceH(int spaceH) {
-        super.spaceH = spaceH;
-    }
-
-    public int getSpaceV() {
-        return super.spaceV;
-    }
-
-    public void setSpaceV(int spaceV) {
-        super.spaceV = spaceV;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
-    public int getColumns() {
-        return columns;
-    }
-
-    public void setColumns(int columns) {
-        this.columns = columns;
-    }
 
     @Override
     public void format() {
@@ -75,16 +32,27 @@ public class GridLayout extends Layout {
         if (!(tmpEntities.size() > 0))
             return;
 
+        int size = tmpEntities.size();
+        int rows = 1;
+        int columns = 1;
+
+        while (rows * columns < size) {
+            rows++;
+            if (rows * columns >= size)
+                break;
+            columns++;
+        }
+
         int x = super.entity.getArea().left;
         int y = super.entity.getArea().top;
 
-        int cmpHeight = (super.entity.getArea().height() - super.spaceV * (this.rows+2)) / this.rows;
-        int cmpWidth = (super.entity.getArea().width() - super.spaceH * (this.columns+2)) / this.columns;
+        int cmpHeight = (super.entity.getArea().height() - super.spaceV * (rows+2)) / rows;
+        int cmpWidth = (super.entity.getArea().width() - super.spaceH * (columns+2)) / columns;
 
         int counter = 0;
 
-        for (int i=0; i<this.rows; i++) {
-            for (int j=0; j<this.columns; j++) {
+        for (int i=0; i<rows; i++) {
+            for (int j=0; j<columns; j++) {
                 Entity ent = tmpEntities.get(counter);
                 ent.setArea( new Rect(
                         (super.spaceH + super.spaceH * j) + super.spaceH + x + (j * cmpWidth),
@@ -92,7 +60,7 @@ public class GridLayout extends Layout {
                         (super.spaceH + super.spaceH * j) + x + ((j+1) * cmpWidth),
                         (super.spaceV + super.spaceV * i) + y + ((i+1) * cmpHeight)));
                 counter++;
-                if ((tmpEntities.size() == counter) || (counter == (this.rows * this.columns))) {
+                if ((tmpEntities.size() == counter) || (counter == (rows * columns))) {
                     return;
                 }
             }
