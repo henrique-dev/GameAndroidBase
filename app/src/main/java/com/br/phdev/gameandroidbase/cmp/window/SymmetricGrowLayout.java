@@ -23,8 +23,12 @@ import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 
 import java.util.ArrayList;
 
-public class SimetricGrowLayout extends Layout {
-
+/**
+ * Classe responsavel pela criação de layouts para menus.
+ * Este tipo cria um layout parecido com o {@link GridLayout} porem,
+ * redimensiona automaticamente o numero de linhas e colunas de acordo com a quantidade de componentes inseridos.
+ */
+public class SymmetricGrowLayout extends Layout {
 
     @Override
     public void format() {

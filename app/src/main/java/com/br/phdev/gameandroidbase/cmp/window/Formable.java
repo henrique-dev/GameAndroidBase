@@ -20,8 +20,15 @@ import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 
 import java.util.ArrayList;
 
+/**
+ * Interface consumida por todas as entidades que aceitam layouts para organização dos compónentes.
+ */
 public interface Formable {
 
+    /**
+     * Pega uma lista de entidades para organiza-las de acordo com o layout.
+     * @return lista de entidades organizaveis.
+     */
     ArrayList<WindowEntity> get();
 
 }

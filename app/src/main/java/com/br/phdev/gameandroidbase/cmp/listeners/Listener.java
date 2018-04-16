@@ -17,7 +17,7 @@
 package com.br.phdev.gameandroidbase.cmp.listeners;
 
 /**
- * Interface consumivel por todas as listeners.
+ * Interface consumivel por todas as escutas.
  * @version 1.0
  */
 public interface Listener {

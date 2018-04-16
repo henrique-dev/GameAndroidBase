@@ -27,26 +27,46 @@ import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.KeyboardEvent;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
 
+/**
+ * Classe responsavel por criação de campos de texto, para receber alguma entrada de dados.
+ */
 public class TextField extends WindowEntity implements KeyboardListener {
 
+    /**
+     * Instancia do teclado do jogo.
+     */
     private Keyboard keyboard;
 
+    /**
+     * Cria um campo de texto.
+     * Usado para colocar a entidade em um layout, e deixar ela definir a area para o campo de texto.
+     */
     public TextField() {
         super(new Rect(), new Text(""));
         super.defaultPaint.setColor(Color.WHITE);
     }
 
+    /**
+     * Cria um campo de texto contendo um texto.
+     * Usado para colocar a entidade em um layout, e deixar ela definir a area para o campo de texto.
+     * @param text
+     */
     public TextField(String text) {
         super(new Rect(), new Text(text));
         super.defaultPaint.setColor(Color.WHITE);
     }
 
-    public void setKeyboard(final Keyboard keyboard) {
+    /**
+     * Pega e registra a instancia do teclado do jogo.
+     * @param keyboard
+     */
+    public void setKeyboard(Keyboard keyboard) {
+        this.keyboard = keyboard;
         super.addListener(0, new ActionListener() {
             @Override
             public void actionPerformed(Event evt) {
-                keyboard.registerListener(TextField.this);
-                keyboard.setKeyboardOn(true);
+                TextField.this.keyboard.registerListener(TextField.this);
+                TextField.this.keyboard.setKeyboardOn(true);
             }
         });
     }
@@ -63,6 +83,10 @@ public class TextField extends WindowEntity implements KeyboardListener {
         }
     }
 
+    /**
+     * Redefine a escuta para eventos de ação para o campo de texto..
+     * @param actionListener nova escuta pra o campo de texto.
+     */
     public void addActionListener(ActionListener actionListener) {
         super.addListener(actionListener);
     }

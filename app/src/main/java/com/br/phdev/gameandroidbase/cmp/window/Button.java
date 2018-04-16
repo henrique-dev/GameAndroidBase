@@ -129,13 +129,17 @@ public class Button extends WindowEntity {
     }
 
     /**
-     * Redefine a escuta para o botão.
+     * Redefine a escuta para eventos de ação para o botão.
      * @param listener nova escuta pra o botão.
      */
     public void addActionListener(ActionListener listener) {
         super.addListener(listener);
     }
 
+    /**
+     * Redefine a escuta de eventos de clique para o botão.
+     * @param listener nova escuta para o obtão.
+     */
     public void addClickListener(ClickListener listener) {
         super.addListener(listener);
     }

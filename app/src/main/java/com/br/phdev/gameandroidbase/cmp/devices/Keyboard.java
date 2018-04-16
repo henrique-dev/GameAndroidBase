@@ -259,9 +259,11 @@ public final class Keyboard extends WindowEntity implements Formable{
         if (!super.visible)
             return;
         super.update();
+
         for (Entity ent : this.buttonKeys)
             if (ent.isActive())
                 ent.update();
+
 
     }
 

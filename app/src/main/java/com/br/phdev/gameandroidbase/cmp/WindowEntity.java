@@ -252,12 +252,10 @@ public abstract class WindowEntity extends Entity implements Controllable {
 
     @Override
     public void update() {
-        if (clickEffect != null)
+        if (this.clickEffect != null)
             this.clickEffect.update();
-
         for (Effect effect : this.effects)
             effect.update();
-
     }
 
     @Override

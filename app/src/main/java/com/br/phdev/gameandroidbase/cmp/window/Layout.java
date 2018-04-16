@@ -24,8 +24,8 @@ import com.br.phdev.gameandroidbase.cmp.Entity;
  */
 public abstract class Layout {
 
-    protected int spaceH = GameParameters.getInstance().screenSize.width() / 50;
-    protected int spaceV = spaceH;
+    int spaceH = GameParameters.getInstance().screenSize.width() / 50;
+    int spaceV = spaceH;
 
     protected Entity entity;
 
@@ -36,6 +36,22 @@ public abstract class Layout {
     public void set(Entity entity) {
         this.entity = entity;
         this.format();
+    }
+
+    public int getSpaceH() {
+        return this.spaceH;
+    }
+
+    public void setSpaceH(int spaceH) {
+        this.spaceH = spaceH;
+    }
+
+    public int getSpaceV() {
+        return this.spaceV;
+    }
+
+    public void setSpaceV(int spaceV) {
+        this.spaceV = spaceV;
     }
 
     /**

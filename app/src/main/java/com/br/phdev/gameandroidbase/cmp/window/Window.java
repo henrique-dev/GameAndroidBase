@@ -110,6 +110,12 @@ public class Window extends WindowEntity implements Formable {
         this.layout.format();
     }
 
+    /**
+     * Adiciona um componente na janela. (Usado mais especificamente quando o layout é do tipo {@link BorderLayout}.
+     * Caso não seja, é adicionado normalmente fazendo a chamada para add(entity).
+     * @param borderLayoutSide 
+     * @param windowEntity
+     */
     public void add(int borderLayoutSide, WindowEntity windowEntity) {
         if (this.layout instanceof BorderLayout) {
             ((BorderLayout)this.layout).getPanel(borderLayoutSide).add(windowEntity);

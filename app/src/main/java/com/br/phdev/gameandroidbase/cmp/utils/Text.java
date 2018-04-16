@@ -141,13 +141,12 @@ public class Text extends Entity {
      * @param text texto.
      */
     public void setText(String text) {
-
+        /*
         int tempHash = text.hashCode();
         if (tempHash == this.originalHashString) {
             return;
         }
-        this.originalHashString = tempHash;
-
+        this.originalHashString = tempHash;*/
         this.textToDraw = checkAndFormatText(text);
         defineTextSize(this, this.textSize);
         align(this);
@@ -180,12 +179,10 @@ public class Text extends Entity {
      */
     public void setStroke(int color, float strokeWidth) {
         this.strokePaint = new Paint(super.defaultPaint);
-
         this.strokePaint.setStyle(Paint.Style.STROKE);
         this.strokePaint.setColor(color);
         this.strokePaint.setStrokeWidth(strokeWidth);
         this.strokePaint.setAntiAlias(true);
-
         this.strokeOn = true;
     }
 
@@ -209,7 +206,6 @@ public class Text extends Entity {
             }
         } else
             return new String[]{text};
-
         return textToDraw;
     }
 
@@ -245,7 +241,7 @@ public class Text extends Entity {
             tmpPaint.setTextSize(tempTextSize);
 
             String biggerLine = getBiggerLine(text.textToDraw);
-            String stringWithSpacesChanged = biggerLine.replace(' ', '-');
+            String stringWithSpacesChanged = biggerLine.replace(' ', ',');
 
             Rect rectTextBounds;
             while (true) {
@@ -263,7 +259,7 @@ public class Text extends Entity {
                 rectTextBounds = new Rect();
                 tmpPaint.getTextBounds(stringWithSpacesChanged, 0, stringWithSpacesChanged.length(), rectTextBounds);
 
-                if (text.entity.getArea().width() < rectTextBounds.width() + text.spaceW * 2)
+                if (text.entity.getArea().width() < rectTextBounds.width() + text.spaceW)
                     tempTextSize -= 1;
                 else
                     break;

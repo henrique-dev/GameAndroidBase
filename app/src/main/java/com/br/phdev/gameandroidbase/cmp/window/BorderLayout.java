@@ -20,6 +20,10 @@ import android.graphics.Rect;
 
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
+/**
+ * Classe responsavel pela criação de layouts para menus.
+ * Este tipo cria um layout que que pode adicionar componentes em lugares especificos do mesmo como no centro, bordas horizontais ou verticais.
+ */
 public class BorderLayout extends Layout {
 
     public static final int LEFT = 0;
@@ -28,20 +32,16 @@ public class BorderLayout extends Layout {
     public static final int BOTTOM = 3;
     public static final int CENTER = 4;
 
-    private Window leftPanel;
-    private Window rightPanel;
-    private Window topPanel;
-    private Window bottomPanel;
-    private Window centerPanel;
+    /**
+     * Paineis que acomodam componentes nas bordas direita, esquerda, cima, baixo e tambem no centro.
+     */
+    private Window leftPanel, rightPanel, topPanel, bottomPanel, centerPanel;
 
-    private Layout LRLayout;
-    private Layout TBLayout;
-
-    public BorderLayout() {
-        LRLayout = new ListLayout(ListLayout.VERTICAL_ALIGNMENT);
-        TBLayout = new ListLayout(ListLayout.HORIZONTAL_ALIGNMENT);
-    }
-
+    /**
+     * Retorna uma painel para adicionar componentes.
+     * @param side localização do painel: LEFT, RIGHT, CENTER, TOP ou BOTTOM.
+     * @return Painel para adicionar os componentes.
+     */
     public Window getPanel(int side) {
         switch (side) {
             case LEFT:
@@ -95,7 +95,7 @@ public class BorderLayout extends Layout {
                             (super.entity.getArea().height()/8),
                             (super.entity.getArea().width()/8)*7,
                             (super.entity.getArea().height()/8) * 7),
-                            new SimetricGrowLayout());
+                            new SymmetricGrowLayout());
                     this.centerPanel.getLayout().set(this.centerPanel);
                 }
                 return this.centerPanel;

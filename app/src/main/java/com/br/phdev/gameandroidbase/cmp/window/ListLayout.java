@@ -56,6 +56,12 @@ public class ListLayout extends Layout{
         this.alignment = alignment;
     }
 
+    /**
+     * Cria um layout fornecendo o alinhamento desejado e o tamanho dos espaçamentos horizonateis e verticais.
+     * @param alignment tipo de alinhamento. ListLayout.HORIZONTAL_ALIGNMENT ou ListLayout.VERTICAL_ALIGNMENT
+     * @param spaceH espaçamento horizontal.
+     * @param spaceV espaçamento vertical.
+     */
     public ListLayout(int alignment, int spaceH, int spaceV) {
         this.alignment = alignment;
         super.spaceV = spaceV;

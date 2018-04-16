@@ -37,22 +37,6 @@ public class GridLayout extends Layout {
         this.columns = columns;
     }
 
-    public int getSpaceH() {
-        return super.spaceH;
-    }
-
-    public void setSpaceH(int spaceH) {
-        super.spaceH = spaceH;
-    }
-
-    public int getSpaceV() {
-        return super.spaceV;
-    }
-
-    public void setSpaceV(int spaceV) {
-        super.spaceV = spaceV;
-    }
-
     public int getRows() {
         return rows;
     }
