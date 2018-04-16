@@ -42,6 +42,9 @@ public abstract class Scene extends Entity implements Controllable {
      */
     private SoundManager soundManager;
 
+    /**
+     * Gerenciador de dispositivos do jogo. (Teclado, etc.)
+     */
     private DeviceManager deviceManager;
 
     /**
@@ -104,10 +107,18 @@ public abstract class Scene extends Entity implements Controllable {
         return this.soundManager;
     }
 
+    /**
+     * Define p gerenciador de dispositivos.
+     * @param deviceManager gerenciador de dispositivos.
+     */
     void setDeviceManager(DeviceManager deviceManager) {
         this.deviceManager = deviceManager;
     }
 
+    /**
+     * Retorna o gerenciador de dispositivos.
+     * @return gerenciador de dispositivos.
+     */
     public DeviceManager getDeviceManager() {
         return this.deviceManager;
     }

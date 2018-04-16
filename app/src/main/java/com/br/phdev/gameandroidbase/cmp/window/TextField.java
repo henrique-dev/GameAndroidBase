@@ -24,6 +24,7 @@ import com.br.phdev.gameandroidbase.cmp.devices.Keyboard;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.KeyboardListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
+import com.br.phdev.gameandroidbase.cmp.listeners.events.KeyboardEvent;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
 
 public class TextField extends WindowEntity implements KeyboardListener {
@@ -51,17 +52,14 @@ public class TextField extends WindowEntity implements KeyboardListener {
     }
 
     @Override
-    public void keyPressed(char key) {
-        if (key == '<') {
+    public void keyPressed(KeyboardEvent keyboardEvent) {
+        if (keyboardEvent.keyCode == KeyboardEvent.KEY_BACKSPACE) {
             String currentText = super.entityText.toString();
             if (currentText.length() > 0)
                 super.entityText.setText(currentText.substring(0, currentText.length()-1));
-        } else if (key == '_') {
+        } else{
             String currentText = super.entityText.toString();
-            super.entityText.setText(currentText + " ");
-        } else {
-            String currentText = super.entityText.toString();
-            super.entityText.setText(currentText + String.valueOf(key));
+            super.entityText.setText(currentText + Keyboard.getChar(keyboardEvent.keyCode));
         }
     }
 

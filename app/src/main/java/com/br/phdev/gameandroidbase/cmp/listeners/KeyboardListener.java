@@ -16,8 +16,10 @@
  */
 package com.br.phdev.gameandroidbase.cmp.listeners;
 
+import com.br.phdev.gameandroidbase.cmp.listeners.events.KeyboardEvent;
+
 public interface KeyboardListener extends Listener {
 
-    void keyPressed(char key);
+    void keyPressed(KeyboardEvent keyboardEvent);
 
 }

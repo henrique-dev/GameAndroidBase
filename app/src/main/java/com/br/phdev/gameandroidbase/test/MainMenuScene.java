@@ -152,7 +152,7 @@ public class MainMenuScene extends Scene {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(Event evt) {
-                    
+
                 }
             });
             super.add(BorderLayout.RIGHT, button);

@@ -82,7 +82,7 @@ public abstract class Entity implements Component {
      * Redefine a area da entidade.
      * @param x nova posição.
      */
-    protected void setX(int x) {
+    public void setX(int x) {
         int width = this.area.width();
         this.area.right = width + (this.area.left = x);
     }
@@ -91,7 +91,7 @@ public abstract class Entity implements Component {
      * Retorna a posição da entidade.
      * @return posição.
      */
-    protected int getX() {
+    public int getX() {
         return this.area.left;
     }
 
@@ -99,7 +99,7 @@ public abstract class Entity implements Component {
      * Redefine a area da entidade.
      * @param y nova posição.
      */
-    protected void setY(int y) {
+    public void setY(int y) {
         int height = this.area.height();
         this.area.bottom = height + (this.area.top = y);
     }
@@ -108,8 +108,24 @@ public abstract class Entity implements Component {
      * Retorna a area da entidade.
      * @return posição.
      */
-    protected int getY() {
+    public int getY() {
         return this.area.top;
+    }
+
+    public int getWidth() {
+        return this.area.width();
+    }
+
+    public void setWidth(int width) {
+        this.area.right = this.area.left + width;
+    }
+
+    public int getHeight() {
+        return this.area.height();
+    }
+
+    public void setHeight(int height) {
+        this.area.bottom = this.area.top + height;
     }
 
     /**

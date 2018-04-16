@@ -104,6 +104,10 @@ public class Text extends Entity {
         align(this);
     }
 
+    /**
+     * Cria um texto para ser exeibido em uma entidade. (É preciso definir apos a entidade com o setEntity().
+     * @param text textopara ser exibido.
+     */
     public Text(String text) {
         super();
         super.defaultPaint.setColor(Color.BLACK);
@@ -112,10 +116,18 @@ public class Text extends Entity {
         this.originalHashString = text.hashCode();
     }
 
+    /**
+     * Retorna a entidade que consome o texto.
+     * @return entidade consumidora do texto.
+     */
     public Entity getEntity() {
         return entity;
     }
 
+    /**
+     * Define a entidade consumidora do texto.
+     * @param entity entidade para consumir o texto.
+     */
     public void setEntity(Entity entity) {
         this.entity = entity;
         this.spaceH = entity.getArea().height() / 20;
@@ -129,13 +141,13 @@ public class Text extends Entity {
      * @param text texto.
      */
     public void setText(String text) {
-        /*
+
         int tempHash = text.hashCode();
         if (tempHash == this.originalHashString) {
             return;
         }
         this.originalHashString = tempHash;
-        */
+
         this.textToDraw = checkAndFormatText(text);
         defineTextSize(this, this.textSize);
         align(this);

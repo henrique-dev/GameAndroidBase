@@ -147,6 +147,7 @@ public class FlashEffect extends Effect implements ClickEffect {
                 } else
                     super.entity.getDefaultPaint().setAlpha(alpha);
             }
+            GameLog.error(this, "ATUALIZANDO");
         }
     }
 

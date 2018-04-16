@@ -167,6 +167,7 @@ public class Sprite implements Drawable {
         this.matrix.postRotate(degrees, this.imageClip.centerX(), this.imageClip.centerY());
     }
 
+    @Override
     public void draw(Canvas canvas) {
         int savedState = canvas.save();
 

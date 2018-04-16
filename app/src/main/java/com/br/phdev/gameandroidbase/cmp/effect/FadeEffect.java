@@ -132,6 +132,7 @@ public class FadeEffect extends Effect implements ClickEffect {
                 } else
                     super.entity.getDefaultPaint().setAlpha(alpha);
             }
+            GameLog.error(this, "ATUALIZANDO");
         }
     }
 

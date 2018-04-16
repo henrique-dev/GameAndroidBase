@@ -42,6 +42,9 @@ public class Music {
     private float leftVolume;
     private float rightVolume;
 
+    /**
+     * Escuta para tarefas a serem executas apos a reprodução da musica.
+     */
     private MediaPlayer.OnCompletionListener onCompletionListener;
 
     /**
@@ -138,10 +141,18 @@ public class Music {
         this.rightVolume = rightVolume;
     }
 
+    /**
+     * Retorna a escuta da terefa a ser executada apos a reprodução da musica.
+     * @return escuta contendo a tarefa.
+     */
     public MediaPlayer.OnCompletionListener getOnCompletionListener() {
         return onCompletionListener;
     }
 
+    /**
+     * Define a escuta para a tarefa a ser executada apos a reprodução da musica.
+     * @param onCompletionListener escuta contendo a tarefa.
+     */
     public void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
         this.onCompletionListener = onCompletionListener;
     }

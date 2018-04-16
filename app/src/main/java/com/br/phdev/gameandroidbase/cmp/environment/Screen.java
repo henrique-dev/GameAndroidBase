@@ -42,9 +42,10 @@ public abstract class Screen extends Entity implements Controllable {
      */
     protected SoundManager soundManager;
 
+    /**
+     * Gerenciador de dispositivos do jogo.
+     */
     protected DeviceManager deviceManager;
-
-    private boolean canFinalize = true;
 
     /**
      * Lista de cenas.
@@ -113,6 +114,10 @@ public abstract class Screen extends Entity implements Controllable {
         this.soundManager = soundManager;
     }
 
+    /**
+     * Define p gerenciador de dispositivos.
+     * @param deviceManager gerenciador de dispositivos.
+     */
     public void setDeviceManager(DeviceManager deviceManager) {
         this.deviceManager = deviceManager;
     }
@@ -141,11 +146,14 @@ public abstract class Screen extends Entity implements Controllable {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        for (Scene sc : this.scenes)
-            if (sc.isActive())
-                sc.onTouchEvent(motionEvent);
-        if (this.deviceManager.getKeyboard().isKeyboardOn())
-            this.deviceManager.getKeyboard().onTouchEvent(motionEvent);
+        if (this.deviceManager.getKeyboard().isKeyboardOn()) {
+            if (this.deviceManager.getKeyboard().onTouchEvent(motionEvent))
+                return true;
+        }
+        else
+            for (Scene sc : this.scenes)
+                if (sc.isActive())
+                    sc.onTouchEvent(motionEvent);
         return true;
     }
 

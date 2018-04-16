@@ -250,16 +250,14 @@ public abstract class WindowEntity extends Entity implements Controllable {
         });
     }
 
-    protected void fireEffect(Event event) {
-        this.clickEffect.start(event);
-    }
-
     @Override
     public void update() {
         if (clickEffect != null)
             this.clickEffect.update();
+
         for (Effect effect : this.effects)
             effect.update();
+
     }
 
     @Override

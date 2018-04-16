@@ -168,7 +168,6 @@ public class Window extends WindowEntity implements Formable {
             if (ent.isActive())
                 ent.update();
         if (this.entitiesForAdd.size() > 0) {
-            GameLog.error(this, this.entitiesForAdd.size() + "");
             this.entities.addAll(this.entitiesForAdd);
             this.entitiesForAdd.clear();
             this.layout.format();
