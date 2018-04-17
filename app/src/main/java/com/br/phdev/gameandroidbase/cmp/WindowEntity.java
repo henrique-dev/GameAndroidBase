@@ -55,6 +55,9 @@ public abstract class WindowEntity extends Entity implements Controllable {
      */
     protected Effect clickEffect;
 
+    /**
+     * Lista de efeitos diversos para a entidade.
+     */
     protected ArrayList<Effect> effects;
 
     /**
@@ -67,12 +70,24 @@ public abstract class WindowEntity extends Entity implements Controllable {
      */
     protected Text entityText;
 
-    private boolean edgeVisible;
-    private Paint edgePaint;
-    private int edgeSize;
+    /**
+     * Atributos referentes a borda da entidade.
+     */
+    private boolean edgeVisible; private Paint edgePaint; private int edgeSize;
 
+    /**
+     * Estado de selecionado da entidade.
+     */
     private boolean clicked;
+
+    /**
+     * Estado de sobre a area da entidade.
+     */
     private boolean onArea;
+
+    /**
+     * Estado de clicado sobre a area da entidade.
+     */
     private boolean clickedOnArea;
 
     /**
@@ -104,6 +119,11 @@ public abstract class WindowEntity extends Entity implements Controllable {
         super.active = true;
     }
 
+    /**
+     * Cria uma entidade para janela.
+     * @param area area da entidade.
+     * @param entityText texto a ser exibido com a entidade.
+     */
     protected WindowEntity(Rect area, Text entityText) {
         super(area);
         this.effects = new ArrayList<>();
@@ -125,10 +145,18 @@ public abstract class WindowEntity extends Entity implements Controllable {
         }
     }
 
+    /**
+     * Retorna o tamanho da borda da entidade.
+     * @return tamanho da borda.
+     */
     public int getEdgeSize() {
         return edgeSize;
     }
 
+    /**
+     * Redefine o tamanho da borda da entidade.
+     * @param edgeSize tamanho para a borda.
+     */
     public void setEdgeSize(int edgeSize) {
         this.edgeSize = edgeSize;
     }
@@ -158,25 +186,45 @@ public abstract class WindowEntity extends Entity implements Controllable {
     }
 
     /**
-     * Redefine a escuta de eventos da entidade.
+     * Adiciona umaa escuta de eventos para a entidade.
      * @param listener escuta para entidade.
      */
     protected void addListener(Listener listener) {
         this.listeners.add(listener);
     }
 
+    /**
+     * Adiciona uma escuta de eventos para a entidade em determinada posição da lista.
+     * @param index posição na lista.
+     * @param listener escuta para a entidade.
+     */
     protected void addListener(int index, Listener listener) {
         this.listeners.add(index, listener);
     }
 
+    /**
+     * Retorna uma escuta da entidade de acordo com a posição repassada.
+     * @param index posição d aescuta na lista.
+     * @return escuta da entidade.
+     */
     protected Listener getListener(int index) {
         return this.listeners.get(index);
     }
 
+    /**
+     * Retorna o tipo de execução das esccutas de ação da entidade. Quando pressionada ou despressionada.
+     * @return tipo de execução  das escutas de ação.
+     */
     protected int getFireActionType() {
         return fireActionType;
     }
 
+    /**
+     * Redefine o tipo de execução das escutas de ação da entidade.
+     * ACTION_TYPE_ON_CLICK para executar a ação quando pressionada.
+     * ACTION_TYPE_ON_RELEASE para executar a ação quando despressionada.
+     * @param fireActionType ACTION_TYPE_ON_RELEASE ou ACTION_TYPE_ON_CLICK.
+     */
     protected void setFireActionType(int fireActionType) {
         this.fireActionType = fireActionType;
     }
@@ -191,6 +239,11 @@ public abstract class WindowEntity extends Entity implements Controllable {
                 ((ActionListener)listener).actionPerformed(evt);
     }
 
+    /**
+     * Executa as escutas de acordo com o tipo repassado.
+     * @param evt evento lançado de quem ativou a escuta.
+     * @param type ActionListener.ACTION_PERFORMED, ClickListener.PRESSED_PERFORMED ou ClickListener.RELEASE_PERFORMED.
+     */
     protected void fireListeners(Event evt, int type) {
         try {
             for (Listener listener : this.listeners)

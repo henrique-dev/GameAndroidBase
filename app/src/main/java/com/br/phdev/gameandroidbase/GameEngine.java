@@ -46,6 +46,9 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      */
     private SoundManager soundManager;
 
+    /**
+     * Gerenciador de dispositivos do jogo.
+     */
     private DeviceManager deviceManager;
 
     /**

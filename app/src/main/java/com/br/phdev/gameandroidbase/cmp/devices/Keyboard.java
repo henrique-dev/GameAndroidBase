@@ -20,7 +20,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.transition.Fade;
 import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.GameLog;

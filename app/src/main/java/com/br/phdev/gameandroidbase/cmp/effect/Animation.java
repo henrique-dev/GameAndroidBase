@@ -21,6 +21,6 @@ package com.br.phdev.gameandroidbase.cmp.effect;
 import com.br.phdev.gameandroidbase.cmp.Drawable;
 import com.br.phdev.gameandroidbase.cmp.Updateable;
 
-interface Animation extends Updateable, Drawable {
+interface Animation extends Updateable {
 
 }

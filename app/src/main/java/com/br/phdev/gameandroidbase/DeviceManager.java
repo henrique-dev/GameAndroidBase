@@ -18,18 +18,37 @@ package com.br.phdev.gameandroidbase;
 
 import com.br.phdev.gameandroidbase.cmp.devices.Keyboard;
 
+/**
+ * Gerenciador de dispositivos variados do jogo.
+ * Existentes: teclado.
+ */
 public class DeviceManager {
 
+    /**
+     * Teclado utilizado para entrada de dados no jogo.
+     */
     private Keyboard keyboard;
 
+    /**
+     * Cria o gerenciador.
+     */
     DeviceManager() {
         this.keyboard = new Keyboard();
     }
 
+    /**
+     * Inicializa o teclado.
+     * Apenas sua dimensão é criada no construtor.
+     * Para usa-lo, deve-se chamar esta função antes.
+     */
     public void initKeyboard() {
         this.keyboard.loadComponents();
     }
 
+    /**
+     * Retorna o teclado.
+     * @return teclado do jogo.
+     */
     public Keyboard getKeyboard() {
         return this.keyboard;
     }

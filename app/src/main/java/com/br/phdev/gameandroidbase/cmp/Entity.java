@@ -21,6 +21,7 @@ import android.graphics.Rect;
 
 /**
  * Classe base responsavel por todas as entidades.
+ * As entidades são atualizaveis e desenhaveis.
  * @version 1.0
  */
 public abstract class Entity implements Component {
@@ -112,18 +113,34 @@ public abstract class Entity implements Component {
         return this.area.top;
     }
 
+    /**
+     * Retorna a largura da entidade.
+     * @return largura da entidade.
+     */
     public int getWidth() {
         return this.area.width();
     }
 
+    /**
+     * Redefine a largura da entidade.
+     * @param width largura para a entidade.
+     */
     public void setWidth(int width) {
         this.area.right = this.area.left + width;
     }
 
+    /**
+     * Retorna a altura da entidade.
+     * @return altura da entidade.
+     */
     public int getHeight() {
         return this.area.height();
     }
 
+    /**
+     * Redefine a altura da entidade.
+     * @param height altura para a entidade.
+     */
     public void setHeight(int height) {
         this.area.bottom = this.area.top + height;
     }

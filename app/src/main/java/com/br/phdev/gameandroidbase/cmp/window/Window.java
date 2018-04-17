@@ -42,11 +42,6 @@ public class Window extends WindowEntity implements Formable {
     private Queue<WindowEntity> entitiesForAdd = new LinkedList<>();
 
     /**
-     * Botão padrão para fechar a janela. (AINDA FALTA IMPLEMENTAR)
-     */
-    private Button closeButton;
-
-    /**
      * Tipo de layout da janela.
      */
     private Layout layout;
@@ -113,8 +108,8 @@ public class Window extends WindowEntity implements Formable {
     /**
      * Adiciona um componente na janela. (Usado mais especificamente quando o layout é do tipo {@link BorderLayout}.
      * Caso não seja, é adicionado normalmente fazendo a chamada para add(entity).
-     * @param borderLayoutSide 
-     * @param windowEntity
+     * @param borderLayoutSide posição no layout para inserir o componente.
+     * @param windowEntity componente a ser adicionado (Exemplo: botão, label, etc).
      */
     public void add(int borderLayoutSide, WindowEntity windowEntity) {
         if (this.layout instanceof BorderLayout) {
@@ -126,10 +121,21 @@ public class Window extends WindowEntity implements Formable {
         }
     }
 
+    /**
+     * Adiciona um componente na janela em tempo de execução, evitando {@link ConcurrentModificationException}.
+     * @param windowEntity componente a ser adicionado (Exemplo: botão, label, etc).
+     */
     public void safeAdd(WindowEntity windowEntity) {
         registerBeforeAdd(windowEntity);
     }
 
+    /**
+     * Adiciona um componente na janela. em tempo de execução, evitando {@link ConcurrentModificationException}.
+     * (Usado mais especificamente quando o layout é do tipo {@link BorderLayout}.
+     * Caso não seja, é adicionado normalmente fazendo a chamada para add(entity).
+     * @param borderLayoutSide posição no layout para inserir o componente.
+     * @param windowEntity componente a ser adicionado (Exemplo: botão, label, etc).
+     */
     public void safeAdd(int borderLayoutSide, WindowEntity windowEntity) {
         if (this.layout instanceof BorderLayout) {
             ((BorderLayout)this.layout).getPanel(borderLayoutSide).add(windowEntity);
@@ -139,7 +145,12 @@ public class Window extends WindowEntity implements Formable {
         }
     }
 
-    public void registerBeforeAdd(WindowEntity windowEntity) {
+    /**
+     * Para adicionar componentes na lista de entidades, os componentes são provisoriamente adicionados em uma
+     * segunda lista que é inserida na primeira apos o termino da iteração da mesma.
+     * @param windowEntity entidade a ser adicionada na lista segura.
+     */
+    private void registerBeforeAdd(WindowEntity windowEntity) {
         this.entitiesForAdd.add(windowEntity);
     }
 

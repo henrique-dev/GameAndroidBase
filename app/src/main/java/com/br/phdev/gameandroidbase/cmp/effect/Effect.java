@@ -97,9 +97,4 @@ public abstract class Effect implements Animation {
      */
     public abstract void stop();
 
-    @Override
-    public void draw(Canvas canvas) {
-
-    }
-
 }
