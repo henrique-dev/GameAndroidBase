@@ -17,9 +17,10 @@
 package com.br.phdev.gameandroidbase.cmp.listeners;
 
 import com.br.phdev.gameandroidbase.cmp.listeners.events.KeyboardEvent;
+import com.br.phdev.gameandroidbase.cmp.devices.Keyboard;
 
 /**
- * Interface implementada por entidades que queiram receber entrada de dados pelo {@link com.br.phdev.gameandroidbase.cmp.devices.Keyboard}.
+ * Interface implementada por entidades que queiram receber entrada de dados pelo {@link Keyboard}.
  */
 public interface KeyboardListener extends Listener {
 

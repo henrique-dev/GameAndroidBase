@@ -65,7 +65,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
     /**
      * Lista de escutas da entidade para acionar eventos.
      */
-    private ArrayList<Listener> listeners;
+    protected ArrayList<Listener> listeners;
 
     /**
      * Texto a ser vinculado com a entidade.
@@ -330,18 +330,16 @@ public abstract class WindowEntity extends Entity implements Controllable {
 
         if (haveCollision(x, y, this)) {
 
-            Event event = new Event((int)x, (int)y);
-
             switch (action) {
                 case MotionEvent.ACTION_DOWN:
-                    this.fireListeners(event, ClickListener.PRESSED_PERFORMED);
+                    this.fireListeners(new Event(), ClickListener.PRESSED_PERFORMED);
                     this.onArea = true;
                     this.clickedOnArea = true;
                     if (fireActionType == ACTION_TYPE_ON_CLICK) {
                         if (clickEffect != null)
-                            this.clickEffect.start(event);
+                            this.clickEffect.start(new Event());
                         else
-                            this.fireListeners(event, ActionListener.ACTION_PERFORMED);
+                            this.fireListeners(new Event(), ActionListener.ACTION_PERFORMED);
                         this.clicked = true;
                     }
                     break;
@@ -350,13 +348,13 @@ public abstract class WindowEntity extends Entity implements Controllable {
                         if (fireActionType == ACTION_TYPE_ON_RELEASE) {
                             this.clicked = true;
                             if (clickEffect != null)
-                                this.clickEffect.start(event);
+                                this.clickEffect.start(new Event());
                             else {
-                                this.fireListeners(event, ActionListener.ACTION_PERFORMED);
+                                this.fireListeners(new Event(), ActionListener.ACTION_PERFORMED);
                                 this.clicked = false;
                             }
                         }
-                        this.fireListeners(event, ClickListener.RELEASE_PERFORMED);
+                        this.fireListeners(new Event(), ClickListener.RELEASE_PERFORMED);
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:

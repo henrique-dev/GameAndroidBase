@@ -14,21 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.cmp.listeners.events;
+package com.br.phdev.gameandroidbase.cmp.listeners;
 
-/**
- * Classe responsavel pela criação de eventos lançados na escutas.
- * @version 1.0
- */
-public class Event {
+import com.br.phdev.gameandroidbase.cmp.listeners.events.TableEvent;
 
-    public int x;
-    public int y;
+public interface TableActionListener extends Listener {
 
-    public Event() {}
+    void tableActionPerformed(TableEvent tableEvent);
 
-    public Event(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
 }

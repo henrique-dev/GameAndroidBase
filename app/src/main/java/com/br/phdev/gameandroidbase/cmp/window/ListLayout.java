@@ -68,17 +68,20 @@ public class ListLayout extends Layout{
 
     @Override
     public void format() {
-        ArrayList<WindowEntity> tmpEntities = ((Window)super.entity).get();
-        if (!(tmpEntities.size() > 0))
+        //ArrayList<WindowEntity> tmpEntities = ((Window)super.entity).get();
+        //if (!(tmpEntities.size() > 0))
+          //  return;
+        Formable componentsSource = ((Formable)super.entity);
+        if (!(componentsSource.size() > 0))
             return;
 
         int x = super.entity.getArea().left;
         int y = super.entity.getArea().top;
         if (this.alignment == HORIZONTAL_ALIGNMENT) {
             int height = super.entity.getArea().height() - super.spaceV * 2;
-            int cmpWidth = (super.entity.getArea().width() - super.spaceH * (tmpEntities.size()+1)) / tmpEntities.size();
-            for (int i=0; i<tmpEntities.size(); i++) {
-                Entity tmpEnt = tmpEntities.get(i);
+            int cmpWidth = (super.entity.getArea().width() - super.spaceH * (componentsSource.size()+1)) / componentsSource.size();
+            for (int i=0; i<componentsSource.size(); i++) {
+                Entity tmpEnt = componentsSource.get(i);
                 tmpEnt.setArea(new Rect(
                         (super.spaceH + super.spaceH *i) + x + (i * cmpWidth),
                         super.spaceV + y,
@@ -87,9 +90,9 @@ public class ListLayout extends Layout{
             }
         } else if (this.alignment == VERTICAL_ALIGNMENT) {
             int width = super.entity.getArea().width() - super.spaceH * 2;
-            int cmpHeight = (super.entity.getArea().height() - super.spaceV * (tmpEntities.size()+1)) / tmpEntities.size();
-            for (int i=0; i<tmpEntities.size(); i++) {
-                Entity ent = tmpEntities.get(i);
+            int cmpHeight = (super.entity.getArea().height() - super.spaceV * (componentsSource.size()+1)) / componentsSource.size();
+            for (int i=0; i<componentsSource.size(); i++) {
+                Entity ent = componentsSource.get(i);
                 ent.setArea(new Rect(
                         super.spaceH + x,
                         (super.spaceV + super.spaceV *i) + y + (i * cmpHeight),

@@ -164,16 +164,14 @@ public class Window extends WindowEntity implements Formable {
      * @param index index do componente na lista.
      * @return componente requisitado.
      */
+    @Override
     public Entity get(int index) {
         return entities.get(index);
     }
 
-    /**
-     * Retorna toda a lista de componentes contidos na janela.
-     * @return lista de componentes da janela.
-     */
-    public ArrayList<WindowEntity> get() {
-        return this.entities;
+    @Override
+    public int size() {
+        return this.entities.size();
     }
 
     @Override

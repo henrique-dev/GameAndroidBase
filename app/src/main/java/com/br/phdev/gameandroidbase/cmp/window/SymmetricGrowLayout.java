@@ -31,11 +31,14 @@ public class SymmetricGrowLayout extends Layout {
 
     @Override
     public void format() {
-        ArrayList<WindowEntity> tmpEntities = ((Formable)super.entity).get();
-        if (!(tmpEntities.size() > 0))
+        //ArrayList<WindowEntity> tmpEntities = ((Formable)super.entity).get();
+        //if (!(tmpEntities.size() > 0))
+          //  return;
+        Formable componentsSource = ((Formable)super.entity);
+        if (!(componentsSource.size() > 0))
             return;
 
-        int size = tmpEntities.size();
+        int size = componentsSource.size();
         int rows = 1;
         int columns = 1;
 
@@ -56,14 +59,14 @@ public class SymmetricGrowLayout extends Layout {
 
         for (int i=0; i<rows; i++) {
             for (int j=0; j<columns; j++) {
-                Entity ent = tmpEntities.get(counter);
+                Entity ent = componentsSource.get(counter);
                 ent.setArea( new Rect(
                         (super.spaceH + super.spaceH * j) + super.spaceH + x + (j * cmpWidth),
                         (super.spaceV + super.spaceV * i) + super.spaceV + y + (i * cmpHeight),
                         (super.spaceH + super.spaceH * j) + x + ((j+1) * cmpWidth),
                         (super.spaceV + super.spaceV * i) + y + ((i+1) * cmpHeight)));
                 counter++;
-                if ((tmpEntities.size() == counter) || (counter == (rows * columns))) {
+                if ((componentsSource.size() == counter) || (counter == (rows * columns))) {
                     return;
                 }
             }

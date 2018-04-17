@@ -53,8 +53,9 @@ public class GridLayout extends Layout {
 
     @Override
     public void format() {
-        ArrayList<WindowEntity> tmpEntities = ((Formable)super.entity).get();
-        if (!(tmpEntities.size() > 0))
+        //ArrayList<WindowEntity> tmpEntities = ((Formable)super.entity).get();
+        Formable componentsSource = ((Formable)super.entity);
+        if (!(componentsSource.size() > 0))
             return;
 
         int x = super.entity.getArea().left;
@@ -67,14 +68,14 @@ public class GridLayout extends Layout {
 
         for (int i=0; i<this.rows; i++) {
             for (int j=0; j<this.columns; j++) {
-                Entity ent = tmpEntities.get(counter);
+                Entity ent = componentsSource.get(counter);
                 ent.setArea( new Rect(
                         (super.spaceH + super.spaceH * j) + super.spaceH + x + (j * cmpWidth),
                         (super.spaceV + super.spaceV * i) + super.spaceV + y + (i * cmpHeight),
                         (super.spaceH + super.spaceH * j) + x + ((j+1) * cmpWidth),
                         (super.spaceV + super.spaceV * i) + y + ((i+1) * cmpHeight)));
                 counter++;
-                if ((tmpEntities.size() == counter) || (counter == (this.rows * this.columns))) {
+                if ((componentsSource.size() == counter) || (counter == (this.rows * this.columns))) {
                     return;
                 }
             }

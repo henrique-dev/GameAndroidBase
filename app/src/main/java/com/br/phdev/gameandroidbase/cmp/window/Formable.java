@@ -16,6 +16,8 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
+import com.br.phdev.gameandroidbase.cmp.Entity;
+
 import java.util.ArrayList;
 
 /**
@@ -23,10 +25,7 @@ import java.util.ArrayList;
  */
 public interface Formable {
 
-    /**
-     * Pega uma lista de entidades para organiza-las de acordo com o layout.
-     * @return lista de entidades organizaveis.
-     */
-    ArrayList<WindowEntity> get();
+    int size();
+    Entity get(int index);
 
 }

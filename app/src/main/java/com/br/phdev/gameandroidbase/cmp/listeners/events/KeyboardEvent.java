@@ -19,7 +19,7 @@ package com.br.phdev.gameandroidbase.cmp.listeners.events;
 /**
  * Classe responsavel pela criação de eventos lançados pelo teclado.
  */
-public class KeyboardEvent {
+public class KeyboardEvent extends Event {
 
     public static final int KEY_A = 0;
     public static final int KEY_B = 1;

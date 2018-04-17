@@ -33,7 +33,9 @@ import com.br.phdev.gameandroidbase.cmp.graphics.Sprite;
 import com.br.phdev.gameandroidbase.cmp.graphics.Texture;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
+import com.br.phdev.gameandroidbase.cmp.listeners.TableActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
+import com.br.phdev.gameandroidbase.cmp.listeners.events.TableEvent;
 import com.br.phdev.gameandroidbase.cmp.sound.Music;
 import com.br.phdev.gameandroidbase.cmp.sound.ShortSound;
 import com.br.phdev.gameandroidbase.cmp.window.BorderLayout;
@@ -162,6 +164,12 @@ public class MainMenuScene extends Scene {
             //add(BorderLayout.CENTER, new TextField("X"));
             //add(BorderLayout.CENTER, new TextField("X"));
             Table table = new Table();
+            table.addTableActionListener(new TableActionListener() {
+                @Override
+                public void tableActionPerformed(TableEvent tableEvent) {
+                    GameLog.error(this, tableEvent.getTableObject().getName());
+                }
+            });
             add(BorderLayout.CENTER, table);
             for (int i=0; i<10; i++) {
                 table.addRow("Item " + i);

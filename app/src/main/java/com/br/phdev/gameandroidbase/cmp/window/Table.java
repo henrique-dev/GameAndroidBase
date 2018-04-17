@@ -26,6 +26,8 @@ import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.effect.FlashEffect;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
+import com.br.phdev.gameandroidbase.cmp.listeners.Listener;
+import com.br.phdev.gameandroidbase.cmp.listeners.TableActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.TableEvent;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
@@ -83,6 +85,17 @@ public class Table extends WindowEntity implements ActionListener {
         }
     }
 
+    public void addTableActionListener(TableActionListener tableActionListener) {
+        super.addListener(0, tableActionListener);
+    }
+
+    @Override
+    public void actionPerformed(Event evt) {
+        if (listeners.size() > 0)
+            ((TableActionListener)super.listeners.get(0)).tableActionPerformed((TableEvent)evt);
+    }
+
+
     @Override
     public void update() {
         super.update();
@@ -120,37 +133,14 @@ public class Table extends WindowEntity implements ActionListener {
                     this.fireListeners(event, ClickListener.PRESSED_PERFORMED);
                     this.onArea = true;
                     this.clickedOnArea = true;
-                    /*
-                    if (fireActionType == ACTION_TYPE_ON_CLICK) {
-                        if (clickEffect != null)
-                            this.clickEffect.start(event);
-                        else
-                            this.fireListeners(event, ActionListener.ACTION_PERFORMED);
-                        this.clicked = true;
-                    }
-                    */
                     this.canPerformAction = true;
                     break;
                 case MotionEvent.ACTION_UP:
                     if (this.onArea && this.clickedOnArea) {
-                        /*
-                        if (fireActionType == ACTION_TYPE_ON_RELEASE) {
-                            this.clicked = true;
-                            if (clickEffect != null)
-                                this.clickEffect.start(event);
-                            else {
-                                this.fireListeners(event, ActionListener.ACTION_PERFORMED);
-                                this.clicked = false;
-                            }
-                        }
-                        */
                         if (this.canPerformAction)
                             for (Row row : this.rows)
                                 if (haveCollision(x, y, row))
                                     row.clickEffect.start(new TableEvent(row.tableObject));
-                                    //row.fireListeners(new Event((int)x, (int)y), ActionListener.ACTION_PERFORMED);
-                            //this.fireListeners(event, ActionListener.ACTION_PERFORMED);
-                        //this.fireListeners(event, ClickListener.RELEASE_PERFORMED);
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
@@ -192,11 +182,6 @@ public class Table extends WindowEntity implements ActionListener {
                 }
         }
         return true;
-    }
-
-    @Override
-    public void actionPerformed(Event evt) {
-        GameLog.error(this, ((TableEvent)evt).getTableObject().getName());
     }
 
     private class Row extends WindowEntity{

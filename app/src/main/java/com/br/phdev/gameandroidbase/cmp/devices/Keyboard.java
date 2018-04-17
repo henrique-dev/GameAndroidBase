@@ -25,8 +25,8 @@ import android.view.MotionEvent;
 import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.cmp.Entity;
+import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
-import com.br.phdev.gameandroidbase.cmp.window.WindowEntity;
 import com.br.phdev.gameandroidbase.cmp.effect.FadeEffect;
 import com.br.phdev.gameandroidbase.cmp.effect.FlashEffect;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
@@ -37,8 +37,10 @@ import com.br.phdev.gameandroidbase.cmp.window.Button;
 import com.br.phdev.gameandroidbase.cmp.window.Formable;
 import com.br.phdev.gameandroidbase.cmp.window.GridLayout;
 import com.br.phdev.gameandroidbase.cmp.window.Layout;
+import com.br.phdev.gameandroidbase.cmp.window.WindowEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Teclado utilizado para entidades que contenham entrada de texto.
@@ -53,7 +55,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
     /**
      * Teclas do teclado.
      */
-    private ArrayList<WindowEntity> buttonKeys;
+    private List<Key> buttonKeys;
 
     /**
      * Estado ativo do teclado no contexto.
@@ -106,20 +108,26 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         int keyCode[] = {16, 23, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5,
                 6, 7, 9, 10, 11, 25, 22, 2, 21, 1, 13, 12, 26, 27};
         for (int i=0; i<28; i++) {
-            final Button button = new Button(getChar(keyCode[i]) + "");
-            FlashEffect flashEffect = new FlashEffect();
-            flashEffect.setSpeed(1);
-            button.setClickEffect(flashEffect);
-            button.setTextSize(GameParameters.getInstance().screenSize.width() / 20);
-            button.setFireActionType(ACTION_TYPE_ON_CLICK);
-            button.setEdgeSize(1);
-            final KeyboardEvent keyboardEvent = new KeyboardEvent(keyCode[i]);
+            final Key button = new Key(keyCode[i]);
+
+            //FlashEffect flashEffect = new FlashEffect();
+            //flashEffect.setSpeed(1);
+            //button.setClickEffect(flashEffect);
+            //button.setTextSize(GameParameters.getInstance().screenSize.width() / 20);
+            //button.setFireActionType(ACTION_TYPE_ON_CLICK);
+            //button.setEdgeSize(1);
+
+            //final KeyboardEvent keyboardEvent = new KeyboardEvent(keyCode[i]);
+            /*
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(Event evt) {
                     ((KeyboardListener)Keyboard.super.getListener(0)).keyPressed(keyboardEvent);
                 }
             });
+            */
+            button.addActionListener(this);
+
             button.setColor(Color.GREEN);
             this.buttonKeys.add(button);
             this.layout.format();
@@ -184,8 +192,13 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
     }
 
     @Override
-    public ArrayList<WindowEntity> get() {
-        return this.buttonKeys;
+    public Entity get(int index) {
+        return this.buttonKeys.get(index);
+    }
+
+    @Override
+    public int size() {
+        return this.buttonKeys.size();
     }
 
     /**
@@ -263,8 +276,6 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         for (Entity ent : this.buttonKeys)
             if (ent.isActive())
                 ent.update();
-
-
     }
 
     @Override
@@ -292,11 +303,10 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         float y = motionEvent.getY();
 
         if (haveCollision(x, y, this)) {
-            for (WindowEntity ent : this.buttonKeys) {
-                //if (haveCollision(x, y, ent))
-                    
-                if (ent.isActive())
-                    ent.onTouchEvent(motionEvent);
+            for (Key key : this.buttonKeys) {
+                if (haveCollision(x, y, key))
+                    key.onTouchEvent(motionEvent);
+                    //key.clickEffect.start(new KeyboardEvent(key.getKeyCode()));
             }
             return true;
         } else
@@ -307,14 +317,72 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
 
     @Override
     public void actionPerformed(Event evt) {
-
+        ((KeyboardListener)this.entity).keyPressed((KeyboardEvent)evt);
     }
 
-    private class Key extends WindowEntity {
+    private class Key extends Button {
 
-        Key(char key) {
-            super(new Rect(), new Text(key + ""));
+        private int keyCode;
+
+        Key(int keyCode) {
+            super(new Rect(), new Text(Keyboard.getChar(keyCode) + ""));
+            this.keyCode = keyCode;
+            FlashEffect flashEffect = new FlashEffect();
+            flashEffect.setSpeed(1);
+            setClickEffect(flashEffect);
+            setTextSize(GameParameters.getInstance().screenSize.width() / 20);
+            setEdgeSize(1);
+
         }
 
+        public int getKeyCode() {
+            return keyCode;
+        }
+
+        public void setKeyCode(int keyCode) {
+            this.keyCode = keyCode;
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            if (this.clicked)
+                return false;
+
+            int action = motionEvent.getActionMasked();
+            float x = motionEvent.getX();
+            float y = motionEvent.getY();
+
+            if (haveCollision(x, y, this)) {
+
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        this.fireListeners(new KeyboardEvent(keyCode), ClickListener.PRESSED_PERFORMED);
+                        this.onArea = true;
+                        this.clickedOnArea = true;
+                        if (clickEffect != null)
+                            this.clickEffect.start(new KeyboardEvent(keyCode));
+                        else
+                            this.fireListeners(new KeyboardEvent(keyCode), ActionListener.ACTION_PERFORMED);
+                        this.clicked = true;
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (this.clickedOnArea)
+                            this.onArea = true;
+                        break;
+                }
+            } else {
+                this.onArea = false;
+                if (this.clickedOnArea)
+                    switch (action) {
+                        case MotionEvent.ACTION_UP:
+                            this.clickedOnArea = false;
+                            break;
+                        case MotionEvent.ACTION_DOWN:
+                            this.clickedOnArea = false;
+                            break;
+                    }
+            }
+            return true;
+        }
     }
 }
