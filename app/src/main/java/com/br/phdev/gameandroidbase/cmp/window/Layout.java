@@ -24,9 +24,14 @@ import com.br.phdev.gameandroidbase.cmp.Entity;
  */
 public abstract class Layout {
 
-    int spaceH = GameParameters.getInstance().screenSize.width() / 50;
-    int spaceV = spaceH;
+    /**
+     * Espaçamento horizontal e vertical entre os componentes.
+     */
+    int spaceH = GameParameters.getInstance().screenSize.width() / 50; int spaceV = spaceH;
 
+    /**
+     * Entidade contendo os componentes a serem formatados pelo layout.
+     */
     protected Entity entity;
 
     /**
@@ -38,18 +43,34 @@ public abstract class Layout {
         this.format();
     }
 
+    /**
+     * Retorna o tamanho espaçamento horizontal entre os componentes.
+     * @return tamanho do espaçamento horizontal.
+     */
     public int getSpaceH() {
         return this.spaceH;
     }
 
+    /**
+     * Redefine o tamanho do espaçamento horizontal entre os componentes.
+     * @param spaceH tamanho do espaçamento horizontal.
+     */
     public void setSpaceH(int spaceH) {
         this.spaceH = spaceH;
     }
 
+    /**
+     * Retorna o tamanho espaçamento vertical entre os componentes.
+     * @return tamanho do espaçamento vertical.
+     */
     public int getSpaceV() {
         return this.spaceV;
     }
 
+    /**
+     * Redefine o tamanho do espaçamento vertical entre os componentes.
+     * @param spaceV tamanho do espaçamento vertical.
+     */
     public void setSpaceV(int spaceV) {
         this.spaceV = spaceV;
     }

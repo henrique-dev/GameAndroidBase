@@ -25,7 +25,17 @@ import java.util.ArrayList;
  */
 public interface Formable {
 
+    /**
+     * Retorna o tamanho da lista de componentes a serem formatados.
+     * @return tamanho da lista.
+     */
     int size();
+
+    /**
+     * Retorna um elemento especifico da lista.
+     * @param index posição na lista.
+     * @return entidade da lista.
+     */
     Entity get(int index);
 
 }

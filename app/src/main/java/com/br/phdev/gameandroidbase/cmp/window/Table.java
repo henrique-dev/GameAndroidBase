@@ -35,21 +35,39 @@ import com.br.phdev.gameandroidbase.cmp.utils.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe responsavel pela criação de tabelas para janelas.
+ */
 public class Table extends WindowEntity implements ActionListener {
 
+    /**
+     * Lista de componentes da tabela (Cada componente equivale a uma linha).
+     */
     private List<Row> rows;
 
+    /**
+     * Estado de poder executar o listner da linha.
+     */
     private boolean canPerformAction;
 
+    /**
+     * Quantidade de linhas visiveis sem scroll.
+     */
     private int rowsPerView = 6;
-    private int colunms;
 
+    /**
+     * Cria uma nova tabela.
+     */
     public Table() {
         super();
         super.defaultPaint.setColor(Color.GREEN);
         this.rows = new ArrayList<>();
     }
 
+    /**
+     * Adiciona uma linha na tabela.
+     * @param text texto para a linha.
+     */
     public void addRow(String text) {
         Row row = new Row(text);
 
@@ -65,6 +83,10 @@ public class Table extends WindowEntity implements ActionListener {
         this.rows.add(row);
     }
 
+    /**
+     * Adiciona uma linha na tabela.
+     * @param tableObject objeto para a linha.
+     */
     public void addRow(TableObject tableObject) {
         Row row = new Row(tableObject);
 
@@ -79,12 +101,20 @@ public class Table extends WindowEntity implements ActionListener {
         this.rows.add(row);
     }
 
+    /**
+     * Caso haja mais componentes que as linhas  visiveis sem scroll, as linhas se movem.
+     * @param y deslocamento em y.
+     */
     private void move(float y) {
         for (Entity ent : this.rows) {
             move(ent, 0, y);
         }
     }
 
+    /**
+     * Adiciona uma escuta para ser executada quando houver interação em alguma linha.
+     * @param tableActionListener escuta para ser executada.
+     */
     public void addTableActionListener(TableActionListener tableActionListener) {
         super.addListener(0, tableActionListener);
     }
@@ -94,7 +124,6 @@ public class Table extends WindowEntity implements ActionListener {
         if (listeners.size() > 0)
             ((TableActionListener)super.listeners.get(0)).tableActionPerformed((TableEvent)evt);
     }
-
 
     @Override
     public void update() {
@@ -113,7 +142,7 @@ public class Table extends WindowEntity implements ActionListener {
         canvas.restoreToCount(savedState);
     }
 
-    private float px = 0, py = 0;
+    private float py = 0;
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
@@ -163,7 +192,6 @@ public class Table extends WindowEntity implements ActionListener {
                     }
                     break;
             }
-            px = x;
             py = y;
         } else {
             this.onArea = false;

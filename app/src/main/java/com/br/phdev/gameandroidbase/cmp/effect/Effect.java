@@ -37,6 +37,9 @@ public abstract class Effect implements Animation {
      */
     protected ActionListener actionListener;
 
+    /**
+     * Evento à lançar para a escuta.
+     */
     protected Event event;
 
     /**

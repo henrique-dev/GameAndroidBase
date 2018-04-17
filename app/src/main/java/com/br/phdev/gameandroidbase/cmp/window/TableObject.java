@@ -16,24 +16,51 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
+/**
+ * Classe para criação de objetos(linhas) para a tabela.
+ */
 public final class TableObject {
 
+    /**
+     * Texto para o objeto.
+     */
     private String name;
+
+    /**
+     * Objeto qualquer a ser repassado como evento para a escuta.
+     */
     private Object object;
 
+    /**
+     * Cria um novo objeto(linha) para a tabela.
+     * @param name texto para o objeto.
+     */
     public TableObject(String name) {
         this.name = name;
     }
 
+    /**
+     * Cria um novo objeto(linha) para a tabela.
+     * @param name texto para o objeto.
+     * @param object objeto a ser repassado como evento para a escuta.
+     */
     public TableObject(String name, Object object) {
         this.name = name;
         this.object = object;
     }
 
+    /**
+     * Retorna o texto do objeto.
+     * @return texto do objeto.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Redefine o texto do objeto.
+     * @param name texto para o objeto.
+     */
     public void setName(String name) {
         this.name = name;
     }

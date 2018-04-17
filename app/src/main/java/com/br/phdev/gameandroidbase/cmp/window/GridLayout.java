@@ -28,32 +28,57 @@ import java.util.ArrayList;
  */
 public class GridLayout extends Layout {
 
+    /**
+     * Quantidade linhas e colunas para o grid.
+     */
     private int rows, columns;
 
+    /**
+     * Cria um novo layout.
+     * @param rows numero de linhas do grid.
+     * @param columns numero de colunas do grid.
+     */
     public GridLayout(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
     }
 
+    /**
+     * Retorna o numero de linhas do grid.
+     * @return numero de linhas.
+     */
     public int getRows() {
         return rows;
     }
 
+    /**
+     * Redefine o numero de linhas do grid.
+     * @param rows
+     */
     public void setRows(int rows) {
         this.rows = rows;
+        this.format();
     }
 
+    /**
+     * Retorna o numero de colunas do grid.
+     * @return numero de colunas.
+     */
     public int getColumns() {
         return columns;
     }
 
+    /**
+     * Redefine o numero de colunas do grid.
+     * @param columns numero de colunas.
+     */
     public void setColumns(int columns) {
         this.columns = columns;
+        this.format();
     }
 
     @Override
     public void format() {
-        //ArrayList<WindowEntity> tmpEntities = ((Formable)super.entity).get();
         Formable componentsSource = ((Formable)super.entity);
         if (!(componentsSource.size() > 0))
             return;

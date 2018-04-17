@@ -27,7 +27,6 @@ public interface ActionListener extends Listener {
     int ACTION_PERFORMED = 0;
 
     /**
-     * Metodo para ação do herdeiro.
      * @param evt evento de quem despacha a ação.
      */
     void actionPerformed(Event evt);

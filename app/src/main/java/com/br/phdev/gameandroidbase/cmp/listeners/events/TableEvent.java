@@ -18,19 +18,29 @@ package com.br.phdev.gameandroidbase.cmp.listeners.events;
 
 import com.br.phdev.gameandroidbase.cmp.window.TableObject;
 
+/**
+ * Classe responsavel pela criação de eventos lançados pelo componente da tabela.
+ */
 public class TableEvent extends Event {
 
-    private TableObject tableObject;
+    /**
+     * Objeto a repassar para a escuta.
+     */
+    final private TableObject tableObject;
 
+    /**
+     * Cria um novo evento.
+     * @param tableObject objeto da lista do componente tabela.
+     */
     public TableEvent(TableObject tableObject) {
         this.tableObject = tableObject;
     }
 
+    /**
+     * Retorna o objeto repassado pelo componente da tabela.
+     * @return objeto da tabela.
+     */
     public TableObject getTableObject() {
         return tableObject;
-    }
-
-    public void setTableObject(TableObject tableObject) {
-        this.tableObject = tableObject;
     }
 }

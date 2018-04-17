@@ -18,9 +18,11 @@
 
 package com.br.phdev.gameandroidbase.cmp.effect;
 
-import com.br.phdev.gameandroidbase.cmp.Drawable;
 import com.br.phdev.gameandroidbase.cmp.Updateable;
 
+/**
+ * Interface consumida por todos os efeitos aplicaveis em entidades.
+ */
 interface Animation extends Updateable {
 
 }

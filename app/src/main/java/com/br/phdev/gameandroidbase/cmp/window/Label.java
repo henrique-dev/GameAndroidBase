@@ -51,22 +51,45 @@ public class Label extends WindowEntity {
         super(area);
     }
 
+    /**
+     * Cria um label contendo um texto em uma area.
+     * @param area area para o label
+     * @param labelText texto para o label.
+     */
     public Label(Rect area, String labelText) {
         super(area, new Text(labelText));
     }
 
+    /**
+     * Cria um label contendo um texto em uma area.
+     * @param area area para o label.
+     * @param text texto para o label.
+     */
     public Label(Rect area, Text text) {
         super(area, text);
     }
 
+    /**
+     * Cria um label contendo um texto.
+     * * Usado para colocar a entidade em um layout, e deixar ela definir a area para o label.
+     * @param text
+     */
     public Label(String text) {
         super(new Rect(), new Text(text));
     }
 
+    /**
+     * Redefine a escuta para eventos de ação para o label.
+     * @param actionListener nova escuta pra o label.
+     */
     public void addActionListener(ActionListener actionListener) {
         super.addListener(actionListener);
     }
 
+    /**
+     * Redefine a escuta de eventos de clique para o label.
+     * @param clickListener nova escuta para o label.
+     */
     public void addClickListener(ClickListener clickListener) {
         super.addListener(clickListener);
     }

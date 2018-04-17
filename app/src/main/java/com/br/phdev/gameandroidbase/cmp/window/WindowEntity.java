@@ -228,7 +228,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
      * @param evt evento lançado de quem ativou a escuta.
      * @param type ActionListener.ACTION_PERFORMED, ClickListener.PRESSED_PERFORMED ou ClickListener.RELEASE_PERFORMED.
      */
-    public void fireListeners(Event evt, int type) {
+    protected void fireListeners(Event evt, int type) {
         try {
             for (Listener listener : this.listeners)
                 if (type == ActionListener.ACTION_PERFORMED && listener instanceof ActionListener) {
@@ -248,7 +248,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
      * Redefine o efeito de clique do botão com efeitos padrões.
      * @param clickEffect efeito de clique para o botão.
      */
-    public void changeClickEffect(int clickEffect) {
+    protected void changeClickEffect(int clickEffect) {
         DEFAULT_CLICK_EFFECT = clickEffect;
         if (clickEffect == Effect.FADE_IN_OUT) {
             this.clickEffect = new FadeEffect(this, FadeEffect.FADE_OUT, new ActionListener() {
@@ -275,7 +275,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
      * Redefine o efeito de clique do botão com efeitos customizados.
      * @param effect efeito de clique para o botão.
      */
-    public void setClickEffect(ClickEffect effect) {
+    protected void setClickEffect(ClickEffect effect) {
         this.clickEffect = (Effect)effect;
         this.clickEffect.setEntity(this);
         this.clickEffect.setActionListener(new ActionListener() {

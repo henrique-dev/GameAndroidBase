@@ -108,28 +108,10 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         int keyCode[] = {16, 23, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5,
                 6, 7, 9, 10, 11, 25, 22, 2, 21, 1, 13, 12, 26, 27};
         for (int i=0; i<28; i++) {
-            final Key button = new Key(keyCode[i]);
-
-            //FlashEffect flashEffect = new FlashEffect();
-            //flashEffect.setSpeed(1);
-            //button.setClickEffect(flashEffect);
-            //button.setTextSize(GameParameters.getInstance().screenSize.width() / 20);
-            //button.setFireActionType(ACTION_TYPE_ON_CLICK);
-            //button.setEdgeSize(1);
-
-            //final KeyboardEvent keyboardEvent = new KeyboardEvent(keyCode[i]);
-            /*
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(Event evt) {
-                    ((KeyboardListener)Keyboard.super.getListener(0)).keyPressed(keyboardEvent);
-                }
-            });
-            */
-            button.addActionListener(this);
-
-            button.setColor(Color.GREEN);
-            this.buttonKeys.add(button);
+            final Key key = new Key(keyCode[i]);
+            key.addActionListener(this);
+            key.setColor(Color.GREEN);
+            this.buttonKeys.add(key);
             this.layout.format();
         }
         final FadeEffect fadeEffect1 = new FadeEffect(this, FadeEffect.FADE_OUT, new ActionListener() {

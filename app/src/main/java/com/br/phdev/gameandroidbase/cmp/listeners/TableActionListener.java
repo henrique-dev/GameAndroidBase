@@ -18,8 +18,14 @@ package com.br.phdev.gameandroidbase.cmp.listeners;
 
 import com.br.phdev.gameandroidbase.cmp.listeners.events.TableEvent;
 
+/**
+ * Interface para interceptar e lançar eventos do componente tabela.
+ */
 public interface TableActionListener extends Listener {
 
+    /**
+     * @param tableEvent evento lançado pela tabela.
+     */
     void tableActionPerformed(TableEvent tableEvent);
 
 }

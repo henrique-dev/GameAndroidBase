@@ -68,9 +68,6 @@ public class ListLayout extends Layout{
 
     @Override
     public void format() {
-        //ArrayList<WindowEntity> tmpEntities = ((Window)super.entity).get();
-        //if (!(tmpEntities.size() > 0))
-          //  return;
         Formable componentsSource = ((Formable)super.entity);
         if (!(componentsSource.size() > 0))
             return;
