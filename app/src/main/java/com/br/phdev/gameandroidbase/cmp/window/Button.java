@@ -16,9 +16,9 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
+import android.graphics.Color;
 import android.graphics.Rect;
 
-import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
@@ -78,6 +78,7 @@ public class Button extends WindowEntity {
     public Button(String textButton) {
         super(new Rect(), new Text(textButton));
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
+        super.defaultPaint.setColor(Color.YELLOW);
     }
 
     @Override

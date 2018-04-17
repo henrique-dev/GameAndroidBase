@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar 
+ * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,17 +16,33 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
-import java.util.ArrayList;
+public final class TableObject {
 
-/**
- * Interface consumida por todas as entidades que aceitam layouts para organização dos compónentes.
- */
-public interface Formable {
+    private String name;
+    private Object object;
 
-    /**
-     * Pega uma lista de entidades para organiza-las de acordo com o layout.
-     * @return lista de entidades organizaveis.
-     */
-    ArrayList<WindowEntity> get();
+    public TableObject(String name) {
+        this.name = name;
+    }
 
+    public TableObject(String name, Object object) {
+        this.name = name;
+        this.object = object;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
+    }
 }

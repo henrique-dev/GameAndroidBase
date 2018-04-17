@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar 
+ * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,19 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.cmp.window;
+package com.br.phdev.gameandroidbase.cmp.listeners.events;
 
-import java.util.ArrayList;
+import com.br.phdev.gameandroidbase.cmp.window.TableObject;
 
-/**
- * Interface consumida por todas as entidades que aceitam layouts para organização dos compónentes.
- */
-public interface Formable {
+public class TableEvent extends Event {
 
-    /**
-     * Pega uma lista de entidades para organiza-las de acordo com o layout.
-     * @return lista de entidades organizaveis.
-     */
-    ArrayList<WindowEntity> get();
+    private TableObject tableObject;
 
+    public TableEvent(TableObject tableObject) {
+        this.tableObject = tableObject;
+    }
+
+    public TableObject getTableObject() {
+        return tableObject;
+    }
+
+    public void setTableObject(TableObject tableObject) {
+        this.tableObject = tableObject;
+    }
 }

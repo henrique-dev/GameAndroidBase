@@ -18,9 +18,7 @@ package com.br.phdev.gameandroidbase.cmp.window;
 
 import android.graphics.Rect;
 
-import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.cmp.Entity;
-import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 
 import java.util.ArrayList;
 

@@ -25,6 +25,8 @@ public class Event {
     public int x;
     public int y;
 
+    public Event() {};
+
     public Event(int x, int y) {
         this.x = x;
         this.y = y;

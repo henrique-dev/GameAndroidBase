@@ -25,7 +25,8 @@ import android.view.MotionEvent;
 import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.cmp.Entity;
-import com.br.phdev.gameandroidbase.cmp.WindowEntity;
+import com.br.phdev.gameandroidbase.cmp.utils.Text;
+import com.br.phdev.gameandroidbase.cmp.window.WindowEntity;
 import com.br.phdev.gameandroidbase.cmp.effect.FadeEffect;
 import com.br.phdev.gameandroidbase.cmp.effect.FlashEffect;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 /**
  * Teclado utilizado para entidades que contenham entrada de texto.
  */
-public final class Keyboard extends WindowEntity implements Formable{
+public final class Keyboard extends WindowEntity implements Formable, ActionListener{
 
     /**
      * Layout do teclado.
@@ -286,8 +287,14 @@ public final class Keyboard extends WindowEntity implements Formable{
     public boolean onTouchEvent(MotionEvent motionEvent) {
         if (!super.visible)
             return false;
-        if (haveCollision(motionEvent.getX(), motionEvent.getY(), this)) {
+
+        float x = motionEvent.getX();
+        float y = motionEvent.getY();
+
+        if (haveCollision(x, y, this)) {
             for (WindowEntity ent : this.buttonKeys) {
+                //if (haveCollision(x, y, ent))
+                    
                 if (ent.isActive())
                     ent.onTouchEvent(motionEvent);
             }
@@ -296,5 +303,18 @@ public final class Keyboard extends WindowEntity implements Formable{
             if (!haveCollision(motionEvent.getX(), motionEvent.getY(), this.entity))
                 this.setKeyboardOn(false);
         return false;
+    }
+
+    @Override
+    public void actionPerformed(Event evt) {
+
+    }
+
+    private class Key extends WindowEntity {
+
+        Key(char key) {
+            super(new Rect(), new Text(key + ""));
+        }
+
     }
 }

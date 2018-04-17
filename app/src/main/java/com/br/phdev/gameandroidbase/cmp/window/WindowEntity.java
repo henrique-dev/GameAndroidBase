@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.cmp;
+package com.br.phdev.gameandroidbase.cmp.window;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -22,6 +22,8 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.GameLog;
+import com.br.phdev.gameandroidbase.cmp.Controllable;
+import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.effect.ClickEffect;
 import com.br.phdev.gameandroidbase.cmp.effect.Effect;
 import com.br.phdev.gameandroidbase.cmp.effect.FadeEffect;
@@ -78,17 +80,17 @@ public abstract class WindowEntity extends Entity implements Controllable {
     /**
      * Estado de selecionado da entidade.
      */
-    private boolean clicked;
+    protected boolean clicked;
 
     /**
      * Estado de sobre a area da entidade.
      */
-    private boolean onArea;
+    protected boolean onArea;
 
     /**
      * Estado de clicado sobre a area da entidade.
      */
-    private boolean clickedOnArea;
+    protected boolean clickedOnArea;
 
     /**
      * Cria uma entidade para janela.
@@ -162,14 +164,6 @@ public abstract class WindowEntity extends Entity implements Controllable {
     }
 
     /**
-     * Redefine o efeito de clique associado a entidade.
-     * @param effect efeito de clique para a entidade.
-     */
-    protected void setClickEffect(Effect effect) {
-        this.clickEffect = effect;
-    }
-
-    /**
      * Retorna o {@link Text} vinculado a entidade.
      * @return {@link Text} da entidade.
      */
@@ -230,21 +224,11 @@ public abstract class WindowEntity extends Entity implements Controllable {
     }
 
     /**
-     * Aciona as escutas do botão.
-     * @param evt evento lançado.
-     */
-    protected void fireActionListeners(Event evt) {
-        for (Listener listener : this.listeners)
-            if (listener instanceof ActionListener)
-                ((ActionListener)listener).actionPerformed(evt);
-    }
-
-    /**
      * Executa as escutas de acordo com o tipo repassado.
      * @param evt evento lançado de quem ativou a escuta.
      * @param type ActionListener.ACTION_PERFORMED, ClickListener.PRESSED_PERFORMED ou ClickListener.RELEASE_PERFORMED.
      */
-    protected void fireListeners(Event evt, int type) {
+    public void fireListeners(Event evt, int type) {
         try {
             for (Listener listener : this.listeners)
                 if (type == ActionListener.ACTION_PERFORMED && listener instanceof ActionListener) {
@@ -292,7 +276,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
      * @param effect efeito de clique para o botão.
      */
     public void setClickEffect(ClickEffect effect) {
-        this.setClickEffect((Effect) effect);
+        this.clickEffect = (Effect)effect;
         this.clickEffect.setEntity(this);
         this.clickEffect.setActionListener(new ActionListener() {
             @Override

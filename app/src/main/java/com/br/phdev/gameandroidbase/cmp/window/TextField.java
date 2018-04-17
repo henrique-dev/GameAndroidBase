@@ -19,7 +19,6 @@ package com.br.phdev.gameandroidbase.cmp.window;
 import android.graphics.Color;
 import android.graphics.Rect;
 
-import com.br.phdev.gameandroidbase.cmp.WindowEntity;
 import com.br.phdev.gameandroidbase.cmp.devices.Keyboard;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.KeyboardListener;

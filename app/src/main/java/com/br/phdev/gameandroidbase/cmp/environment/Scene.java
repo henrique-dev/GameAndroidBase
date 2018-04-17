@@ -22,11 +22,10 @@ import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.DeviceManager;
 import com.br.phdev.gameandroidbase.SoundManager;
-import com.br.phdev.gameandroidbase.cmp.Component;
 import com.br.phdev.gameandroidbase.cmp.Controllable;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.GameEntity;
-import com.br.phdev.gameandroidbase.cmp.WindowEntity;
+import com.br.phdev.gameandroidbase.cmp.window.WindowEntity;
 
 import java.util.ArrayList;
 

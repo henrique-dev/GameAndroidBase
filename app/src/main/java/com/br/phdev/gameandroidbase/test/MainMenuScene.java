@@ -41,6 +41,7 @@ import com.br.phdev.gameandroidbase.cmp.window.Button;
 import com.br.phdev.gameandroidbase.cmp.window.GridLayout;
 import com.br.phdev.gameandroidbase.cmp.window.Label;
 import com.br.phdev.gameandroidbase.cmp.window.ListLayout;
+import com.br.phdev.gameandroidbase.cmp.window.Table;
 import com.br.phdev.gameandroidbase.cmp.window.TextField;
 import com.br.phdev.gameandroidbase.cmp.window.Window;
 
@@ -157,9 +158,14 @@ public class MainMenuScene extends Scene {
             });
             super.add(BorderLayout.RIGHT, button);
 
-            add(BorderLayout.CENTER, new TextField("X"));
-            add(BorderLayout.CENTER, new TextField("X"));
-            add(BorderLayout.CENTER, new TextField("X"));
+            //add(BorderLayout.CENTER, new TextField("X"));
+            //add(BorderLayout.CENTER, new TextField("X"));
+            //add(BorderLayout.CENTER, new TextField("X"));
+            Table table = new Table();
+            add(BorderLayout.CENTER, table);
+            for (int i=0; i<10; i++) {
+                table.addRow("Item " + i);
+            }
 
         }
 
