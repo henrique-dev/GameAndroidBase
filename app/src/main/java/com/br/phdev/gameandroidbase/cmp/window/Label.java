@@ -78,6 +78,14 @@ public class Label extends WindowEntity {
         super(new Rect(), new Text(text));
     }
 
+    public void setText(String text) {
+        super.entityText.setText(text);
+    }
+
+    public String getText() {
+        return super.entityText.toString();
+    }
+
     /**
      * Redefine a escuta para eventos de ação para o label.
      * @param actionListener nova escuta pra o label.

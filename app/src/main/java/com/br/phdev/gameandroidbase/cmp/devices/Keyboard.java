@@ -37,6 +37,7 @@ import com.br.phdev.gameandroidbase.cmp.window.Button;
 import com.br.phdev.gameandroidbase.cmp.window.Formable;
 import com.br.phdev.gameandroidbase.cmp.window.GridLayout;
 import com.br.phdev.gameandroidbase.cmp.window.Layout;
+import com.br.phdev.gameandroidbase.cmp.window.ListLayout;
 import com.br.phdev.gameandroidbase.cmp.window.WindowEntity;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
     /**
      * Teclas do teclado.
      */
-    private List<Key> buttonKeys;
+    private List<WindowEntity> buttonKeys;
 
     /**
      * Estado ativo do teclado no contexto.
@@ -93,7 +94,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
      */
     public void loadComponents() {
         this.buttonKeys = new ArrayList<>();
-        GridLayout gridLayout = new GridLayout(3 ,10);
+        GridLayout gridLayout = new GridLayout(4 ,10);
         gridLayout.set(this);
         gridLayout.setSpaceH(1);
         gridLayout.setSpaceV(1);
@@ -105,15 +106,96 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
                 GameLog.debug(this, "Nenhum entidade registrada no teclado! Key: " + keyboardEvent.keyCode);
             }
         });
+        setKeys();
+        /*
         int keyCode[] = {16, 23, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5,
                 6, 7, 9, 10, 11, 25, 22, 2, 21, 1, 13, 12, 26, 27};
         for (int i=0; i<28; i++) {
-            final Key key = new Key(keyCode[i]);
+            Key key = new Key(keyCode[i]);
             key.addActionListener(this);
             key.setColor(Color.GREEN);
             this.buttonKeys.add(key);
             this.layout.format();
+        }*/
+
+        addKeyboardEffect();
+    }
+
+    private void setKeys() {
+
+        int keyHeight = super.getHeight()/4;
+        int keyWidth = super.getWidth()/10;
+
+        int keyCode[] = {16, 23, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5,
+                6, 7, 9, 10, 11, 25, 22, 2, 21, 1, 13, 12, 26, 27};
+
+        for (int i=0; i<10; i++) {
+            Key key = new Key(keyCode[i]);
+            key.addActionListener(this);
+            key.setColor(Color.GREEN);
+            key.setArea(new Rect(i * keyWidth, super.getY(), (i+1) * keyWidth, super.getY() + keyHeight));
+            this.buttonKeys.add(key);
         }
+
+        for (int i=0; i<9; i++) {
+            Key key = new Key(keyCode[i + 10]);
+            key.addActionListener(this);
+            key.setColor(Color.GREEN);
+            key.setArea(new Rect(
+                    keyWidth/2 + i * keyWidth,
+                    super.getY() + keyHeight,
+                    keyWidth/2 + (i+1) * keyWidth,
+                    super.getY() + (keyHeight * 2)));
+            this.buttonKeys.add(key);
+        }
+
+        for (int i=0; i<7; i++) {
+            Key key = new Key(keyCode[i + 19]);
+            key.addActionListener(this);
+            key.setColor(Color.GREEN);
+            key.setArea(new Rect(
+                    keyWidth/2 + (i * keyWidth),
+                    super.getY() + (keyHeight * 2),
+                    keyWidth/2 + (i+1) * keyWidth,
+                    super.getY() + (keyHeight * 3)));
+            this.buttonKeys.add(key);
+            if (i == 6) {
+                Key backspaceKey = new Key(27);
+                backspaceKey.addActionListener(this);
+                backspaceKey.setColor(Color.GREEN);
+                backspaceKey.setArea(new Rect(
+                        keyWidth/2 + ((i+1) * keyWidth),
+                        super.getY() + (keyHeight * 2),
+                        keyWidth/2 + ((i+3) * keyWidth),
+                        super.getY() + (keyHeight * 3)));
+                this.buttonKeys.add(backspaceKey);
+            }
+        }
+        Key spaceKey = new Key(26);
+        spaceKey.addActionListener(this);
+        spaceKey.setColor(Color.GREEN);
+        spaceKey.setArea(new Rect(
+                super.area.centerX() - (keyWidth * 2),
+                super.getY() + (keyHeight * 3),
+                super.area.centerX() + (keyWidth * 2),
+                super.getY() + (keyHeight * 4)
+        ));
+        this.buttonKeys.add(spaceKey);
+
+        Key confirmKey = new Key(28);
+        confirmKey.addActionListener(this);
+        confirmKey.setColor(Color.GREEN);
+        confirmKey.setArea(new Rect(
+                spaceKey.getArea().right,
+                super.getY() + (keyHeight * 3),
+                spaceKey.getArea().right + (keyWidth * 2),
+                super.getY() + (keyHeight * 4)
+        ));
+        this.buttonKeys.add(confirmKey);
+
+    }
+
+    private void addKeyboardEffect() {
         final FadeEffect fadeEffect1 = new FadeEffect(this, FadeEffect.FADE_OUT, new ActionListener() {
             @Override
             public void actionPerformed(Event evt) {
@@ -125,6 +207,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
                 }
             }
         });
+        fadeEffect1.setSpeed(2);
         super.effects.add(0, fadeEffect1);
 
         final FadeEffect fadeEffect2 = new FadeEffect(this, FadeEffect.FADE_IN, new ActionListener() {
@@ -138,7 +221,17 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
                 }
             }
         });
+        fadeEffect2.setSpeed(2);
         super.effects.add(1, fadeEffect2);
+    }
+
+    private void enableKeyboard() {
+        super.effects.get(1).start(new Event(0, 0));
+        this.keyboardOn = true;
+    }
+
+    private void disableKeyboard() {
+        super.effects.get(0).start(new Event(0,0));
     }
 
     /**
@@ -166,11 +259,10 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
      */
     public void setKeyboardOn(boolean keyboardOn) {
         if (keyboardOn) {
-            super.effects.get(1).start(new Event(0, 0));
-            this.keyboardOn = true;
+            this.enableKeyboard();
         }
         else
-            super.effects.get(0).start(new Event(0,0));
+            this.disableKeyboard();
     }
 
     @Override
@@ -188,6 +280,71 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
      * @param keyCode keycode do {@link KeyboardEvent}.
      * @return charactere atribuido ao keycode.
      */
+    private static String getKeyName(int keyCode) {
+        switch (keyCode) {
+            case KeyboardEvent.KEY_A:
+                return "A";
+            case KeyboardEvent.KEY_B:
+                return "B";
+            case KeyboardEvent.KEY_C:
+                return "C";
+            case KeyboardEvent.KEY_D:
+                return "D";
+            case KeyboardEvent.KEY_E:
+                return "E";
+            case KeyboardEvent.KEY_F:
+                return "F";
+            case KeyboardEvent.KEY_G:
+                return "G";
+            case KeyboardEvent.KEY_H:
+                return "H";
+            case KeyboardEvent.KEY_I:
+                return "I";
+            case KeyboardEvent.KEY_J:
+                return "J";
+            case KeyboardEvent.KEY_K:
+                return "K";
+            case KeyboardEvent.KEY_L:
+                return "L";
+            case KeyboardEvent.KEY_M:
+                return "M";
+            case KeyboardEvent.KEY_N:
+                return "N";
+            case KeyboardEvent.KEY_O:
+                return "O";
+            case KeyboardEvent.KEY_P:
+                return "P";
+            case KeyboardEvent.KEY_Q:
+                return "Q";
+            case KeyboardEvent.KEY_R:
+                return "R";
+            case KeyboardEvent.KEY_S:
+                return "S";
+            case KeyboardEvent.KEY_T:
+                return "T";
+            case KeyboardEvent.KEY_U:
+                return "U";
+            case KeyboardEvent.KEY_V:
+                return "V";
+            case KeyboardEvent.KEY_X:
+                return "X";
+            case KeyboardEvent.KEY_W:
+                return "W";
+            case KeyboardEvent.KEY_Y:
+                return "Y";
+            case KeyboardEvent.KEY_Z:
+                return "Z";
+            case KeyboardEvent.KEY_SPACE:
+                return "Espaço";
+            case KeyboardEvent.KEY_BACKSPACE:
+                return "Apagar";
+            case KeyboardEvent.KEY_CONFIRM:
+                    return "Ok";
+            default:
+                return "?";
+        }
+    }
+
     public static char getChar(int keyCode) {
         switch (keyCode) {
             case KeyboardEvent.KEY_A:
@@ -250,6 +407,15 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
     }
 
     @Override
+    public void actionPerformed(Event evt) {
+        KeyboardEvent keyboardEvent = (KeyboardEvent)evt;
+        if (keyboardEvent.keyCode == KeyboardEvent.KEY_CONFIRM)
+            disableKeyboard();
+        else
+            ((KeyboardListener)this.entity).keyPressed(keyboardEvent);
+    }
+
+    @Override
     public void update() {
         if (!super.visible)
             return;
@@ -285,7 +451,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         float y = motionEvent.getY();
 
         if (haveCollision(x, y, this)) {
-            for (Key key : this.buttonKeys) {
+            for (WindowEntity key : this.buttonKeys) {
                 if (haveCollision(x, y, key))
                     key.onTouchEvent(motionEvent);
                     //key.clickEffect.start(new KeyboardEvent(key.getKeyCode()));
@@ -297,17 +463,12 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         return false;
     }
 
-    @Override
-    public void actionPerformed(Event evt) {
-        ((KeyboardListener)this.entity).keyPressed((KeyboardEvent)evt);
-    }
-
     private class Key extends Button {
 
         private int keyCode;
 
         Key(int keyCode) {
-            super(new Rect(), new Text(Keyboard.getChar(keyCode) + ""));
+            super(new Rect(), new Text(Keyboard.getKeyName(keyCode)));
             this.keyCode = keyCode;
             FlashEffect flashEffect = new FlashEffect();
             flashEffect.setSpeed(1);

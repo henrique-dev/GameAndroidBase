@@ -18,21 +18,17 @@
 
 package com.br.phdev.gameandroidbase.test;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
-import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.R;
-import com.br.phdev.gameandroidbase.cmp.effect.FadeEffect;
 import com.br.phdev.gameandroidbase.cmp.environment.Scene;
 import com.br.phdev.gameandroidbase.cmp.graphics.Sprite;
 import com.br.phdev.gameandroidbase.cmp.graphics.Texture;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
-import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.TableActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.TableEvent;
@@ -40,7 +36,6 @@ import com.br.phdev.gameandroidbase.cmp.sound.Music;
 import com.br.phdev.gameandroidbase.cmp.sound.ShortSound;
 import com.br.phdev.gameandroidbase.cmp.window.BorderLayout;
 import com.br.phdev.gameandroidbase.cmp.window.Button;
-import com.br.phdev.gameandroidbase.cmp.window.GridLayout;
 import com.br.phdev.gameandroidbase.cmp.window.Label;
 import com.br.phdev.gameandroidbase.cmp.window.ListLayout;
 import com.br.phdev.gameandroidbase.cmp.window.Table;
@@ -49,7 +44,7 @@ import com.br.phdev.gameandroidbase.cmp.window.Window;
 
 public class MainMenuScene extends Scene {
 
-    private MainWindow mainWindow;
+    private Window teste;
 
     private Texture texture;
 
@@ -93,9 +88,9 @@ public class MainMenuScene extends Scene {
                 }));
         PUNCH_SOUND = super.getSoundManager().addShortSoundToList(new ShortSound(R.raw.p1, 1, 1, 0, 1f));
 
-        mainWindow = new MainWindow();
+        teste = new Teste02();
         super.getDefaultPaint().setAlpha(0);
-        super.add(mainWindow);
+        super.add(teste);
 
 
         //this.sprites = Sprite.getSpriteFromTexture(heroi, this.texture, 9, 7, 62);
@@ -103,13 +98,74 @@ public class MainMenuScene extends Scene {
         this.visible = true;
     }
 
-    private class MainWindow extends Window {
+    private class Teste02 extends Window {
+
+        TextField textCelsius;
+        Label resultado;
+
+        public Teste02() {
+            super();
+            int divWidth = (GameParameters.getInstance().screenSize.width()/8);
+            int divHeight = (GameParameters.getInstance().screenSize.height()/8);
+            int spaceW = 20;
+            int spaceH = 20;
+            float defaultTextSize = (divHeight/2) * 0.9f;
+            super.getDefaultPaint().setAlpha(0);
+
+            super.getArea().set(0, 0, MainMenuScene.this.area.width(), MainMenuScene.this.area.height());
+
+            super.setLayout(new ListLayout(ListLayout.VERTICAL_ALIGNMENT));
+            Label labelInfo = new Label("Conversão de graus\nCelsius > Fahrenheit");
+            labelInfo.getEntityText().setTextSize(defaultTextSize);
+            labelInfo.getEntityText().getDefaultPaint().setColor(Color.WHITE);
+            super.add(labelInfo);
+
+            Label labelinfo2 = new Label("Informe a temperatura em Celsius: ");
+            labelinfo2.getEntityText().setTextSize(defaultTextSize/2);
+            labelinfo2.getDefaultPaint().setColor(Color.WHITE);
+            labelinfo2.setEdgeSize(0);
+            super.add(labelinfo2);
+
+            textCelsius = new TextField();
+            textCelsius.setKeyboard(getDeviceManager().getKeyboard());
+            textCelsius.getEntityText().setTextSize(defaultTextSize);
+            super.add(textCelsius);
+
+            Label labelinfo3 = new Label("Resultado: ");
+            labelinfo3.getEntityText().setTextSize(defaultTextSize/2);
+            labelinfo3.getDefaultPaint().setColor(Color.WHITE);
+            labelinfo3.setEdgeSize(0);
+            super.add(labelinfo3);
+
+            resultado = new Label("");
+            resultado.getDefaultPaint().setColor(Color.WHITE);
+            resultado.getEntityText().setTextSize(defaultTextSize);
+            resultado.setEdgeSize(0);
+            super.add(resultado);
+
+            Button botao = new Button("Converter");
+            botao.setColor(Color.GREEN);
+            botao.getEntityText().setTextSize(defaultTextSize);
+            botao.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(Event evt) {
+                    int gc = Integer.parseInt(textCelsius.getText());
+                    float gf = 32 + ((9*gc)/5);
+                    resultado.setText(gf + "");
+                }
+            });
+            super.add(botao);
+        }
+
+    }
+
+    private class Teste01 extends Window {
 
         private Button startButton;
         private Button optionButton;
         private Button exitButton;
 
-        public MainWindow() {
+        public Teste01() {
             super();
             int divWidth = (GameParameters.getInstance().screenSize.width()/8);
             int divHeight = (GameParameters.getInstance().screenSize.height()/8);
@@ -177,38 +233,6 @@ public class MainMenuScene extends Scene {
 
         }
 
-    }
-
-    int x = 0;
-    int y = 0;
-    int speed = 10;
-
-    @Override
-    public void update() {
-        super.update();
-        x += speed;
-        if (x > GameParameters.getInstance().screenSize.width()) {
-            x = 0;
-        }
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        int savedState = canvas.save();
-        //canvas.drawBitmap(this.bg.getBitmap(), x - GameParameters.getInstance().screenSize.width(), 0, defaultPaint);
-        //canvas.drawBitmap(this.bg.getBitmap(), x, 0, defaultPaint);
-
-        super.draw(canvas);
-
-        //this.sprites[spriteAtual].draw(canvas);
-
-        canvas.restoreToCount(savedState);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        super.onTouchEvent(motionEvent);
-        return false;
     }
 
 }

@@ -55,6 +55,14 @@ public class TextField extends WindowEntity implements KeyboardListener {
         super.defaultPaint.setColor(Color.WHITE);
     }
 
+    public String getText() {
+        return entityText.toString();
+    }
+
+    public void setText(String text) {
+        this.entityText.setText(text);
+    }
+
     /**
      * Pega e registra a instancia do teclado do jogo.
      * @param keyboard
@@ -72,13 +80,14 @@ public class TextField extends WindowEntity implements KeyboardListener {
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-        if (keyboardEvent.keyCode == KeyboardEvent.KEY_BACKSPACE) {
+        int keyCode = keyboardEvent.keyCode;
+        if (keyCode == KeyboardEvent.KEY_BACKSPACE) {
             String currentText = super.entityText.toString();
             if (currentText.length() > 0)
                 super.entityText.setText(currentText.substring(0, currentText.length()-1));
         } else{
             String currentText = super.entityText.toString();
-            super.entityText.setText(currentText + Keyboard.getChar(keyboardEvent.keyCode));
+            super.entityText.setText(currentText + Keyboard.getChar(keyCode));
         }
     }
 
