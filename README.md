@@ -19,6 +19,7 @@ Cada board possui uma lista de **Scene (Cenas)**, que são usadas para dividir o
 ![](Misc/basicWorking.png)
 
 Exemplo: No menu principal do jogo, uma cena para cada menu, ou uma cena para uma aniação rodando por trás da cena que cuida do menu.
+
 ![](Misc/basicWorking2.png)
 
 
