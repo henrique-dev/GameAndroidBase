@@ -21,13 +21,13 @@ package com.br.phdev.gameandroidbase.test;
 import android.graphics.Color;
 
 import com.br.phdev.gameandroidbase.GameParameters;
-import com.br.phdev.gameandroidbase.cmp.environment.Screen;
+import com.br.phdev.gameandroidbase.cmp.environment.Board;
 
-public class GameScreen extends Screen {
+public class GameBoard extends Board {
 
     private MainMenuScene mainMenuScene;
 
-    public GameScreen(int x, int y, int width, int height) {
+    public GameBoard(int x, int y, int width, int height) {
         super(x, y, width, height);
         super.defaultPaint.setColor(Color.WHITE);
     }
@@ -40,8 +40,5 @@ public class GameScreen extends Screen {
         super.deviceManager.initKeyboard();
 
         this.mainMenuScene.init();
-
-        this.active = true;
-        this.visible = true;
     }
 }

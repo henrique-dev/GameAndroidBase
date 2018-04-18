@@ -30,7 +30,7 @@ import com.br.phdev.gameandroidbase.cmp.window.WindowEntity;
 import java.util.ArrayList;
 
 /**
- * Classe responsavel pela criação de cenas, que faz o intermedio entre a classe @{@link Screen} e as classes @{@link Entity}.
+ * Classe responsavel pela criação de cenas, que faz o intermedio entre a classe @{@link Board} e as classes @{@link Entity}.
  * Possui duas listas, uma com objetos da janela e outra com objetos de in-game.
  * @version 1.0
  */
@@ -65,6 +65,12 @@ public abstract class Scene extends Entity implements Controllable {
      */
     protected Scene(int x, int y, int width, int height) {
         super(new Rect(x, y, x + width, y + height));
+        this.windowEntities = new ArrayList<>();
+        this.gameEntities = new ArrayList<>();
+    }
+
+    protected Scene(Rect area) {
+        super(area);
         this.windowEntities = new ArrayList<>();
         this.gameEntities = new ArrayList<>();
     }

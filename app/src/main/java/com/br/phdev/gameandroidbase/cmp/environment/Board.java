@@ -20,6 +20,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.br.phdev.gameandroidbase.BoardManager;
 import com.br.phdev.gameandroidbase.DeviceManager;
 import com.br.phdev.gameandroidbase.GameEngine;
 import com.br.phdev.gameandroidbase.GameLog;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
  * Possui uma lista com as cenas disponiveis no objeto de tela do contexto.
  * @version 1.0
  */
-public abstract class Screen extends Entity implements Controllable {
+public abstract class Board extends Entity implements Controllable {
 
     /**
      * Gerenciador de audio do jogo.
@@ -59,9 +60,11 @@ public abstract class Screen extends Entity implements Controllable {
      * @param width largura da tela.
      * @param height altura da tela.
      */
-    protected Screen(int x, int y, int width, int height) {
+    protected Board(int x, int y, int width, int height) {
         super(new Rect(x, y, x + width, y + height));
         this.scenes = new ArrayList<>();
+        super.active = true;
+        super.visible = true;
     }
 
     /**

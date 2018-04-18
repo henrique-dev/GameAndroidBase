@@ -23,8 +23,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.br.phdev.gameandroidbase.cmp.environment.Screen;
-import com.br.phdev.gameandroidbase.test.GameScreen;
+import com.br.phdev.gameandroidbase.cmp.environment.Board;
+import com.br.phdev.gameandroidbase.test.GameBoard;
 
 /**
  * View aplicada na activity, contendo os metodos base para o loop do jogo.
@@ -39,7 +39,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * Tela atual do jogo.
      */
-    private Screen screen;
+    private Board board;
 
     /**
      * Gerenciador de audio do jogo.
@@ -132,16 +132,16 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     @SuppressLint("MissingSuperCall")
     @Override
     public void draw(Canvas canvas) {
-        if (this.screen != null)
-            this.screen.draw(canvas);
+        if (this.board != null)
+            this.board.draw(canvas);
     }
 
     /**
      * Atualiza a tela.
      */
     public void update() {
-        if (this.screen != null)
-            this.screen.update();
+        if (this.board != null)
+            this.board.update();
     }
 
     /**
@@ -151,13 +151,13 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        if (this.screen != null)
-            this.screen.onTouchEvent(motionEvent);
+        if (this.board != null)
+            this.board.onTouchEvent(motionEvent);
         return true;
     }
 
     public boolean keyBackPressed() {
-        return this.screen.keyBackPressed();
+        return this.board.keyBackPressed();
     }
 
     /**
@@ -166,17 +166,17 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     private void initComponents() {
         this.soundManager = new SoundManager(getContext());
         this.deviceManager = new DeviceManager();
-        this.screen = new GameScreen(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom);
-        this.screen.setSoundManager(this.soundManager);
-        this.screen.setDeviceManager(this.deviceManager);
-        this.screen.init();
+        this.board = new GameBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom);
+        this.board.setSoundManager(this.soundManager);
+        this.board.setDeviceManager(this.deviceManager);
+        this.board.init();
     }
 
     /**
      * Finaliza os componentes atuais do jogo.
      */
     private void finalizeComponents() {
-        this.screen = null;
+        this.board = null;
         this.soundManager.release();
     }
 
