@@ -91,7 +91,7 @@ public class MinhaBoard extends Board {
   
   @Override
   public void initBoard() {
-    minhaScene = new Scene(posiçãoEmXdaCena, posiçãoEmYdaCena, larguraDaCena, alturaDaCena);
+    minhaScene = new MinhaScene(posiçãoEmXdaCena, posiçãoEmYdaCena, larguraDaCena, alturaDaCena);
     super.add(minhaScene);
   }
   
