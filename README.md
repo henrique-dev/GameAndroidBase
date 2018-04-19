@@ -22,16 +22,60 @@ Exemplo: No menu principal do jogo, uma cena para cada menu, ou uma cena para um
 ![](Misc/basicWorking2.png)
 
 ### Uso: **Boards** e **Scenes**
-Para uma nova **Board**, é necessario criar uma nova classe e estender a **Board**.
+Para uma nova **Board**, é necessario criar uma nova classe e estender a **Board**. Por padrão, use o construtor somente para inicializações leves, e na função **init()** coloque o carregamento dos componentes a serem utilizados. (Cenas, texturas, etc.).
 ```java
-public class MyBoard extends Board {
+public class MinhaBoard extends Board {
 
-  public MyBoard() {
+  public MinhaBoard(int x, int y, int alrgura, int altura) {
     super(x, y, largura, altura);
   }
   
   @Override
   public void init() {
+  }
+
+}
+```
+
+E para mostrar sua nova **Board**, deve-se ir na classe **GameEngine**, na função **initComponent()**, e na linha comentada com **INICIE SUA BOARD AQUI**, comente a instancia feita, e coloque a sua, fornecendo x e y para posição, e a largura e altura desejada.:
+
+```java
+Trecho de codigo acima omitido.
+.......
+     private void initComponents() {
+        this.soundManager = new SoundManager(getContext());
+        this.deviceManager = new DeviceManager();
+
+        // --------------------------------
+        // INICIE SUA BOARD AQUI
+
+        // this.board = new GameBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom);
+        this.board = new MyBoard( posiçãoEmXdaBoard, posiçãoEmYdaBoard, larguraDaBoard, alturaDaBoard );
+
+        // --------------------------------
+        this.board.setSoundManager(this.soundManager);
+        this.board.setDeviceManager(this.deviceManager);
+        this.board.init();
+    }
+........
+Trecho de codigo abaixo omitido.
+```
+
+Para uma nova cena, defina a mesma na sua **Board** criada, e instancie ela na função **init()** da **Board**, fornecendo x e y para posição, e a largura e altura desejada. Após deve-se adicionar a cena na **Board** fazendo a chamada a **super.add()**. Só depois de adicionada, seus componentes serão inicializados e exibidos.
+
+```java
+public class MinhaBoard extends Board {
+
+  Scene minhaScene;
+
+  public MinhaBoard() {
+    super(x, y, largura, altura);
+  }
+  
+  @Override
+  public void init() {
+    minhaScene = new Scene(posiçãoEmXdaCena, posiçãoEmYdaCena, larguraDaCena, alturaDaCena);
+    super.add(minhaScene);
   }
 
 }
