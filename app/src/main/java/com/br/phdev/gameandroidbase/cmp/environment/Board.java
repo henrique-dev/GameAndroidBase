@@ -70,7 +70,12 @@ public abstract class Board extends Entity implements Controllable {
     /**
      * Metodo onde todas as criações e inicialização de componentes do jogo devem ser feitas.
      */
-    public abstract void init();
+    public abstract void initBoard();
+
+    public void finalizeBoard() {
+        for (Scene scene : this.scenes)
+            scene.finalizeScene();
+    }
 
     /**
      * Adiciona uma cena na tela.
@@ -80,6 +85,7 @@ public abstract class Board extends Entity implements Controllable {
     protected void addScene(Scene scene) {
         scene.setSoundManager(this.soundManager);
         scene.setDeviceManager(this.deviceManager);
+        scene.init();
         this.scenes.add(scene);
     }
 

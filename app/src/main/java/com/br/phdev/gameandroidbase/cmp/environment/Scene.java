@@ -80,6 +80,8 @@ public abstract class Scene extends Entity implements Controllable {
      */
     public abstract void init();
 
+    public abstract void finalizeScene();
+
     /**
      * Adiciona um objeto na cena.
      * @param windowEntity objeto a ser adicionado.

@@ -24,7 +24,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.br.phdev.gameandroidbase.cmp.environment.Board;
-import com.br.phdev.gameandroidbase.test.GameBoard;
 
 /**
  * View aplicada na activity, contendo os metodos base para o loop do jogo.
@@ -132,16 +131,16 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     @SuppressLint("MissingSuperCall")
     @Override
     public void draw(Canvas canvas) {
-        if (this.board != null)
-            this.board.draw(canvas);
+        if (BoardManager.make().isOk())
+            BoardManager.make().getBoard().draw(canvas);
     }
 
     /**
      * Atualiza a tela.
      */
     public void update() {
-        if (this.board != null)
-            this.board.update();
+        if (BoardManager.make().isOk())
+            BoardManager.make().getBoard().update();
     }
 
     /**
@@ -151,13 +150,15 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        if (this.board != null)
-            this.board.onTouchEvent(motionEvent);
+        if (BoardManager.make().isOk())
+            BoardManager.make().getBoard().onTouchEvent(motionEvent);
         return true;
     }
 
     public boolean keyBackPressed() {
-        return this.board.keyBackPressed();
+        if (BoardManager.make().isOk())
+            return BoardManager.make().getBoard().keyBackPressed();
+        return true;
     }
 
     /**
@@ -166,10 +167,17 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     private void initComponents() {
         this.soundManager = new SoundManager(getContext());
         this.deviceManager = new DeviceManager();
-        this.board = new GameBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom);
-        this.board.setSoundManager(this.soundManager);
-        this.board.setDeviceManager(this.deviceManager);
-        this.board.init();
+
+        BoardManager.make().set(this.deviceManager, this.soundManager);
+        // --------------------------------
+        // INICIE SUA BOARD AQUI
+
+        //BoardManager.make().post(new GameBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom));
+
+        // --------------------------------
+        //this.board.setSoundManager(this.soundManager);
+        //this.board.setDeviceManager(this.deviceManager);
+        //this.board.initBoard();
     }
 
     /**

@@ -82,6 +82,10 @@ public class Texture {
         return bitmap;
     }
 
+    public void release() {
+        this.bitmap.recycle();
+    }
+
     /**
      * Retorna a largura da textura.
      * @return largura.

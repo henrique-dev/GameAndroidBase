@@ -53,6 +53,8 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
      */
     private Layout layout;
 
+    private boolean loaded;
+
     /**
      * Teclas do teclado.
      */
@@ -93,6 +95,8 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
      * Carrega o teclado para que esteja totalmente acessivel.
      */
     public void loadComponents() {
+        if (loaded)
+            return;
         this.buttonKeys = new ArrayList<>();
         GridLayout gridLayout = new GridLayout(4 ,10);
         gridLayout.set(this);
@@ -106,19 +110,11 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
                 GameLog.debug(this, "Nenhum entidade registrada no teclado! Key: " + keyboardEvent.keyCode);
             }
         });
-        setKeys();
-        /*
-        int keyCode[] = {16, 23, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5,
-                6, 7, 9, 10, 11, 25, 22, 2, 21, 1, 13, 12, 26, 27};
-        for (int i=0; i<28; i++) {
-            Key key = new Key(keyCode[i]);
-            key.addActionListener(this);
-            key.setColor(Color.GREEN);
-            this.buttonKeys.add(key);
-            this.layout.format();
-        }*/
 
+        setKeys();
         addKeyboardEffect();
+
+        this.loaded = true;
     }
 
     private void setKeys() {

@@ -18,35 +18,46 @@ package com.br.phdev.gameandroidbase;
 
 import com.br.phdev.gameandroidbase.cmp.environment.Board;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
-import dalvik.system.PathClassLoader;
-
 public class BoardManager {
 
-    BoardManager(DeviceManager deviceManager, SoundManager soundManager) {
-        try {
-            Class<?> clazz = Class.forName("com.br.phdev.gameandroidbase.test.GameBoard");
+    private static BoardManager instance = new BoardManager();
 
-            ClassLoader classLoader = getClass().getClassLoader();
+    private DeviceManager deviceManager;
+    private SoundManager soundManager;
 
-            Constructor<?> constructor = clazz.getConstructor();
-            Object instance = constructor.newInstance();
-            Board board = (Board)instance;
+    private Board currentBoard;
+    private Board nextBoard;
 
+    private boolean currentBoardState;
 
-        } catch (ClassNotFoundException e) {
-            GameLog.error(this, e.getMessage());
-        } catch (NoSuchMethodException e) {
-            GameLog.error(this, e.getMessage());
-        } catch (IllegalAccessException e) {
-            GameLog.error(this, e.getMessage());
-        } catch (InstantiationException e) {
-            GameLog.error(this, e.getMessage());
-        } catch (InvocationTargetException e) {
-            GameLog.error(this, e.getMessage());
-        }
+    private BoardManager() {
 
+    }
+
+    public static BoardManager make() {
+        return instance;
+    }
+
+    void set(DeviceManager deviceManager, SoundManager soundManager) {
+        this.deviceManager = deviceManager;
+        this.soundManager = soundManager;
+    }
+
+    public void post(Board board) {
+        if (this.currentBoard != null)
+            this.currentBoard.finalizeBoard();
+        this.currentBoard = board;
+        this.currentBoard.setDeviceManager(this.deviceManager);
+        this.currentBoard.setSoundManager(this.soundManager);
+        this.currentBoard.initBoard();
+        this.currentBoardState = true;
+    }
+
+    public boolean isOk() {
+        return currentBoardState;
+    }
+
+    Board getBoard() {
+        return this.currentBoard;
     }
 }
