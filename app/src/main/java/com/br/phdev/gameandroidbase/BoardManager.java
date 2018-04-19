@@ -32,12 +32,10 @@ public class BoardManager {
     private BoardManager() {
 
     }
-
-    /*
+    
     public static BoardManager getInstance() {
-        return instance;
+        return make;
     }
-    */
 
     void set(DeviceManager deviceManager, SoundManager soundManager) {
         this.deviceManager = deviceManager;
