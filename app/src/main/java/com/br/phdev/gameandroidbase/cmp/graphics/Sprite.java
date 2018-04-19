@@ -214,7 +214,7 @@ public class Sprite implements Drawable {
                 try {
                     sprites[cont++] = new Sprite(spriteSheet, new Rect( j*spriteWidth, i*spriteHeight, (j*spriteWidth) + spriteWidth, (i*spriteHeight) + spriteHeight), entity);
                 } catch (Exception e) {
-                    GameLog.error(Sprite.class, e.getMessage());
+                    GameLog.error(Sprite.class, e);
                 }
                 counter++;
                 if (counter == maxSprites)

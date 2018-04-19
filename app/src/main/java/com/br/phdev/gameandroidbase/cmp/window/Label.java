@@ -78,6 +78,15 @@ public class Label extends WindowEntity {
         super(new Rect(), new Text(text));
     }
 
+    /**
+     * Cria um label contendo um texto.
+     * * Usado para colocar a entidade em um layout, e deixar ela definir a area para o label.
+     * @param text
+     */
+    public Label(Text text) {
+        super(new Rect(), text);
+    }
+
     public void setText(String text) {
         super.entityText.setText(text);
     }

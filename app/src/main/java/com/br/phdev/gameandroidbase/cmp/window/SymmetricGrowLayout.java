@@ -30,7 +30,7 @@ public class SymmetricGrowLayout extends Layout {
     @Override
     public void format() {
         Formable componentsSource = ((Formable)super.entity);
-        if (!(componentsSource.size() > 0))
+        if (componentsSource == null || !(componentsSource.size() > 0))
             return;
 
         int size = componentsSource.size();

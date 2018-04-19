@@ -126,7 +126,7 @@ public final class SoundManager {
                             SoundManager.this.mediaPlayer.stop();
                         SoundManager.this.mediaPlayer.release();
                     } catch (Exception e) {
-                        GameLog.error(this, e.getMessage());
+                        GameLog.error(this, e);
                     }
                 }
                 try {
@@ -134,7 +134,7 @@ public final class SoundManager {
                     SoundManager.this.mediaPlayer.setOnCompletionListener(music.getOnCompletionListener());
                     SoundManager.this.mediaPlayer.start();
                 } catch (Exception e) {
-                    GameLog.error(this, e.getMessage());
+                    GameLog.error(this, e);
                 }
             }
         }.start();

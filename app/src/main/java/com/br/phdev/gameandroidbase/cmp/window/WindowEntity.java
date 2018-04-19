@@ -163,6 +163,14 @@ public abstract class WindowEntity extends Entity implements Controllable {
         this.edgeSize = edgeSize;
     }
 
+    public boolean isEdgeVisible() {
+        return edgeVisible;
+    }
+
+    public void setEdgeVisible(boolean edgeVisible) {
+        this.edgeVisible = edgeVisible;
+    }
+
     /**
      * Retorna o {@link Text} vinculado a entidade.
      * @return {@link Text} da entidade.
@@ -240,7 +248,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
                         ((ClickListener) listener).releasePerformed(evt);
                 }
         } catch (Exception e) {
-            GameLog.error(this, e.getMessage());
+            GameLog.error(this, e);
         }
     }
 

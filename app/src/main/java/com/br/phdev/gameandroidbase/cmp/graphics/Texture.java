@@ -132,7 +132,7 @@ public class Texture {
         try {
             this.bitmap = Bitmap.createBitmap(this.bitmap, x, y, width, height);
         } catch (Exception e) {
-            GameLog.error(this, e.getMessage());
+            GameLog.error(this, e);
         }
     }
 
@@ -145,7 +145,7 @@ public class Texture {
         try {
             this.bitmap = Bitmap.createScaledBitmap(this.bitmap, width, height, false);
         } catch (Exception e) {
-            GameLog.error(this, e.getMessage());
+            GameLog.error(this, e);
         }
     }
 

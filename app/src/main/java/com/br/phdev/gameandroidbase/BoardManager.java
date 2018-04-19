@@ -20,13 +20,12 @@ import com.br.phdev.gameandroidbase.cmp.environment.Board;
 
 public class BoardManager {
 
-    private static BoardManager instance = new BoardManager();
+    public static BoardManager make = new BoardManager();
 
     private DeviceManager deviceManager;
     private SoundManager soundManager;
 
     private Board currentBoard;
-    private Board nextBoard;
 
     private boolean currentBoardState;
 
@@ -34,9 +33,11 @@ public class BoardManager {
 
     }
 
-    public static BoardManager make() {
+    /*
+    public static BoardManager getInstance() {
         return instance;
     }
+    */
 
     void set(DeviceManager deviceManager, SoundManager soundManager) {
         this.deviceManager = deviceManager;
@@ -53,7 +54,7 @@ public class BoardManager {
         this.currentBoardState = true;
     }
 
-    public boolean isOk() {
+    boolean isOk() {
         return currentBoardState;
     }
 

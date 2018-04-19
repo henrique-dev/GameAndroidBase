@@ -21,6 +21,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.effect.FlashEffect;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
@@ -43,6 +44,8 @@ public class Table extends WindowEntity implements ActionListener {
      */
     private List<Row> rows;
 
+    private TableVisual tableVisual;
+
     /**
      * Estado de poder executar o listner da linha.
      */
@@ -62,6 +65,33 @@ public class Table extends WindowEntity implements ActionListener {
         this.rows = new ArrayList<>();
     }
 
+    public Table(int x, int y, int width, int height) {
+        super(new Rect(x, y, x + width, y + height));
+        super.defaultPaint.setColor(Color.GREEN);
+        this.rows = new ArrayList<>();
+    }
+
+    @Override
+    public void setArea(Rect area) {
+        super.setArea(area);
+        Rect tmpArea;
+        if (this.tableVisual != null) {
+            this.tableVisual.set(super.area);
+            tmpArea = this.tableVisual.getElementsArea();
+        } else
+            tmpArea = area;
+
+        int rowHeight = super.getHeight() / this.rowsPerView;
+        for (int i=0; i<this.rows.size(); i++) {
+            this.rows.get(i).setArea(new Rect(
+                    tmpArea.left,
+                    tmpArea.top + (i * rowHeight),
+                    tmpArea.left + tmpArea.width(),
+                    tmpArea.top + ((i+1) * rowHeight)
+            ));
+        }
+    }
+
     /**
      * Adiciona uma linha na tabela.
      * @param text texto para a linha.
@@ -73,12 +103,13 @@ public class Table extends WindowEntity implements ActionListener {
         flashEffect.setSpeed(1);
         row.setClickEffect(flashEffect);
 
-        int rowHeight = super.getHeight() / rowsPerView;
-        int x = super.getX();
-        int y = super.getY() + this.rows.size() * rowHeight;
-        row.setArea(new Rect(x, y, x + super.getWidth(), y + rowHeight));
+        //int rowHeight = super.getHeight() / this.rowsPerView;
+        //int x = super.getX();
+        //int y = super.getY() + this.rows.size() * rowHeight;
+        //row.setArea(new Rect(x, y, x + super.getWidth(), y + rowHeight));
         row.addListener(this);
         this.rows.add(row);
+        setArea(super.area);
     }
 
     /**
@@ -97,6 +128,11 @@ public class Table extends WindowEntity implements ActionListener {
         int y = super.getY() + this.rows.size() * rowHeight;
         row.setArea(new Rect(x, y, x + super.getWidth(), y + rowHeight));
         this.rows.add(row);
+    }
+
+    public void setTableVisual(TableVisual tableVisual) {
+        this.tableVisual = tableVisual;
+        this.tableVisual.set(super.area);
     }
 
     /**
@@ -133,10 +169,12 @@ public class Table extends WindowEntity implements ActionListener {
     @Override
     public void draw(Canvas canvas) {
         int savedState = canvas.save();
-        canvas.clipRect(super.area);
         super.draw(canvas);
+        canvas.clipRect(super.area);
         for (Entity ent : this.rows)
             ent.draw(canvas);
+        if (this.tableVisual != null)
+            this.tableVisual.draw(canvas);
         canvas.restoreToCount(savedState);
     }
 
@@ -151,7 +189,7 @@ public class Table extends WindowEntity implements ActionListener {
         float x = motionEvent.getX();
         float y = motionEvent.getY();
 
-        if (haveCollision(x, y, this)) {
+        if (haveCollision(x, y, (this.tableVisual == null ? super.getArea() : this.tableVisual.getElementsArea()))) {
 
             Event event = new Event((int)x, (int)y);
 
@@ -174,15 +212,15 @@ public class Table extends WindowEntity implements ActionListener {
                     if (this.clickedOnArea) {
                         this.onArea = true;
                         if (this.rows.size() > this.rowsPerView)
-                            if (this.rows.get(0).getY() <= super.getY() &&
-                                    this.rows.get(this.rows.size()-1).getY() >= super.getArea().bottom)
+                            if (this.rows.get(0).getY() <= (this.tableVisual == null ? super.getY() : this.tableVisual.getElementsArea().top) &&
+                                    this.rows.get(this.rows.size()-1).getArea().bottom >= (this.tableVisual == null ? super.getArea().bottom : this.tableVisual.getElementsArea().bottom))
                                 move(y - py);
                             else {
-                                if (this.rows.get(0).getY() > super.getY()) {
-                                    int exceeded = super.getY() - this.rows.get(0).getY();
+                                if (this.rows.get(0).getY() > (this.tableVisual == null ? super.getY() : this.tableVisual.getElementsArea().top)) {
+                                    int exceeded = (this.tableVisual == null ? super.getY() : this.tableVisual.getElementsArea().top) - this.rows.get(0).getY();
                                     move(exceeded);
-                                } else if (this.rows.get(this.rows.size()-1).getY() < super.getArea().bottom) {
-                                    int exceeded = super.getArea().bottom - this.rows.get(this.rows.size()-1).getY();
+                                } else if (this.rows.get(this.rows.size()-1).getArea().bottom < (this.tableVisual == null ? super.getArea().bottom : this.tableVisual.getElementsArea().bottom)) {
+                                    int exceeded = (this.tableVisual == null ? super.getArea().bottom : this.tableVisual.getElementsArea().bottom) - this.rows.get(this.rows.size()-1).getArea().bottom;
                                     move(exceeded);
                                 }
                             }
@@ -197,8 +235,11 @@ public class Table extends WindowEntity implements ActionListener {
                 switch (action) {
                     case MotionEvent.ACTION_UP:
                         this.clickedOnArea = false;
-                        if (this.rows.get(0).getY() > super.getY()) {
-                            int exceeded = super.getY() - this.rows.get(0).getY();
+                        if (this.rows.get(0).getY() > (this.tableVisual == null ? super.getY() : this.tableVisual.getElementsArea().top)) {
+                            int exceeded = (this.tableVisual == null ? super.getY() : this.tableVisual.getElementsArea().top) - this.rows.get(0).getY();
+                            move(exceeded);
+                        } else if (this.rows.get(this.rows.size()-1).getArea().bottom < (this.tableVisual == null ? super.getArea().bottom : this.tableVisual.getElementsArea().bottom)) {
+                            int exceeded = (this.tableVisual == null ? super.getArea().bottom : this.tableVisual.getElementsArea().bottom) - this.rows.get(this.rows.size()-1).getArea().bottom;
                             move(exceeded);
                         }
                         break;

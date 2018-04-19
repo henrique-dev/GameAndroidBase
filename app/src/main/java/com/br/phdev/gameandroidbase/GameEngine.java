@@ -24,6 +24,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.br.phdev.gameandroidbase.cmp.environment.Board;
+import com.br.phdev.gameandroidbase.test.MainBoard;
 
 /**
  * View aplicada na activity, contendo os metodos base para o loop do jogo.
@@ -79,7 +80,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         try {
             initComponents();
         } catch (Exception e) {
-            GameLog.error(this, e.getMessage());
+            GameLog.error(this, e);
         }
 
         GameLog.debug(this, "MainThread iniciada");
@@ -116,7 +117,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
                     this.mainThread.join();
                     GameLog.debug(this, "MainThread destruida");
                 } catch (InterruptedException ie) {
-                    GameLog.error(this, ie.getMessage());
+                    GameLog.error(this, ie);
                 } finally {
                     retry = false;
                 }
@@ -131,33 +132,31 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     @SuppressLint("MissingSuperCall")
     @Override
     public void draw(Canvas canvas) {
-        if (BoardManager.make().isOk())
-            BoardManager.make().getBoard().draw(canvas);
+        if (BoardManager.make.isOk())
+            BoardManager.make.getBoard().draw(canvas);
     }
 
     /**
      * Atualiza a tela.
      */
     public void update() {
-        if (BoardManager.make().isOk())
-            BoardManager.make().getBoard().update();
+        if (BoardManager.make.isOk())
+            BoardManager.make.getBoard().update();
     }
 
     /**
      * Recebe e envia eventos de entrada de dados do usuario para a tela.
-     * @param motionEvent
-     * @return
      */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        if (BoardManager.make().isOk())
-            BoardManager.make().getBoard().onTouchEvent(motionEvent);
+        if (BoardManager.make.isOk())
+            BoardManager.make.getBoard().onTouchEvent(motionEvent);
         return true;
     }
 
     public boolean keyBackPressed() {
-        if (BoardManager.make().isOk())
-            return BoardManager.make().getBoard().keyBackPressed();
+        if (BoardManager.make.isOk())
+            return BoardManager.make.getBoard().keyBackPressed();
         return true;
     }
 
@@ -167,17 +166,14 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     private void initComponents() {
         this.soundManager = new SoundManager(getContext());
         this.deviceManager = new DeviceManager();
-
-        BoardManager.make().set(this.deviceManager, this.soundManager);
-        // --------------------------------
-        // INICIE SUA BOARD AQUI
-
-        //BoardManager.make().post(new GameBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom));
+        BoardManager.make.set(this.deviceManager, this.soundManager);
 
         // --------------------------------
-        //this.board.setSoundManager(this.soundManager);
-        //this.board.setDeviceManager(this.deviceManager);
-        //this.board.initBoard();
+        // START YOUR BOARD HERE
+
+        BoardManager.make.post(new MainBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom));
+
+        // --------------------------------
     }
 
     /**
@@ -242,14 +238,14 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
                         this.gameEngine.draw(this.canvas);
                     }
                 } catch (Exception e) {
-                    GameLog.error(this, e.toString());
+                    GameLog.error(this, e);
                     this.running = false;
                 } finally {
                     if (canvas != null) {
                         try {
                             this.surfaceHolder.unlockCanvasAndPost(this.canvas);
                         } catch (Exception e) {
-                            GameLog.error(this, e.getMessage());
+                            GameLog.error(this, e);
                         }
                     }
                 }

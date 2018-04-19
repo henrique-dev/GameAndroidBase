@@ -50,6 +50,7 @@ public class Window extends WindowEntity implements Formable {
     public Window() {
         super();
         this.layout = new ListLayout(ListLayout.VERTICAL_ALIGNMENT);
+        this.layout.set(this);
     }
 
     /**
@@ -63,6 +64,7 @@ public class Window extends WindowEntity implements Formable {
     public Window(int x, int y, int width, int height) {
         super(new Rect(x, y, x+ width, y + height));
         this.layout = new ListLayout(ListLayout.VERTICAL_ALIGNMENT);
+        this.layout.set(this);
     }
 
     /**
@@ -74,6 +76,7 @@ public class Window extends WindowEntity implements Formable {
     public Window(Rect area, Layout layout) {
         super(area);
         this.layout = layout;
+        this.layout.set(this);
     }
 
     /**

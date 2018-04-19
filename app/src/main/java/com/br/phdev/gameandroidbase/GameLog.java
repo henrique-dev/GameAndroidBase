@@ -18,6 +18,8 @@ package com.br.phdev.gameandroidbase;
 
 import android.util.Log;
 
+import java.io.FileNotFoundException;
+
 /**
  * Classe responsavel pelos logs do jogo.
  */
@@ -30,8 +32,21 @@ public class GameLog {
         logIndex = 0;
     }
 
+    /*
     public static void error(Object obj, String msg) {
         Log.e("MyApp: " + obj.getClass().getName(), logIndex++ + ": " + msg);
+    }
+    */
+
+    public static void error(Object obj, Exception e) {
+        StackTraceElement stackTraceElement[] = e.getStackTrace();
+        Log.e("MyApp: ", logIndex++ + ": " + e.getClass().getCanonicalName() + ": " + e.getMessage());
+        for (StackTraceElement ste : stackTraceElement) {
+            if (!ste.isNativeMethod())
+                Log.e("MyApp: ", ste.toString());
+
+        }
+
     }
 
     public static void debug(Object obj, String msg) {

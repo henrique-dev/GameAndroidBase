@@ -78,7 +78,7 @@ public class GridLayout extends Layout {
     @Override
     public void format() {
         Formable componentsSource = ((Formable)super.entity);
-        if (!(componentsSource.size() > 0))
+        if (componentsSource == null || !(componentsSource.size() > 0))
             return;
 
         int x = super.entity.getArea().left;

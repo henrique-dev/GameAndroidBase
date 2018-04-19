@@ -205,6 +205,10 @@ public abstract class Entity implements Component {
         return (x > area.left && x < area.right && y > area.top && y < area.bottom);
     }
 
+    protected static boolean haveCollision(float x, float y, Rect area) {
+        return (x > area.left && x < area.right && y > area.top && y < area.bottom);
+    }
+
     /**
      * Desloca a entidade.
      * @param entity entidade a ser deslocada.
