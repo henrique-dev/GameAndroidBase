@@ -61,7 +61,7 @@ Trecho de codigo acima omitido.
 Trecho de codigo abaixo omitido.
 ```
 
-Para uma nova cena, define a mesma na sua **Board** criada, e instancie ela na função **init()** da **Board**, fornecendo x e y para posição, e a largura e altura desejada. Após deve-se adicionar a cena na **Board** fazendo a chamada a **super.add()**. Só depois de adicionada, seus componentes serão inicializados e exibidos.
+Para uma nova cena, defina a mesma na sua **Board** criada, e instancie ela na função **init()** da **Board**, fornecendo x e y para posição, e a largura e altura desejada. Após deve-se adicionar a cena na **Board** fazendo a chamada a **super.add()**. Só depois de adicionada, seus componentes serão inicializados e exibidos.
 
 ```java
 public class MinhaBoard extends Board {
