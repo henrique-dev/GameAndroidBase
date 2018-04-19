@@ -20,8 +20,6 @@ import android.graphics.Rect;
 
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
-import java.util.ArrayList;
-
 /**
  * Classe responsavel pela criação de layouts para menus.
  * Este tipo cria um layout que exibe os componentes alinhados verticalmente ou horizontalmente.

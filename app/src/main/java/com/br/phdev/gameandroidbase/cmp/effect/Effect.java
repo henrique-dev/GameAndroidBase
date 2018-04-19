@@ -16,9 +16,6 @@
  */
 package com.br.phdev.gameandroidbase.cmp.effect;
 
-import android.graphics.Canvas;
-
-import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;

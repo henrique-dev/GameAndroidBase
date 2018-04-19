@@ -18,8 +18,6 @@ package com.br.phdev.gameandroidbase.cmp.window;
 
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
-import java.util.ArrayList;
-
 /**
  * Interface consumida por todas as entidades que aceitam layouts para organização dos compónentes.
  */

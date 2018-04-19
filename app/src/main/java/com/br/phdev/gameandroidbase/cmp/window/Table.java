@@ -21,12 +21,10 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.effect.FlashEffect;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
-import com.br.phdev.gameandroidbase.cmp.listeners.Listener;
 import com.br.phdev.gameandroidbase.cmp.listeners.TableActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.Event;
 import com.br.phdev.gameandroidbase.cmp.listeners.events.TableEvent;

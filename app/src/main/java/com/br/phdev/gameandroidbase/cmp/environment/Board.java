@@ -20,12 +20,9 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import com.br.phdev.gameandroidbase.BoardManager;
 import com.br.phdev.gameandroidbase.DeviceManager;
 import com.br.phdev.gameandroidbase.GameEngine;
-import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.SoundManager;
-import com.br.phdev.gameandroidbase.cmp.Component;
 import com.br.phdev.gameandroidbase.cmp.Controllable;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 

@@ -16,8 +16,8 @@
  */
 package com.br.phdev.gameandroidbase.cmp.listeners;
 
-import com.br.phdev.gameandroidbase.cmp.listeners.events.KeyboardEvent;
 import com.br.phdev.gameandroidbase.cmp.devices.Keyboard;
+import com.br.phdev.gameandroidbase.cmp.listeners.events.KeyboardEvent;
 
 /**
  * Interface implementada por entidades que queiram receber entrada de dados pelo {@link Keyboard}.
