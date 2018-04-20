@@ -66,10 +66,14 @@ public class BoardManager {
             @Override
             public void run() {
                 try {
-                    sleep(5000);
+                    if (BoardManager.this.currentBoardState == BoardManager.State.OFF) {
+                        GameLog.debugr(this, "CANCELOU CARREGAMENTO");
+                        return;
+                    }
                     BoardManager.this.currentBoard = BoardManager.this.nextBoard;
                     BoardManager.this.currentBoard.initBoard();
                     BoardManager.this.currentBoardState = BoardManager.State.RUNNING;
+                    GameLog.debugr(this, "COMPLETOU O CARREGAMENTO");
                 } catch (Exception e) {
 
                 }
@@ -78,6 +82,7 @@ public class BoardManager {
     }
 
     void releaseBoard() {
+        this.currentBoardState = State.OFF;
         if (this.currentBoard != null) {
             this.currentBoard.finalizeBoard();
             this.currentBoard = null;
@@ -86,7 +91,6 @@ public class BoardManager {
             this.loadingBoard.finalizeBoard();
             this.loadingBoard = null;
         }
-        this.currentBoardState = State.OFF;
     }
 
     State isOk() {

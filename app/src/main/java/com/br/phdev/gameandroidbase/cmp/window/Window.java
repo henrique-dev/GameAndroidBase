@@ -49,8 +49,8 @@ public class Window extends WindowEntity implements Formable {
      */
     public Window() {
         super();
-        this.layout = new ListLayout(ListLayout.VERTICAL_ALIGNMENT);
-        this.layout.set(this);
+        //this.layout = new ListLayout(ListLayout.VERTICAL_ALIGNMENT);
+        //this.layout.set(this);
     }
 
     /**
@@ -63,8 +63,8 @@ public class Window extends WindowEntity implements Formable {
      */
     public Window(int x, int y, int width, int height) {
         super(new Rect(x, y, x+ width, y + height));
-        this.layout = new ListLayout(ListLayout.VERTICAL_ALIGNMENT);
-        this.layout.set(this);
+        //this.layout = new ListLayout(ListLayout.VERTICAL_ALIGNMENT);
+        //this.layout.set(this);
     }
 
     /**
@@ -102,7 +102,14 @@ public class Window extends WindowEntity implements Formable {
      */
     public void add(WindowEntity windowEntity) {
         this.entities.add(windowEntity);
-        this.layout.format();
+        if (this.layout != null)
+            this.layout.format();
+    }
+
+    public void add(ArrayList<WindowEntity> windowEntities) {
+        this.entities.addAll(windowEntities);
+        if (this.layout != null)
+            this.layout.format();
     }
 
     /**
@@ -115,7 +122,8 @@ public class Window extends WindowEntity implements Formable {
         if (this.layout instanceof BorderLayout) {
             ((BorderLayout)this.layout).getPanel(borderLayoutSide).add(windowEntity);
             this.entities.add(windowEntity);
-            this.layout.format();
+            if (this.layout != null)
+                this.layout.format();
         } else {
             this.add(windowEntity);
         }
@@ -156,10 +164,14 @@ public class Window extends WindowEntity implements Formable {
 
     /**
      * Remove um componente da janela.
-     * @param entity componente a ser removido (Exemplo: botão, label, etc).
+     * @param windowEntity componente a ser removido (Exemplo: botão, label, etc).
      */
-    public void remove(Entity entity) {
-        this.entities.remove(entity);
+    public void remove(WindowEntity windowEntity) {
+        this.entities.remove(windowEntity);
+    }
+
+    public ArrayList<WindowEntity> get() {
+        return this.entities;
     }
 
     /**
@@ -185,7 +197,8 @@ public class Window extends WindowEntity implements Formable {
         if (this.entitiesForAdd.size() > 0) {
             this.entities.addAll(this.entitiesForAdd);
             this.entitiesForAdd.clear();
-            this.layout.format();
+            if (this.layout != null)
+                this.layout.format();
         }
     }
 

@@ -37,6 +37,7 @@ import com.br.phdev.gameandroidbase.cmp.window.Button;
 import com.br.phdev.gameandroidbase.cmp.window.Formable;
 import com.br.phdev.gameandroidbase.cmp.window.GridLayout;
 import com.br.phdev.gameandroidbase.cmp.window.Layout;
+import com.br.phdev.gameandroidbase.cmp.window.Window;
 import com.br.phdev.gameandroidbase.cmp.window.WindowEntity;
 
 import java.util.ArrayList;
@@ -47,17 +48,15 @@ import java.util.List;
  */
 public final class Keyboard extends WindowEntity implements Formable, ActionListener{
 
-    /**
-     * Layout do teclado.
-     */
-    private Layout layout;
+    private Window letters;
+    private Window numbers;
 
     private boolean loaded;
 
     /**
      * Teclas do teclado.
      */
-    private List<WindowEntity> buttonKeys;
+    private ArrayList<WindowEntity> buttonKeys;
 
     /**
      * Estado ativo do teclado no contexto.
@@ -96,12 +95,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
     public void loadComponents() {
         if (loaded)
             return;
-        this.buttonKeys = new ArrayList<>();
-        GridLayout gridLayout = new GridLayout(4 ,10);
-        gridLayout.set(this);
-        gridLayout.setSpaceH(1);
-        gridLayout.setSpaceV(1);
-        this.layout = gridLayout;
+
         super.setFireActionType(ACTION_TYPE_ON_CLICK);
         super.addListener(0, new KeyboardListener() {
             @Override
@@ -118,6 +112,9 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
 
     private void setKeys() {
 
+        this.buttonKeys = new ArrayList<>();
+        this.letters = new Window(super.getX(), super.getY(), super.getWidth(), super.getHeight());
+
         int keyHeight = super.getHeight()/4;
         int keyWidth = super.getWidth()/10;
 
@@ -130,6 +127,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
             key.setColor(Color.GREEN);
             key.setArea(new Rect(i * keyWidth, super.getY(), (i+1) * keyWidth, super.getY() + keyHeight));
             this.buttonKeys.add(key);
+
         }
 
         for (int i=0; i<9; i++) {
@@ -154,6 +152,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
                     keyWidth/2 + (i+1) * keyWidth,
                     super.getY() + (keyHeight * 3)));
             this.buttonKeys.add(key);
+
             if (i == 6) {
                 Key backspaceKey = new Key(27);
                 backspaceKey.addActionListener(this);
@@ -187,6 +186,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
                 super.getY() + (keyHeight * 4)
         ));
         this.buttonKeys.add(confirmKey);
+        this.letters.add(this.buttonKeys);
 
     }
 
@@ -416,9 +416,12 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
             return;
         super.update();
 
+        /*
         for (Entity ent : this.buttonKeys)
             if (ent.isActive())
                 ent.update();
+                */
+        this.letters.update();
     }
 
     @Override
@@ -428,9 +431,12 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         int savedState = canvas.save();
 
         canvas.drawRect(super.area, super.defaultPaint);
+        /*
         for (Entity ent : this.buttonKeys)
             if (ent.isVisible())
                 ent.draw(canvas);
+                */
+        this.letters.draw(canvas);
         if (this.modified)
             this.entity.draw(canvas);
 
@@ -446,11 +452,18 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         float y = motionEvent.getY();
 
         if (haveCollision(x, y, this)) {
+/*
             for (WindowEntity key : this.buttonKeys) {
                 if (haveCollision(x, y, key))
                     key.onTouchEvent(motionEvent);
-                    //key.clickEffect.start(new KeyboardEvent(key.getKeyCode()));
+            }*/
+
+
+            for (WindowEntity key : this.letters.get()) {
+                if (haveCollision(x, y, key))
+                    key.onTouchEvent(motionEvent);
             }
+
             return true;
         } else
             if (!haveCollision(motionEvent.getX(), motionEvent.getY(), this.entity))

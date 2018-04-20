@@ -74,6 +74,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
             }
             if (this.soundManager == null) {
                 this.soundManager = new SoundManager(getContext());
+                this.deviceManager = new DeviceManager();
             }
         } catch (Exception e) {
             GameLog.error(this, e);
@@ -177,8 +178,8 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public boolean keyBackPressed() {
-        if (BoardManager.make.isOk() != BoardManager.State.OFF)
-            return BoardManager.make.getBoard().keyBackPressed();
+        if (BoardManager.make.isOk() == BoardManager.State.RUNNING)
+            return BoardManager.make.getBoard() == null || BoardManager.make.getBoard().keyBackPressed();
         return true;
     }
 
@@ -186,9 +187,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      * Inicializa os componentes principais do jogo, como tela e gerenciador de audio.
      */
     private void initComponents() {
-        this.deviceManager = new DeviceManager();
         BoardManager.make.start(this.deviceManager, this.soundManager);
-
         // --------------------------------
         // START YOUR BOARD HERE
 

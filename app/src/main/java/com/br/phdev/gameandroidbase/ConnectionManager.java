@@ -21,4 +21,11 @@ package com.br.phdev.gameandroidbase;
  * Classe responsavel por conexões do jogo.
  */
 public class ConnectionManager {
+
+
+
+    public ConnectionManager() {
+
+    }
+
 }

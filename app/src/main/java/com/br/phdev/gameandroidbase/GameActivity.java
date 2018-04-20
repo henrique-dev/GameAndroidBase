@@ -41,7 +41,7 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstance);
         setupParameters();
         this.gameEngine = new GameEngine(this);
-        this.activityStateListener = this.gameEngine.getSoundManager();
+        //this.activityStateListener = this.gameEngine.getSoundManager();
         super.setContentView(this.gameEngine);
     }
 
@@ -56,14 +56,16 @@ public class GameActivity extends Activity {
     public void onResume() {
         GameLog.debug(this, "Activity resumida.");
         super.onResume();
-        this.activityStateListener.onResume();
+        if (this.activityStateListener != null)
+            this.activityStateListener.onResume();
     }
 
     @Override
     public void onPause() {
         GameLog.debug(this, "Activity pausada.");
         super.onPause();
-        this.activityStateListener.onPause();
+        if (this.activityStateListener != null)
+            this.activityStateListener.onPause();
     }
 
     @Override
