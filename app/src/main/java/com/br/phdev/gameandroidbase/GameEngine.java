@@ -23,12 +23,19 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.br.phdev.gameandroidbase.cmp.listeners.ActivityStateListener;
 import com.br.phdev.gameandroidbase.test.MainBoard;
 
 /**
  * View aplicada na activity, contendo os metodos base para o loop do jogo.
  */
 public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
+
+    enum DrawState {ON, OFF}
+
+    private DrawState drawState;
+
+    private ActivityStateListener activityStateListener;
 
     /**
      * Thread principal do jogo, que roda o main loop.
@@ -52,18 +59,25 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      */
     public GameEngine(Context context) {
         super(context);
+        GameLog.debugr(this, "GameEngine criada.");
         getHolder().addCallback(this);
+        createApplication();
+        this.drawState = DrawState.ON;
+        setFocusable(true);
+    }
 
-        if (this.mainThread == null) {
-            try {
+    public void createApplication() {
+        try {
+            if (this.mainThread == null) {
                 this.mainThread = new MainThread(this);
                 GameLog.debug(this, "MainThread criada");
-            } catch (Exception e) {
-                GameLog.error(this, e);
             }
+            if (this.soundManager == null) {
+                this.soundManager = new SoundManager(getContext());
+            }
+        } catch (Exception e) {
+            GameLog.error(this, e);
         }
-
-        setFocusable(true);
     }
 
     /**
@@ -74,15 +88,18 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         GameLog.debug(this, "Surface criada.");
+        startApplication();
+    }
 
+    public void startApplication() {
         try {
-            initComponents();
-        } catch (Exception e) {
-            GameLog.error(this, e);
-        }
 
-        try {
-            this.mainThread.start();
+            if (!this.mainThread.isAlive()) {
+                this.initComponents();
+                this.mainThread.start();
+            } else {
+                this.drawState = DrawState.ON;
+            }
             GameLog.debug(this, "MainThread iniciada");
         } catch (Exception e) {
             GameLog.error(this, e);
@@ -90,7 +107,6 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
 
         this.mainThread.setRunning(true);
         GameLog.debug(this, "Loop da MainThread ativado");
-
     }
 
     @Override
@@ -105,7 +121,11 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         GameLog.debug(this, "Surface destruida");
+        this.drawState = DrawState.OFF;
+        //finalizeApplication();
+    }
 
+    public void finalizeApplication() {
         boolean retry = true;
         while (retry) {
             if (this.mainThread != null) {
@@ -127,10 +147,6 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    public void finalizeSurface() {
-
-    }
-
     /**
      * Desenha a tela no canvas.
      * @param canvas
@@ -138,7 +154,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     @SuppressLint("MissingSuperCall")
     @Override
     public void draw(Canvas canvas) {
-        if (BoardManager.make.isOk() != BoardManager.State.OFF)
+        if (this.drawState == DrawState.ON && BoardManager.make.isOk() != BoardManager.State.OFF)
             BoardManager.make.getBoard().draw(canvas);
     }
 
@@ -170,7 +186,6 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      * Inicializa os componentes principais do jogo, como tela e gerenciador de audio.
      */
     private void initComponents() {
-        this.soundManager = new SoundManager(getContext());
         this.deviceManager = new DeviceManager();
         BoardManager.make.start(this.deviceManager, this.soundManager);
 
@@ -180,6 +195,14 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         new MainBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom);
 
         // --------------------------------
+    }
+
+    public SoundManager getSoundManager() {
+        return soundManager;
+    }
+
+    public DeviceManager getDeviceManager() {
+        return deviceManager;
     }
 
     /**

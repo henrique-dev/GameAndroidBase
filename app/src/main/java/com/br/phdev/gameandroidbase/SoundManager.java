@@ -22,6 +22,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 
+import com.br.phdev.gameandroidbase.cmp.listeners.ActivityStateListener;
 import com.br.phdev.gameandroidbase.cmp.sound.Music;
 import com.br.phdev.gameandroidbase.cmp.sound.ShortSound;
 
@@ -31,17 +32,19 @@ import java.util.List;
 /**
  * Gerenciador de audio para o jogo.
  */
-public final class SoundManager {
+public final class SoundManager implements ActivityStateListener {
 
     /**
      * Lista de musicas disponiveis no contexto atual do gerenciador.
      */
     private List<Music> musicList;
+    private Music currentMusic;
 
     /**
      * Lista de efeitos sonoros disponiveis no contexto atual do gerenciador.
      */
     private List<ShortSound> shortSoundList;
+    private ShortSound currentShortSound;
 
     /**
      * Contexto da activity
@@ -54,11 +57,15 @@ public final class SoundManager {
     private MediaPlayer mediaPlayer;
     private SoundPool soundPool;
 
+    private float soundVolumeGeral = 1;
+    private float musicVolumeGeral = 1;
+
     /**
      * Cria o gerenciador.
      * @param context contexto da activity.
      */
     SoundManager(Context context) {
+        GameLog.debug(this, "SoundManager criado.");
         this.context = context;
         this.musicList = new ArrayList<>();
         this.shortSoundList = new ArrayList<>();
@@ -81,6 +88,7 @@ public final class SoundManager {
      */
     public void clearMusicList() {
         this.musicList.clear();
+        this.currentMusic = null;
     }
 
     /**
@@ -102,6 +110,7 @@ public final class SoundManager {
             this.soundPool.unload(shortSound.getPoolId());
         }
         this.shortSoundList.clear();
+        this.currentShortSound = null;
     }
 
     /**
@@ -117,6 +126,7 @@ public final class SoundManager {
      * @param music musica a ser reproduzida.
      */
     private void loadAndPlayMusic(final Music music) {
+        this.currentMusic = music;
         new Thread(){
             @Override
             public void run() {
@@ -145,8 +155,26 @@ public final class SoundManager {
      * @param index index do efeito sonoro na lista.
      */
     public void playSound(int index) {
-        this.soundPool.play(shortSoundList.get(index).getPoolId(), shortSoundList.get(index).getLeftVolume(),
-                shortSoundList.get(index).getRightVolume(), 1, shortSoundList.get(index).getLoop(), shortSoundList.get(index).getRate());
+        this.currentShortSound = this.shortSoundList.get(index);
+        int streamId = this.soundPool.play(currentShortSound.getPoolId(), currentShortSound.getLeftVolume(),
+                currentShortSound.getRightVolume(), 1, currentShortSound.getLoop(), currentShortSound.getRate());
+        this.currentShortSound.setStreamId(streamId);
+    }
+
+    public void muteMusic(boolean mute) {
+        GameLog.debug(this, "MUSICA PAUSADA");
+        if (this.currentMusic != null)
+            this.mediaPlayer.setVolume(mute ? 0 : this.currentMusic.getLeftVolume(),mute ? 0 : this.currentMusic.getRightVolume());
+    }
+
+    @Override
+    public void onPause() {
+        this.muteMusic(true);
+    }
+
+    @Override
+    public void onResume() {
+        this.muteMusic(false);
     }
 
     /**
@@ -159,6 +187,9 @@ public final class SoundManager {
         }
         if (this.soundPool != null)
             this.soundPool.release();
+        this.currentMusic = null;
+        this.currentShortSound = null;
     }
+
 
 }

@@ -53,4 +53,8 @@ public class GameLog {
         Log.d("MyApp: " + obj.getClass().getName(), logIndex++ + ": " + msg);
     }
 
+    public static void debugr(Object obj, String msg) {
+        Log.e("MyApp: " + obj.getClass().getName(), logIndex++ + ": " + msg);
+    }
+
 }

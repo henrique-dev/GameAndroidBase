@@ -25,12 +25,15 @@ import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.br.phdev.gameandroidbase.cmp.listeners.ActivityStateListener;
+
 /**
  * Activity unica e principal d aaplicação.
  */
 public class GameActivity extends Activity {
 
     private GameEngine gameEngine;
+    private ActivityStateListener activityStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -38,6 +41,7 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstance);
         setupParameters();
         this.gameEngine = new GameEngine(this);
+        this.activityStateListener = this.gameEngine.getSoundManager();
         super.setContentView(this.gameEngine);
     }
 
@@ -45,18 +49,21 @@ public class GameActivity extends Activity {
     protected void onDestroy() {
         GameLog.debug(this, "Activity destruida.");
         super.onDestroy();
+        this.gameEngine.finalizeApplication();
     }
 
     @Override
     public void onResume() {
         GameLog.debug(this, "Activity resumida.");
         super.onResume();
+        this.activityStateListener.onResume();
     }
 
     @Override
     public void onPause() {
         GameLog.debug(this, "Activity pausada.");
         super.onPause();
+        this.activityStateListener.onPause();
     }
 
     @Override

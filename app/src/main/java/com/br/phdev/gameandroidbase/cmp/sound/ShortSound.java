@@ -34,6 +34,8 @@ public class ShortSound {
      */
     private int poolId;
 
+    private int streamId;
+
     /**
      * Volume esquerdo e direito da musica. (vai de 0 a 1).
      */
@@ -161,5 +163,13 @@ public class ShortSound {
      */
     public void setRate(float rate) {
         this.rate = rate;
+    }
+
+    public int getStreamId() {
+        return streamId;
+    }
+
+    public void setStreamId(int streamId) {
+        this.streamId = streamId;
     }
 }
