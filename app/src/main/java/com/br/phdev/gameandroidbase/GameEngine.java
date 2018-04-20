@@ -24,6 +24,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.br.phdev.gameandroidbase.cmp.environment.Board;
+import com.br.phdev.gameandroidbase.test.GameBoard;
 import com.br.phdev.gameandroidbase.test.MainBoard;
 
 /**
@@ -35,11 +36,6 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      * Thread principal do jogo, que roda o main loop.
      */
     private MainThread mainThread;
-
-    /**
-     * Tela atual do jogo.
-     */
-    private Board board;
 
     /**
      * Gerenciador de audio do jogo.
@@ -171,7 +167,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         // --------------------------------
         // START YOUR BOARD HERE
 
-        BoardManager.make.post(new MainBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom));
+        new MainBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom);
 
         // --------------------------------
     }
@@ -180,7 +176,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      * Finaliza os componentes atuais do jogo.
      */
     private void finalizeComponents() {
-        this.board = null;
+        BoardManager.make.releaseBoard();
         this.soundManager.release();
     }
 

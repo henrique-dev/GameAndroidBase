@@ -26,13 +26,14 @@ public class BoardManager {
     private SoundManager soundManager;
 
     private Board currentBoard;
+    private Board nextBoard;
 
     private boolean currentBoardState;
 
     private BoardManager() {
 
     }
-    
+
     public static BoardManager getInstance() {
         return make;
     }
@@ -42,14 +43,43 @@ public class BoardManager {
         this.soundManager = soundManager;
     }
 
-    public void post(Board board) {
-        if (this.currentBoard != null)
+    public void register(Board board) {
+        this.nextBoard = board;
+        this.nextBoard.setDeviceManager(this.deviceManager);
+        this.nextBoard.setSoundManager(this.soundManager);
+        post();
+    }
+
+    public void post() {
+        if (this.currentBoard != null) {
             this.currentBoard.finalizeBoard();
+            this.currentBoard = null;
+        }
+        this.currentBoard = this.nextBoard;
+        this.currentBoard.initBoard();
+        this.currentBoardState = true;
+    }
+
+    public void post(Board board) {
+        if (this.currentBoard != null) {
+            this.currentBoard.finalizeBoard();
+        }
         this.currentBoard = board;
         this.currentBoard.setDeviceManager(this.deviceManager);
         this.currentBoard.setSoundManager(this.soundManager);
-        this.currentBoard.initBoard();
-        this.currentBoardState = true;
+        new Thread() {
+            @Override
+            public void run() {
+                BoardManager.this.currentBoard.initBoard();
+                BoardManager.this.currentBoardState = true;
+            }
+        }.start();
+    }
+
+    void releaseBoard() {
+        this.currentBoard.finalizeBoard();
+        this.currentBoard = null;
+        this.currentBoardState = false;
     }
 
     boolean isOk() {
