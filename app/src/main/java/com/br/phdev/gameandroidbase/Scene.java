@@ -14,14 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.cmp.environment;
+package com.br.phdev.gameandroidbase;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import com.br.phdev.gameandroidbase.DeviceManager;
-import com.br.phdev.gameandroidbase.SoundManager;
 import com.br.phdev.gameandroidbase.cmp.Controllable;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.GameEntity;

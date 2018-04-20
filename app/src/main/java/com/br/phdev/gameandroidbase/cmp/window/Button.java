@@ -51,6 +51,19 @@ public class Button extends WindowEntity {
     }
 
     /**
+     * Cria um botão em uma area.
+     * @param x posição no eixo x do botão.
+     * @param y posição no eixo y do botão.
+     * @param width largura do botão.
+     * @param height altura do botão.
+     * @param buttonText texto a ser exibido no botão.
+     */
+    public Button(int x, int y, int width, int height, String buttonText) {
+        super(new Rect(x, y, x + width, y + height), new Text(buttonText));
+        super.changeClickEffect(DEFAULT_CLICK_EFFECT);
+    }
+
+    /**
      * Cria um botão contendo texto em uma area.
      * @param area area para o botão.
      * @param buttonText texto a ser exibido no botão.

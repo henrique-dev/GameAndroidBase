@@ -152,6 +152,14 @@ public class Text extends Entity {
         align(this);
     }
 
+    public void setColor(int color) {
+        this.defaultPaint.setColor(color);
+    }
+
+    public int getColor() {
+        return this.defaultPaint.getColor();
+    }
+
     /**
      * Redefine o tamanho da fonte do texto.
      * @param size tamanho da fonte.

@@ -16,77 +16,135 @@
  */
 package com.br.phdev.gameandroidbase;
 
-import com.br.phdev.gameandroidbase.cmp.environment.Board;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Rect;
+import android.view.MotionEvent;
+
+import com.br.phdev.gameandroidbase.cmp.utils.Text;
 
 public class BoardManager {
 
-    public static BoardManager make = new BoardManager();
+    static BoardManager make = new BoardManager();
 
     private DeviceManager deviceManager;
     private SoundManager soundManager;
 
+    private Board loadingBoard;
+
     private Board currentBoard;
     private Board nextBoard;
 
-    private boolean currentBoardState;
+    enum State { LOADING, RUNNING, OFF}
+
+    private State currentBoardState;
 
     private BoardManager() {
-
     }
 
-    public static BoardManager getInstance() {
-        return make;
-    }
-
-    void set(DeviceManager deviceManager, SoundManager soundManager) {
+    void start(DeviceManager deviceManager, SoundManager soundManager) {
         this.deviceManager = deviceManager;
         this.soundManager = soundManager;
+        this.loadingBoard = new LoadingBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
+        this.currentBoardState = State.LOADING;
     }
 
-    public void register(Board board) {
+    void register(Board board) {
         this.nextBoard = board;
         this.nextBoard.setDeviceManager(this.deviceManager);
         this.nextBoard.setSoundManager(this.soundManager);
         post();
     }
 
-    public void post() {
+    private void post() {
         if (this.currentBoard != null) {
             this.currentBoard.finalizeBoard();
             this.currentBoard = null;
         }
-        this.currentBoard = this.nextBoard;
-        this.currentBoard.initBoard();
-        this.currentBoardState = true;
-    }
-
-    public void post(Board board) {
-        if (this.currentBoard != null) {
-            this.currentBoard.finalizeBoard();
-        }
-        this.currentBoard = board;
-        this.currentBoard.setDeviceManager(this.deviceManager);
-        this.currentBoard.setSoundManager(this.soundManager);
+        this.currentBoardState = State.LOADING;
         new Thread() {
             @Override
             public void run() {
-                BoardManager.this.currentBoard.initBoard();
-                BoardManager.this.currentBoardState = true;
+                try {
+                    sleep(5000);
+                    BoardManager.this.currentBoard = BoardManager.this.nextBoard;
+                    BoardManager.this.currentBoard.initBoard();
+                    BoardManager.this.currentBoardState = BoardManager.State.RUNNING;
+                } catch (Exception e) {
+
+                }
             }
         }.start();
     }
 
     void releaseBoard() {
-        this.currentBoard.finalizeBoard();
-        this.currentBoard = null;
-        this.currentBoardState = false;
+        if (this.currentBoard != null) {
+            this.currentBoard.finalizeBoard();
+            this.currentBoard = null;
+        }
+        if (this.loadingBoard != null) {
+            this.loadingBoard.finalizeBoard();
+            this.loadingBoard = null;
+        }
+        this.currentBoardState = State.OFF;
     }
 
-    boolean isOk() {
+    State isOk() {
         return currentBoardState;
     }
 
     Board getBoard() {
-        return this.currentBoard;
+        return this.currentBoardState == State.RUNNING ? this.currentBoard : this.loadingBoard;
+    }
+
+    private class LoadingBoard extends Board {
+
+        private Text text;
+
+        public LoadingBoard(int x, int y, int width, int height) {
+            super();
+            super.setArea(new Rect(x, y, x + width, y + height));
+            super.getDefaultPaint().setColor(Color.WHITE);
+            this.text = new Text(this, "Loading");
+            this.text.setTextSize(50);
+            this.text.setColor(Color.BLACK);
+        }
+
+        /*
+        public LoadingBoard(int x, int y, int width, int height) {
+            super(x, y, width, height);
+            super.getDefaultPaint().setColor(Color.WHITE);
+            this.text = new Text("Loading");
+            this.text.setTextSize(50);
+            this.text.setColor(Color.BLACK);
+        }*/
+
+        @Override
+        public void update() {
+
+        }
+
+        @Override
+        public void draw(Canvas canvas) {
+            int savedCount = canvas.getSaveCount();
+            canvas.drawRect(super.getArea(), super.defaultPaint);
+            this.text.draw(canvas);
+            canvas.restoreToCount(savedCount);
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            return true;
+        }
+
+        @Override
+        public void initBoard() {
+
+        }
+
+        @Override
+        public void finalizeBoard() {
+
+        }
     }
 }

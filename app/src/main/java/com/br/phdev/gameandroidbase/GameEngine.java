@@ -23,8 +23,6 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.br.phdev.gameandroidbase.cmp.environment.Board;
-import com.br.phdev.gameandroidbase.test.GameBoard;
 import com.br.phdev.gameandroidbase.test.MainBoard;
 
 /**
@@ -57,8 +55,12 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
 
         if (this.mainThread == null) {
-            GameLog.debug(this, "MainThread criada");
-            this.mainThread = new MainThread(this);
+            try {
+                this.mainThread = new MainThread(this);
+                GameLog.debug(this, "MainThread criada");
+            } catch (Exception e) {
+                GameLog.error(this, e);
+            }
         }
 
         setFocusable(true);
@@ -79,11 +81,15 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
             GameLog.error(this, e);
         }
 
-        GameLog.debug(this, "MainThread iniciada");
-        this.mainThread.start();
+        try {
+            this.mainThread.start();
+            GameLog.debug(this, "MainThread iniciada");
+        } catch (Exception e) {
+            GameLog.error(this, e);
+        }
 
-        GameLog.debug(this, "Loop da MainThread ativado");
         this.mainThread.setRunning(true);
+        GameLog.debug(this, "Loop da MainThread ativado");
 
     }
 
@@ -121,6 +127,10 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    public void finalizeSurface() {
+
+    }
+
     /**
      * Desenha a tela no canvas.
      * @param canvas
@@ -128,7 +138,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     @SuppressLint("MissingSuperCall")
     @Override
     public void draw(Canvas canvas) {
-        if (BoardManager.make.isOk())
+        if (BoardManager.make.isOk() != BoardManager.State.OFF)
             BoardManager.make.getBoard().draw(canvas);
     }
 
@@ -136,7 +146,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      * Atualiza a tela.
      */
     public void update() {
-        if (BoardManager.make.isOk())
+        if (BoardManager.make.isOk() != BoardManager.State.OFF)
             BoardManager.make.getBoard().update();
     }
 
@@ -145,13 +155,13 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        if (BoardManager.make.isOk())
+        if (BoardManager.make.isOk() != BoardManager.State.OFF)
             BoardManager.make.getBoard().onTouchEvent(motionEvent);
         return true;
     }
 
     public boolean keyBackPressed() {
-        if (BoardManager.make.isOk())
+        if (BoardManager.make.isOk() != BoardManager.State.OFF)
             return BoardManager.make.getBoard().keyBackPressed();
         return true;
     }
@@ -162,7 +172,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     private void initComponents() {
         this.soundManager = new SoundManager(getContext());
         this.deviceManager = new DeviceManager();
-        BoardManager.make.set(this.deviceManager, this.soundManager);
+        BoardManager.make.start(this.deviceManager, this.soundManager);
 
         // --------------------------------
         // START YOUR BOARD HERE

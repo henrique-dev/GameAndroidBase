@@ -34,6 +34,7 @@ public class GameActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstance) {
+        GameLog.debug(this, "Activity criada.");
         super.onCreate(savedInstance);
         setupParameters();
         this.gameEngine = new GameEngine(this);
@@ -41,12 +42,20 @@ public class GameActivity extends Activity {
     }
 
     @Override
+    protected void onDestroy() {
+        GameLog.debug(this, "Activity destruida.");
+        super.onDestroy();
+    }
+
+    @Override
     public void onResume() {
+        GameLog.debug(this, "Activity resumida.");
         super.onResume();
     }
 
     @Override
     public void onPause() {
+        GameLog.debug(this, "Activity pausada.");
         super.onPause();
     }
 
