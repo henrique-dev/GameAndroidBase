@@ -20,6 +20,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.annotation.NonNull;
 
 import com.br.phdev.gameandroidbase.cmp.Entity;
@@ -43,7 +44,7 @@ public class OldText extends Entity {
     /**
      * Area original do componente. Usado para calculos de alinhamento.
      */
-    private Rect originalArea;
+    private RectF originalArea;
 
     /**
      * Alinhamento horizontal e vertical do texto.
@@ -109,9 +110,9 @@ public class OldText extends Entity {
      * @param text texto para ser exibido.
      */
     public OldText(@NonNull  Entity entity, @NonNull String text) {
-        super(new Rect(entity.getArea()));
+        super(new RectF(entity.getArea()));
         this.entity = entity;
-        this.originalArea = new Rect(super.area);
+        this.originalArea = new RectF(super.area);
         super.defaultPaint.setColor(colorText);
         super.defaultPaint.setAntiAlias(true);
         this.text = text;
@@ -133,9 +134,9 @@ public class OldText extends Entity {
     }
 
     @Override
-    public void setArea(Rect area) {
+    public void setArea(RectF area) {
         super.setArea(area);
-        this.originalArea = new Rect(super.area);
+        this.originalArea = new RectF(super.area);
         checkAndFormatText(this);
         if (this.textSizeAdjusted)
             automaticTextSize(this);

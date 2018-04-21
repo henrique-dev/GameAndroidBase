@@ -51,6 +51,19 @@ public class KeyboardEvent extends Event {
     public static final int KEY_BACKSPACE = 27;
     public static final int KEY_CONFIRM = 28;
 
+    public static final int KEY_1 = 29;
+    public static final int KEY_2 = 30;
+    public static final int KEY_3 = 31;
+    public static final int KEY_4 = 32;
+    public static final int KEY_5 = 33;
+    public static final int KEY_6 = 34;
+    public static final int KEY_7 = 35;
+    public static final int KEY_8 = 36;
+    public static final int KEY_9 = 37;
+    public static final int KEY_0 = 38;
+
+    public static final int KEY_SWITCH = 39;
+
     /**
      * Keycode lançado pela tecla do teclado.
      */

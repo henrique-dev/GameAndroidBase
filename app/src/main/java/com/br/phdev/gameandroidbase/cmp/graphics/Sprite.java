@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.GameParameters;
@@ -171,8 +172,8 @@ public class Sprite implements Drawable {
     public void draw(Canvas canvas) {
         int savedState = canvas.save();
 
-        int x = this.entity.getArea().left;
-        int y = this.entity.getArea().top;
+        float x = this.entity.getArea().left;
+        float y = this.entity.getArea().top;
 
         if (invertV || invertH || degrees != 0) {
             canvas.setMatrix(this.matrix);
@@ -187,11 +188,11 @@ public class Sprite implements Drawable {
         }
 
         if (debugSprite) {
-            canvas.drawRect(new Rect(x, y, x + this.imageClip.width(), y + this.imageClip.height()), this.debugPaint1);
+            canvas.drawRect(new RectF(x, y, x + this.imageClip.width(), y + this.imageClip.height()), this.debugPaint1);
             canvas.drawCircle(x, y, 15, this.debugPaint2);
         }
 
-        canvas.drawBitmap(this.texture.getBitmap(), this.imageClip, new Rect(x, y, x + this.imageClip.width(), y + this.imageClip.height()), this.paint);
+        canvas.drawBitmap(this.texture.getBitmap(), this.imageClip, new RectF(x, y, x + this.imageClip.width(), y + this.imageClip.height()), this.paint);
         canvas.restoreToCount(savedState);
     }
 

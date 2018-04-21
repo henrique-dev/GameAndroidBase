@@ -16,12 +16,15 @@
  */
 package com.br.phdev.gameandroidbase;
 
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.cmp.Controllable;
 import com.br.phdev.gameandroidbase.cmp.Entity;
+import com.br.phdev.gameandroidbase.cmp.listeners.OnConfigurationChangedListener;
 
 import java.util.ArrayList;
 
@@ -30,7 +33,7 @@ import java.util.ArrayList;
  * Possui uma lista com as cenas disponiveis no objeto de tela do contexto.
  * @version 1.0
  */
-public abstract class Board extends Entity implements Controllable {
+public abstract class Board extends Entity implements Controllable, OnConfigurationChangedListener {
 
     /**
      * Gerenciador de audio do jogo.
@@ -58,8 +61,8 @@ public abstract class Board extends Entity implements Controllable {
      * @param width largura da tela.
      * @param height altura da tela.
      */
-    protected Board(int x, int y, int width, int height) {
-        super(new Rect(x, y, x + width, y + height));
+    protected Board(float x, float y, float width, float height) {
+        super(new RectF(x, y, x + width, y + height));
         this.scenes = new ArrayList<>();
         super.active = true;
         super.visible = true;
@@ -172,5 +175,10 @@ public abstract class Board extends Entity implements Controllable {
         } else
             return true;
         return false;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+
     }
 }

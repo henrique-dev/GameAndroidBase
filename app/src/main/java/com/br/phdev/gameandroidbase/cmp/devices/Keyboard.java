@@ -16,10 +16,13 @@
  */
 package com.br.phdev.gameandroidbase.cmp.devices;
 
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.GameLog;
@@ -35,28 +38,27 @@ import com.br.phdev.gameandroidbase.cmp.listeners.events.KeyboardEvent;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
 import com.br.phdev.gameandroidbase.cmp.window.Button;
 import com.br.phdev.gameandroidbase.cmp.window.Formable;
-import com.br.phdev.gameandroidbase.cmp.window.GridLayout;
-import com.br.phdev.gameandroidbase.cmp.window.Layout;
 import com.br.phdev.gameandroidbase.cmp.window.Window;
 import com.br.phdev.gameandroidbase.cmp.window.WindowEntity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Teclado utilizado para entidades que contenham entrada de texto.
  */
-public final class Keyboard extends WindowEntity implements Formable, ActionListener{
+public final class Keyboard extends WindowEntity implements ActionListener{
 
     private Window letters;
     private Window numbers;
+    private Window currentKeyboardType;
 
     private boolean loaded;
 
     /**
      * Teclas do teclado.
      */
-    private ArrayList<WindowEntity> buttonKeys;
+    private ArrayList<WindowEntity> letterKeys;
+    private ArrayList<WindowEntity> numberKeys;
 
     /**
      * Estado ativo do teclado no contexto.
@@ -66,7 +68,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
     /**
      * Valores originais para serem restaurados caso uma entidade consumida pelo teclado seja modificada.
      */
-    private Rect originalArea; private Paint originalPaint;
+    private RectF originalArea; private Paint originalPaint;
 
     /**
      * Estado de modificação da entidade consumida pelo teclado.
@@ -82,7 +84,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
      * Cria um teclado.
      */
     public Keyboard() {
-        super(new Rect(
+        super(new RectF(
                 0,
                 GameParameters.getInstance().screenSize.centerY() + GameParameters.getInstance().screenSize.centerY()/4,
                 GameParameters.getInstance().screenSize.width(),
@@ -112,81 +114,164 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
 
     private void setKeys() {
 
-        this.buttonKeys = new ArrayList<>();
-        this.letters = new Window(super.getX(), super.getY(), super.getWidth(), super.getHeight());
+        {
+            this.letterKeys = new ArrayList<>();
+            this.letters = new Window(super.getX(), super.getY(), super.getWidth(), super.getHeight());
 
-        int keyHeight = super.getHeight()/4;
-        int keyWidth = super.getWidth()/10;
+            float keyHeight = super.getHeight() / 4;
+            float keyWidth = super.getWidth() / 10;
 
-        int keyCode[] = {16, 23, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5,
-                6, 7, 9, 10, 11, 25, 22, 2, 21, 1, 13, 12, 26, 27};
+            int letterKeyCode[] = {16, 23, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5,
+                    6, 7, 9, 10, 11, 25, 22, 2, 21, 1, 13, 12, 26, 27};
 
-        for (int i=0; i<10; i++) {
-            Key key = new Key(keyCode[i]);
-            key.addActionListener(this);
-            key.setColor(Color.GREEN);
-            key.setArea(new Rect(i * keyWidth, super.getY(), (i+1) * keyWidth, super.getY() + keyHeight));
-            this.buttonKeys.add(key);
 
-        }
+            for (int i = 0; i < 10; i++) {
+                Key key = new Key(letterKeyCode[i]);
+                key.addActionListener(this);
+                key.setColor(Color.GREEN);
+                key.setArea(new RectF(i * keyWidth, super.getY(), (i + 1) * keyWidth, super.getY() + keyHeight));
+                this.letterKeys.add(key);
 
-        for (int i=0; i<9; i++) {
-            Key key = new Key(keyCode[i + 10]);
-            key.addActionListener(this);
-            key.setColor(Color.GREEN);
-            key.setArea(new Rect(
-                    keyWidth/2 + i * keyWidth,
-                    super.getY() + keyHeight,
-                    keyWidth/2 + (i+1) * keyWidth,
-                    super.getY() + (keyHeight * 2)));
-            this.buttonKeys.add(key);
-        }
-
-        for (int i=0; i<7; i++) {
-            Key key = new Key(keyCode[i + 19]);
-            key.addActionListener(this);
-            key.setColor(Color.GREEN);
-            key.setArea(new Rect(
-                    keyWidth/2 + (i * keyWidth),
-                    super.getY() + (keyHeight * 2),
-                    keyWidth/2 + (i+1) * keyWidth,
-                    super.getY() + (keyHeight * 3)));
-            this.buttonKeys.add(key);
-
-            if (i == 6) {
-                Key backspaceKey = new Key(27);
-                backspaceKey.addActionListener(this);
-                backspaceKey.setColor(Color.GREEN);
-                backspaceKey.setArea(new Rect(
-                        keyWidth/2 + ((i+1) * keyWidth),
-                        super.getY() + (keyHeight * 2),
-                        keyWidth/2 + ((i+3) * keyWidth),
-                        super.getY() + (keyHeight * 3)));
-                this.buttonKeys.add(backspaceKey);
             }
-        }
-        Key spaceKey = new Key(26);
-        spaceKey.addActionListener(this);
-        spaceKey.setColor(Color.GREEN);
-        spaceKey.setArea(new Rect(
-                super.area.centerX() - (keyWidth * 2),
-                super.getY() + (keyHeight * 3),
-                super.area.centerX() + (keyWidth * 2),
-                super.getY() + (keyHeight * 4)
-        ));
-        this.buttonKeys.add(spaceKey);
 
-        Key confirmKey = new Key(28);
-        confirmKey.addActionListener(this);
-        confirmKey.setColor(Color.GREEN);
-        confirmKey.setArea(new Rect(
-                spaceKey.getArea().right,
-                super.getY() + (keyHeight * 3),
-                spaceKey.getArea().right + (keyWidth * 2),
-                super.getY() + (keyHeight * 4)
-        ));
-        this.buttonKeys.add(confirmKey);
-        this.letters.add(this.buttonKeys);
+            for (int i = 0; i < 9; i++) {
+                Key key = new Key(letterKeyCode[i + 10]);
+                key.addActionListener(this);
+                key.setColor(Color.GREEN);
+                key.setArea(new RectF(
+                        keyWidth / 2 + i * keyWidth,
+                        super.getY() + keyHeight,
+                        keyWidth / 2 + (i + 1) * keyWidth,
+                        super.getY() + (keyHeight * 2)));
+                this.letterKeys.add(key);
+            }
+
+            for (int i = 0; i < 7; i++) {
+                Key key = new Key(letterKeyCode[i + 19]);
+                key.addActionListener(this);
+                key.setColor(Color.GREEN);
+                key.setArea(new RectF(
+                        keyWidth / 2 + (i * keyWidth),
+                        super.getY() + (keyHeight * 2),
+                        keyWidth / 2 + (i + 1) * keyWidth,
+                        super.getY() + (keyHeight * 3)));
+                this.letterKeys.add(key);
+
+                if (i == 6) {
+                    Key backspaceKey = new Key(KeyboardEvent.KEY_BACKSPACE);
+                    backspaceKey.addActionListener(this);
+                    backspaceKey.setColor(Color.GREEN);
+                    backspaceKey.setArea(new RectF(
+                            keyWidth / 2 + ((i + 1) * keyWidth),
+                            super.getY() + (keyHeight * 2),
+                            keyWidth / 2 + ((i + 3) * keyWidth),
+                            super.getY() + (keyHeight * 3)));
+                    this.letterKeys.add(backspaceKey);
+                }
+            }
+
+            Key spaceKey = new Key(KeyboardEvent.KEY_SPACE);
+            spaceKey.addActionListener(this);
+            spaceKey.setColor(Color.GREEN);
+            spaceKey.setArea(new RectF(
+                    super.area.centerX() - (keyWidth * 2),
+                    super.getY() + (keyHeight * 3),
+                    super.area.centerX() + (keyWidth * 2),
+                    super.getY() + (keyHeight * 4)
+            ));
+            this.letterKeys.add(spaceKey);
+
+            Key switchKey = new Key(KeyboardEvent.KEY_SWITCH);
+            switchKey.addActionListener(this);
+            switchKey.setColor(Color.GREEN);
+            switchKey.setArea(new RectF(
+                    spaceKey.getArea().left - (keyWidth * 2),
+                    super.getY() + (keyHeight * 3),
+                    spaceKey.getArea().left,
+                    super.getY() + (keyHeight * 4)
+            ));
+            this.letterKeys.add(switchKey);
+
+            Key confirmKey = new Key(KeyboardEvent.KEY_CONFIRM);
+            confirmKey.addActionListener(this);
+            confirmKey.setColor(Color.GREEN);
+            confirmKey.setArea(new RectF(
+                    spaceKey.getArea().right,
+                    super.getY() + (keyHeight * 3),
+                    spaceKey.getArea().right + (keyWidth * 2),
+                    super.getY() + (keyHeight * 4)
+            ));
+            this.letterKeys.add(confirmKey);
+        }
+
+        {
+            this.numberKeys = new ArrayList<>();
+            this.numbers = new Window(super.getX(), super.getY(), super.getWidth(), super.getHeight());
+
+            float keyHeight = super.getHeight() / 5;
+            float keyWidth = super.getWidth() / 3;
+
+            int numberKeyCode[] = {29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
+
+            int tempCounter = 0;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    Key key = new Key(numberKeyCode[tempCounter++]);
+                    key.addActionListener(this);
+                    key.setColor(Color.GREEN);
+                    key.setArea(new RectF(
+                            j * keyWidth,
+                            (i * keyHeight) + super.getY(),
+                            (j + 1) * keyWidth,
+                            (i * keyHeight) + super.getY() + keyHeight));
+                    this.numberKeys.add(key);
+                }
+            }
+            Key zeroKey = new Key(38);
+            zeroKey.addActionListener(this);
+            zeroKey.setColor(Color.GREEN);
+            zeroKey.setArea(new RectF(
+                    1 * keyWidth,
+                    (3 * keyHeight) + super.getY(),
+                    2 * keyWidth,
+                    (3 * keyHeight) + super.getY() + keyHeight));
+            this.numberKeys.add(zeroKey);
+
+            Key switchKey = new Key(KeyboardEvent.KEY_SWITCH);
+            switchKey.addActionListener(this);
+            switchKey.setColor(Color.GREEN);
+            switchKey.setArea(new RectF(
+                    0,
+                    (4 * keyHeight) + super.getY(),
+                    keyWidth,
+                    (4 * keyHeight) + super.getY() + keyHeight));
+            this.numberKeys.add(switchKey);
+
+            Key backspaceKey = new Key(KeyboardEvent.KEY_BACKSPACE);
+            backspaceKey.addActionListener(this);
+            backspaceKey.setColor(Color.GREEN);
+            backspaceKey.setArea(new RectF(
+                    keyWidth,
+                    (4 * keyHeight) + super.getY(),
+                    2 * keyWidth,
+                    (4 * keyHeight) + super.getY() + keyHeight));
+            this.numberKeys.add(backspaceKey);
+
+            Key confirmKey = new Key(KeyboardEvent.KEY_CONFIRM);
+            confirmKey.addActionListener(this);
+            confirmKey.setColor(Color.GREEN);
+            confirmKey.setArea(new RectF(
+                    2 * keyWidth,
+                    (4 * keyHeight) + super.getY(),
+                    3 * keyWidth,
+                    (4 * keyHeight) + super.getY() + keyHeight));
+            this.numberKeys.add(confirmKey);
+        }
+
+        this.numbers.add(this.numberKeys);
+        this.letters.add(this.letterKeys);
+
+        this.currentKeyboardType = this.letters;
 
     }
 
@@ -236,7 +321,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
     public void registerListener(KeyboardListener keyboardListener) {
         super.addListener(0, keyboardListener);
         this.entity = (Entity)keyboardListener;
-        this.originalArea = new Rect(this.entity.getArea());
+        this.originalArea = new RectF(this.entity.getArea());
         this.originalPaint = new Paint(this.entity.getDefaultPaint());
     }
 
@@ -258,16 +343,6 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         }
         else
             this.disableKeyboard();
-    }
-
-    @Override
-    public Entity get(int index) {
-        return this.buttonKeys.get(index);
-    }
-
-    @Override
-    public int size() {
-        return this.buttonKeys.size();
     }
 
     /**
@@ -334,7 +409,29 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
             case KeyboardEvent.KEY_BACKSPACE:
                 return "Apagar";
             case KeyboardEvent.KEY_CONFIRM:
-                    return "Ok";
+                return "Ok";
+            case KeyboardEvent.KEY_SWITCH:
+                return "Trocar";
+            case KeyboardEvent.KEY_0:
+                return "0";
+            case KeyboardEvent.KEY_1:
+                return "1";
+            case KeyboardEvent.KEY_2:
+                return "2";
+            case KeyboardEvent.KEY_3:
+                return "3";
+            case KeyboardEvent.KEY_4:
+                return "4";
+            case KeyboardEvent.KEY_5:
+                return "5";
+            case KeyboardEvent.KEY_6:
+                return "6";
+            case KeyboardEvent.KEY_7:
+                return "7";
+            case KeyboardEvent.KEY_8:
+                return "8";
+            case KeyboardEvent.KEY_9:
+                return "9";
             default:
                 return "?";
         }
@@ -394,6 +491,26 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
                 return 'Y';
             case KeyboardEvent.KEY_Z:
                 return 'Z';
+            case KeyboardEvent.KEY_0:
+                return '0';
+            case KeyboardEvent.KEY_1:
+                return '1';
+            case KeyboardEvent.KEY_2:
+                return '2';
+            case KeyboardEvent.KEY_3:
+                return '3';
+            case KeyboardEvent.KEY_4:
+                return '4';
+            case KeyboardEvent.KEY_5:
+                return '5';
+            case KeyboardEvent.KEY_6:
+                return '6';
+            case KeyboardEvent.KEY_7:
+                return '7';
+            case KeyboardEvent.KEY_8:
+                return '8';
+            case KeyboardEvent.KEY_9:
+                return '9';
             case KeyboardEvent.KEY_SPACE:
                 return ' ';
             default:
@@ -406,7 +523,12 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         KeyboardEvent keyboardEvent = (KeyboardEvent)evt;
         if (keyboardEvent.keyCode == KeyboardEvent.KEY_CONFIRM)
             disableKeyboard();
-        else
+        else if (keyboardEvent.keyCode == KeyboardEvent.KEY_SWITCH) {
+            if (this.currentKeyboardType == this.letters)
+                this.currentKeyboardType = this.numbers;
+            else
+                this.currentKeyboardType = this.letters;
+        } else
             ((KeyboardListener)this.entity).keyPressed(keyboardEvent);
     }
 
@@ -415,13 +537,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         if (!super.visible)
             return;
         super.update();
-
-        /*
-        for (Entity ent : this.buttonKeys)
-            if (ent.isActive())
-                ent.update();
-                */
-        this.letters.update();
+        this.currentKeyboardType.update();
     }
 
     @Override
@@ -431,12 +547,7 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         int savedState = canvas.save();
 
         canvas.drawRect(super.area, super.defaultPaint);
-        /*
-        for (Entity ent : this.buttonKeys)
-            if (ent.isVisible())
-                ent.draw(canvas);
-                */
-        this.letters.draw(canvas);
+        this.currentKeyboardType.draw(canvas);
         if (this.modified)
             this.entity.draw(canvas);
 
@@ -452,18 +563,10 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         float y = motionEvent.getY();
 
         if (haveCollision(x, y, this)) {
-/*
-            for (WindowEntity key : this.buttonKeys) {
-                if (haveCollision(x, y, key))
-                    key.onTouchEvent(motionEvent);
-            }*/
-
-
-            for (WindowEntity key : this.letters.get()) {
+            for (WindowEntity key : this.currentKeyboardType.get()) {
                 if (haveCollision(x, y, key))
                     key.onTouchEvent(motionEvent);
             }
-
             return true;
         } else
             if (!haveCollision(motionEvent.getX(), motionEvent.getY(), this.entity))
@@ -471,12 +574,16 @@ public final class Keyboard extends WindowEntity implements Formable, ActionList
         return false;
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+    }
+
     private class Key extends Button {
 
         private int keyCode;
 
         Key(int keyCode) {
-            super(new Rect(), new Text(Keyboard.getKeyName(keyCode)));
+            super(new RectF(), new Text(Keyboard.getKeyName(keyCode)));
             this.keyCode = keyCode;
             FlashEffect flashEffect = new FlashEffect();
             flashEffect.setSpeed(1);

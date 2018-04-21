@@ -16,13 +16,16 @@
  */
 package com.br.phdev.gameandroidbase;
 
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.cmp.Controllable;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.GameEntity;
+import com.br.phdev.gameandroidbase.cmp.listeners.OnConfigurationChangedListener;
 import com.br.phdev.gameandroidbase.cmp.window.WindowEntity;
 
 import java.util.ArrayList;
@@ -32,7 +35,7 @@ import java.util.ArrayList;
  * Possui duas listas, uma com objetos da janela e outra com objetos de in-game.
  * @version 1.0
  */
-public abstract class Scene extends Entity implements Controllable {
+public abstract class Scene extends Entity implements Controllable, OnConfigurationChangedListener {
 
     /**
      * Gerenciador de audio do jogo.
@@ -61,13 +64,13 @@ public abstract class Scene extends Entity implements Controllable {
      * @param width largura da cena.
      * @param height altura da cena.
      */
-    protected Scene(int x, int y, int width, int height) {
-        super(new Rect(x, y, x + width, y + height));
+    protected Scene(float x, float y, float width, float height) {
+        super(new RectF(x, y, x + width, y + height));
         this.windowEntities = new ArrayList<>();
         this.gameEntities = new ArrayList<>();
     }
 
-    protected Scene(Rect area) {
+    protected Scene(RectF area) {
         super(area);
         this.windowEntities = new ArrayList<>();
         this.gameEntities = new ArrayList<>();
@@ -159,6 +162,10 @@ public abstract class Scene extends Entity implements Controllable {
     @Override
     public boolean keyBackPressed() {
         return false;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
     }
 
 }

@@ -18,6 +18,7 @@ package com.br.phdev.gameandroidbase;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -110,6 +111,12 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         GameLog.debug(this, "Loop da MainThread ativado");
     }
 
+    public void resizeApplication(Configuration newConfig) {
+        if (BoardManager.make.isOk() != BoardManager.State.OFF)
+            BoardManager.make.getBoard().onConfigurationChanged(newConfig);
+        getDeviceManager().getKeyboard().onConfigurationChanged(newConfig);
+    }
+
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
         GameLog.debug(this, "Surface modificada");
@@ -137,6 +144,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
                 this.mainThread.setRunning(false);
 
                 try {
+                    BoardManager.make.loadingThread.join();
                     this.mainThread.join();
                     GameLog.debug(this, "MainThread destruida");
                 } catch (InterruptedException ie) {

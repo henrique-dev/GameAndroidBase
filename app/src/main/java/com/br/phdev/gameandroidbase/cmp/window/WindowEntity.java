@@ -16,12 +16,15 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.GameLog;
+import com.br.phdev.gameandroidbase.GameParameters;
 import com.br.phdev.gameandroidbase.cmp.Controllable;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.effect.ClickEffect;
@@ -110,7 +113,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
      * Cria uma entidade para janela.
      * @param area area da entidade.
      */
-    protected WindowEntity(Rect area) {
+    protected WindowEntity(RectF area) {
         super(area);
         this.effects = new ArrayList<>();
         this.listeners = new ArrayList<>();
@@ -126,7 +129,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
      * @param area area da entidade.
      * @param entityText texto a ser exibido com a entidade.
      */
-    protected WindowEntity(Rect area, Text entityText) {
+    protected WindowEntity(RectF area, Text entityText) {
         super(area);
         this.effects = new ArrayList<>();
         this.listeners = new ArrayList<>();
@@ -140,10 +143,10 @@ public abstract class WindowEntity extends Entity implements Controllable {
     }
 
     @Override
-    public void setArea(Rect area) {
+    public void setArea(RectF area) {
         super.setArea(area);
         if (this.entityText != null) {
-            this.entityText.setArea(new Rect(area));
+            this.entityText.setArea(new RectF(area));
         }
     }
 
@@ -388,6 +391,11 @@ public abstract class WindowEntity extends Entity implements Controllable {
     @Override
     public boolean keyBackPressed() {
         return false;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+
     }
 
     /*

@@ -16,20 +16,28 @@
  */
 package com.br.phdev.gameandroidbase.cmp;
 
+import android.content.res.Configuration;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
+
+import com.br.phdev.gameandroidbase.GameLog;
+import com.br.phdev.gameandroidbase.GameParameters;
+import com.br.phdev.gameandroidbase.cmp.listeners.OnConfigurationChangedListener;
+import com.br.phdev.gameandroidbase.cmp.utils.Text;
 
 /**
  * Classe base responsavel por todas as entidades.
  * As entidades são atualizaveis e desenhaveis.
  * @version 1.0
  */
-public abstract class Entity implements Component {
+public abstract class Entity implements Component, OnConfigurationChangedListener {
 
     /**
      * Area da entidade.
      */
-    protected Rect area;
+    protected RectF area;
 
     /**
      * {@link Paint} relacionado geral da entidade.
@@ -50,7 +58,7 @@ public abstract class Entity implements Component {
      * Cria uma entidade.
      */
     protected Entity() {
-        this.area = new Rect();
+        this.area = new RectF();
         this.defaultPaint = new Paint();
     }
 
@@ -58,8 +66,8 @@ public abstract class Entity implements Component {
      * Cria uma entidade.
      * @param area area relacionada a entidade.
      */
-    protected Entity(Rect area) {
-        this.area = new Rect(area);
+    protected Entity(RectF area) {
+        this.area = new RectF(area);
         this.defaultPaint = new Paint();
     }
 
@@ -67,7 +75,7 @@ public abstract class Entity implements Component {
      * Retorna a area da entoidade.
      * @return area da entidade.
      */
-    public Rect getArea() {
+    public RectF getArea() {
         return this.area;
     }
 
@@ -75,7 +83,7 @@ public abstract class Entity implements Component {
      * Redefine a area da entidade.
      * @param area area da entidade.
      */
-    public void setArea(Rect area) {
+    public void setArea(RectF area) {
         this.area = area;
     }
 
@@ -83,8 +91,8 @@ public abstract class Entity implements Component {
      * Redefine a area da entidade.
      * @param x nova posição.
      */
-    public void setX(int x) {
-        int width = this.area.width();
+    public void setX(float x) {
+        float width = this.area.width();
         this.area.right = width + (this.area.left = x);
     }
 
@@ -92,7 +100,7 @@ public abstract class Entity implements Component {
      * Retorna a posição da entidade.
      * @return posição.
      */
-    public int getX() {
+    public float getX() {
         return this.area.left;
     }
 
@@ -100,8 +108,8 @@ public abstract class Entity implements Component {
      * Redefine a area da entidade.
      * @param y nova posição.
      */
-    public void setY(int y) {
-        int height = this.area.height();
+    public void setY(float y) {
+        float height = this.area.height();
         this.area.bottom = height + (this.area.top = y);
     }
 
@@ -109,7 +117,7 @@ public abstract class Entity implements Component {
      * Retorna a area da entidade.
      * @return posição.
      */
-    public int getY() {
+    public float getY() {
         return this.area.top;
     }
 
@@ -117,7 +125,7 @@ public abstract class Entity implements Component {
      * Retorna a largura da entidade.
      * @return largura da entidade.
      */
-    public int getWidth() {
+    public float getWidth() {
         return this.area.width();
     }
 
@@ -125,7 +133,7 @@ public abstract class Entity implements Component {
      * Redefine a largura da entidade.
      * @param width largura para a entidade.
      */
-    public void setWidth(int width) {
+    public void setWidth(float width) {
         this.area.right = this.area.left + width;
     }
 
@@ -133,7 +141,7 @@ public abstract class Entity implements Component {
      * Retorna a altura da entidade.
      * @return altura da entidade.
      */
-    public int getHeight() {
+    public float getHeight() {
         return this.area.height();
     }
 
@@ -141,7 +149,7 @@ public abstract class Entity implements Component {
      * Redefine a altura da entidade.
      * @param height altura para a entidade.
      */
-    public void setHeight(int height) {
+    public void setHeight(float height) {
         this.area.bottom = this.area.top + height;
     }
 
@@ -201,11 +209,11 @@ public abstract class Entity implements Component {
      * @return true para colidido e false para não colidido.
      */
     protected static boolean haveCollision(float x, float y, Entity entity) {
-        Rect area = entity.getArea();
+        RectF area = entity.getArea();
         return (x > area.left && x < area.right && y > area.top && y < area.bottom);
     }
 
-    protected static boolean haveCollision(float x, float y, Rect area) {
+    protected static boolean haveCollision(float x, float y, RectF area) {
         return (x > area.left && x < area.right && y > area.top && y < area.bottom);
     }
 
@@ -216,7 +224,14 @@ public abstract class Entity implements Component {
      * @param displaceY deslocamento no eixo y a ser somado.
      */
     protected static void move(Entity entity, float displaceX, float displaceY) {
-        entity.setX( entity.getX() + (int)displaceX);
-        entity.setY( entity.getY() + (int)displaceY);
+        entity.setX( entity.getX() + displaceX);
+        entity.setY( entity.getY() + displaceY);
     }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+
+    }
+
 }

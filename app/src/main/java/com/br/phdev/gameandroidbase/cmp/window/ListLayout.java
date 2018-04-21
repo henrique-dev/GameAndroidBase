@@ -17,7 +17,9 @@
 package com.br.phdev.gameandroidbase.cmp.window;
 
 import android.graphics.Rect;
+import android.graphics.RectF;
 
+import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
 /**
@@ -70,29 +72,31 @@ public class ListLayout extends Layout{
         if (componentsSource == null || !(componentsSource.size() > 0))
             return;
 
-        int x = super.entity.getArea().left;
-        int y = super.entity.getArea().top;
+        float x = super.entity.getArea().left;
+        float y = super.entity.getArea().top;
         if (this.alignment == HORIZONTAL_ALIGNMENT) {
-            int height = super.entity.getArea().height() - super.spaceV * 2;
-            int cmpWidth = (super.entity.getArea().width() - super.spaceH * (componentsSource.size()+1)) / componentsSource.size();
+            float height = super.entity.getArea().height() - super.spaceV * 2;
+            float cmpWidth = (super.entity.getArea().width() - super.spaceH * (componentsSource.size()+1)) / componentsSource.size();
             for (int i=0; i<componentsSource.size(); i++) {
                 Entity tmpEnt = componentsSource.get(i);
-                tmpEnt.setArea(new Rect(
+                tmpEnt.setArea(new RectF(
                         (super.spaceH + super.spaceH *i) + x + (i * cmpWidth),
                         super.spaceV + y,
                         (super.spaceH + super.spaceH *i) + x + ((i+1) * cmpWidth),
                         super.spaceV + y + height));
             }
         } else if (this.alignment == VERTICAL_ALIGNMENT) {
-            int width = super.entity.getArea().width() - super.spaceH * 2;
-            int cmpHeight = (super.entity.getArea().height() - super.spaceV * (componentsSource.size()+1)) / componentsSource.size();
+
+            float width = super.entity.getArea().width() - super.spaceH * 2;
+
+            float cmpHeight = (super.entity.getArea().height() - super.spaceV * (componentsSource.size()+1)) / componentsSource.size();
             for (int i=0; i<componentsSource.size(); i++) {
                 Entity ent = componentsSource.get(i);
-                ent.setArea(new Rect(
+                ent.setArea(new RectF(
                         super.spaceH + x,
-                        (super.spaceV + super.spaceV *i) + y + (i * cmpHeight),
+                        (super.spaceV + super.spaceV * (float)i) + y + ((float)i * cmpHeight),
                         super.spaceH + x + width,
-                        (super.spaceV + super.spaceV *i) + y + ((i+1) * cmpHeight)));
+                        (super.spaceV + super.spaceV * (float)i) + y + ((float)(i+1) * cmpHeight)));
             }
         }
     }

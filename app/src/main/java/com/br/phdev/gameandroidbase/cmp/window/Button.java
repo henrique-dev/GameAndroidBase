@@ -18,6 +18,7 @@ package com.br.phdev.gameandroidbase.cmp.window;
 
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
@@ -36,8 +37,8 @@ public class Button extends WindowEntity {
      * @param width largura do botão.
      * @param height altura do botão.
      */
-    public Button(int x, int y, int width, int height) {
-        super(new Rect(x, y, x + width, y + height));
+    public Button(float x, float y, float width, float height) {
+        super(new RectF(x, y, x + width, y + height));
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
     }
 
@@ -45,7 +46,7 @@ public class Button extends WindowEntity {
      * Cria um botão em uma area.
      * @param area area para o botão.
      */
-    public Button(Rect area) {
+    public Button(RectF area) {
         super(area);
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
     }
@@ -58,8 +59,8 @@ public class Button extends WindowEntity {
      * @param height altura do botão.
      * @param buttonText texto a ser exibido no botão.
      */
-    public Button(int x, int y, int width, int height, String buttonText) {
-        super(new Rect(x, y, x + width, y + height), new Text(buttonText));
+    public Button(float x, float y, float width, float height, String buttonText) {
+        super(new RectF(x, y, x + width, y + height), new Text(buttonText));
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
     }
 
@@ -68,7 +69,7 @@ public class Button extends WindowEntity {
      * @param area area para o botão.
      * @param buttonText texto a ser exibido no botão.
      */
-    public Button(Rect area, String buttonText) {
+    public Button(RectF area, String buttonText) {
         super(area, new Text(buttonText));
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
     }
@@ -78,7 +79,7 @@ public class Button extends WindowEntity {
      * @param area area para o botão.
      * @param buttonText {@link Text} para o botão.
      */
-    public Button(Rect area, Text buttonText) {
+    public Button(RectF area, Text buttonText) {
         super(area, buttonText);
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
     }
@@ -89,7 +90,7 @@ public class Button extends WindowEntity {
      * @param textButton texto a ser exibido no botão.
      */
     public Button(String textButton) {
-        super(new Rect(), new Text(textButton));
+        super(new RectF(), new Text(textButton));
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
         super.defaultPaint.setColor(Color.YELLOW);
     }
@@ -120,7 +121,7 @@ public class Button extends WindowEntity {
      * @param size tamanho da fonte.
      */
     public void setTextSize(float size) {
-        super.entityText.setTextSize(size);
+        super.entityText.setSize(size);
         //super.entityText.setTextSizeAdjusted(false);
     }
 

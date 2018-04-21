@@ -16,10 +16,13 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
+import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
 import java.util.ArrayList;
@@ -61,8 +64,8 @@ public class Window extends WindowEntity implements Formable {
      * @param width largura da janela.
      * @param height altura da janela.
      */
-    public Window(int x, int y, int width, int height) {
-        super(new Rect(x, y, x+ width, y + height));
+    public Window(float x, float y, float width, float height) {
+        super(new RectF(x, y, x+ width, y + height));
         //this.layout = new ListLayout(ListLayout.VERTICAL_ALIGNMENT);
         //this.layout.set(this);
     }
@@ -73,7 +76,7 @@ public class Window extends WindowEntity implements Formable {
      * @param area area para a janela.
      * @param layout novo {@link Layout} para a janela.
      */
-    public Window(Rect area, Layout layout) {
+    public Window(RectF area, Layout layout) {
         super(area);
         this.layout = layout;
         this.layout.set(this);
@@ -219,6 +222,11 @@ public class Window extends WindowEntity implements Formable {
                 ent.onTouchEvent(motionEvent);
         }
         return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+
     }
 
 }

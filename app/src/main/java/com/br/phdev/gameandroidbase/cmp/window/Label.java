@@ -17,6 +17,7 @@
 package com.br.phdev.gameandroidbase.cmp.window;
 
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
@@ -39,15 +40,15 @@ public class Label extends WindowEntity {
      * @param width largura do label.
      * @param height altura do label.
      */
-    public Label(int x, int y, int width, int height) {
-        super(new Rect(x, y, x + width, y + height));
+    public Label(float x, float y, float width, float height) {
+        super(new RectF(x, y, x + width, y + height));
     }
 
     /**
      * Cria um label em uma area.
      * @param area area para o label.
      */
-    public Label(Rect area) {
+    public Label(RectF area) {
         super(area);
     }
 
@@ -56,7 +57,7 @@ public class Label extends WindowEntity {
      * @param area area para o label
      * @param labelText texto para o label.
      */
-    public Label(Rect area, String labelText) {
+    public Label(RectF area, String labelText) {
         super(area, new Text(labelText));
     }
 
@@ -65,7 +66,7 @@ public class Label extends WindowEntity {
      * @param area area para o label.
      * @param text texto para o label.
      */
-    public Label(Rect area, Text text) {
+    public Label(RectF area, Text text) {
         super(area, text);
     }
 
@@ -75,7 +76,7 @@ public class Label extends WindowEntity {
      * @param text
      */
     public Label(String text) {
-        super(new Rect(), new Text(text));
+        super(new RectF(), new Text(text));
     }
 
     /**
@@ -84,7 +85,7 @@ public class Label extends WindowEntity {
      * @param text
      */
     public Label(Text text) {
-        super(new Rect(), text);
+        super(new RectF(), text);
     }
 
     public void setText(String text) {

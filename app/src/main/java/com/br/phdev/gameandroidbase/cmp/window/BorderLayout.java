@@ -17,6 +17,7 @@
 package com.br.phdev.gameandroidbase.cmp.window;
 
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
@@ -46,7 +47,7 @@ public class BorderLayout extends Layout {
         switch (side) {
             case LEFT:
                 if (this.leftPanel == null) {
-                    this.leftPanel = new Window(new Rect(
+                    this.leftPanel = new Window(new RectF(
                             0,
                             (super.entity.getArea().height()/8),
                             (super.entity.getArea().width()/8),
@@ -57,7 +58,7 @@ public class BorderLayout extends Layout {
                 return this.leftPanel;
             case RIGHT:
                 if (this.rightPanel == null) {
-                    this.rightPanel = new Window(new Rect(
+                    this.rightPanel = new Window(new RectF(
                             (super.entity.getArea().width()/8)*7,
                             (super.entity.getArea().height()/8),
                             (super.entity.getArea().width()),
@@ -68,7 +69,7 @@ public class BorderLayout extends Layout {
                 return this.rightPanel;
             case TOP:
                 if (this.topPanel == null) {
-                    this.topPanel = new Window(new Rect(
+                    this.topPanel = new Window(new RectF(
                             0,
                             0,
                             (super.entity.getArea().width()),
@@ -79,7 +80,7 @@ public class BorderLayout extends Layout {
                 return this.topPanel;
             case BOTTOM:
                 if (this.bottomPanel == null) {
-                    this.bottomPanel = new Window(new Rect(
+                    this.bottomPanel = new Window(new RectF(
                             0,
                             (super.entity.getArea().height()/8) * 7,
                             (super.entity.getArea().width()),
@@ -90,7 +91,7 @@ public class BorderLayout extends Layout {
                 return this.bottomPanel;
             case CENTER:
                 if (this.centerPanel == null) {
-                    this.centerPanel = new Window(new Rect(
+                    this.centerPanel = new Window(new RectF(
                             (super.entity.getArea().width()/8),
                             (super.entity.getArea().height()/8),
                             (super.entity.getArea().width()/8)*7,

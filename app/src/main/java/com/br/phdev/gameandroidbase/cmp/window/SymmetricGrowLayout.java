@@ -17,6 +17,7 @@
 package com.br.phdev.gameandroidbase.cmp.window;
 
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
@@ -44,18 +45,18 @@ public class SymmetricGrowLayout extends Layout {
             columns++;
         }
 
-        int x = super.entity.getArea().left;
-        int y = super.entity.getArea().top;
+        float x = super.entity.getArea().left;
+        float y = super.entity.getArea().top;
 
-        int cmpHeight = (super.entity.getArea().height() - super.spaceV * (rows+2)) / rows;
-        int cmpWidth = (super.entity.getArea().width() - super.spaceH * (columns+2)) / columns;
+        float cmpHeight = (super.entity.getArea().height() - super.spaceV * (rows+2)) / rows;
+        float cmpWidth = (super.entity.getArea().width() - super.spaceH * (columns+2)) / columns;
 
         int counter = 0;
 
         for (int i=0; i<rows; i++) {
             for (int j=0; j<columns; j++) {
                 Entity ent = componentsSource.get(counter);
-                ent.setArea( new Rect(
+                ent.setArea( new RectF(
                         (super.spaceH + super.spaceH * j) + super.spaceH + x + (j * cmpWidth),
                         (super.spaceV + super.spaceV * i) + super.spaceV + y + (i * cmpHeight),
                         (super.spaceH + super.spaceH * j) + x + ((j+1) * cmpWidth),

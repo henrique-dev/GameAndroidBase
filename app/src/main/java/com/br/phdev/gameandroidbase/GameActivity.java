@@ -16,7 +16,9 @@
  */
 package com.br.phdev.gameandroidbase;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -40,15 +42,27 @@ public class GameActivity extends Activity {
         GameLog.debug(this, "Activity criada.");
         super.onCreate(savedInstance);
         setupParameters();
-        this.gameEngine = new GameEngine(this);
+        if (this.gameEngine == null)
+            this.gameEngine = new GameEngine(this);
         //this.activityStateListener = this.gameEngine.getSoundManager();
         super.setContentView(this.gameEngine);
     }
 
     @Override
+    protected void onStart() {
+        GameLog.debug(this, "Activity iniciada.");
+        super.onStart();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+
+    }
+
+    @Override
     protected void onDestroy() {
-        GameLog.debug(this, "Activity destruida.");
         super.onDestroy();
+        GameLog.debug(this, "Activity destruida.");
         this.gameEngine.finalizeApplication();
     }
 

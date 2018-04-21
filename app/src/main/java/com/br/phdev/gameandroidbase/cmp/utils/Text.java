@@ -22,6 +22,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.annotation.NonNull;
 
 import com.br.phdev.gameandroidbase.cmp.Entity;
@@ -72,8 +73,8 @@ public class Text extends Entity {
     /**
      * Espaçamento horizontal e vertical entre o texto e a area do texto.
      */
-    private int spaceW = 10; // 10
-    private int spaceH = 50; // 50
+    private float spaceW = 10; // 10
+    private float spaceH = 50; // 50
 
     /**
      * Entidade consumidora do texto.
@@ -160,11 +161,15 @@ public class Text extends Entity {
         return this.defaultPaint.getColor();
     }
 
+    public float getSize() {
+        return this.defaultPaint.getTextSize();
+    }
+
     /**
      * Redefine o tamanho da fonte do texto.
      * @param size tamanho da fonte.
      */
-    public void setTextSize(float size) {
+    public void setSize(float size) {
         this.textSize = size;
         this.spaceH = entity.getArea().height() / 20;
         this.spaceW = entity.getArea().width() / 10;
@@ -173,7 +178,7 @@ public class Text extends Entity {
     }
 
     @Override
-    public void setArea(@NonNull Rect area) {
+    public void setArea(@NonNull RectF area) {
         this.spaceH = entity.getArea().height() / 20;
         this.spaceW = entity.getArea().width() / 10;
         defineTextSize(this, this.textSize);
@@ -273,7 +278,7 @@ public class Text extends Entity {
                     break;
                 tmpPaint.setTextSize(tempTextSize);
             }
-            text.area = new Rect(rectTextBounds);
+            text.area = new RectF(rectTextBounds);
             text.defaultPaint.setTextSize(tempTextSize);
 
         } else {
@@ -281,7 +286,7 @@ public class Text extends Entity {
             text.defaultPaint.setTextSize(textSize);
             String biggerLine = getBiggerLine(text.textToDraw);
             text.defaultPaint.getTextBounds(biggerLine, 0, biggerLine.length(), rectTextBounds);
-            text.area = new Rect(rectTextBounds);
+            text.area = new RectF(rectTextBounds);
         }
     }
 

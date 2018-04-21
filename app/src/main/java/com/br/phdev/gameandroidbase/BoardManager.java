@@ -19,6 +19,7 @@ package com.br.phdev.gameandroidbase;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
@@ -26,6 +27,8 @@ import com.br.phdev.gameandroidbase.cmp.utils.Text;
 public class BoardManager {
 
     static BoardManager make = new BoardManager();
+
+    Thread loadingThread;
 
     private DeviceManager deviceManager;
     private SoundManager soundManager;
@@ -47,6 +50,24 @@ public class BoardManager {
         this.soundManager = soundManager;
         this.loadingBoard = new LoadingBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
         this.currentBoardState = State.LOADING;
+
+        this.loadingThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    if (BoardManager.this.currentBoardState == BoardManager.State.OFF) {
+                        GameLog.debugr(this, "CANCELOU CARREGAMENTO");
+                        return;
+                    }
+                    BoardManager.this.currentBoard = BoardManager.this.nextBoard;
+                    BoardManager.this.currentBoard.initBoard();
+                    BoardManager.this.currentBoardState = BoardManager.State.RUNNING;
+                    GameLog.debugr(this, "COMPLETOU O CARREGAMENTO");
+                } catch (Exception e) {
+                    GameLog.error(this, e);
+                }
+            }
+        };
     }
 
     void register(Board board) {
@@ -62,23 +83,7 @@ public class BoardManager {
             this.currentBoard = null;
         }
         this.currentBoardState = State.LOADING;
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    if (BoardManager.this.currentBoardState == BoardManager.State.OFF) {
-                        GameLog.debugr(this, "CANCELOU CARREGAMENTO");
-                        return;
-                    }
-                    BoardManager.this.currentBoard = BoardManager.this.nextBoard;
-                    BoardManager.this.currentBoard.initBoard();
-                    BoardManager.this.currentBoardState = BoardManager.State.RUNNING;
-                    GameLog.debugr(this, "COMPLETOU O CARREGAMENTO");
-                } catch (Exception e) {
-
-                }
-            }
-        }.start();
+        this.loadingThread.start();
     }
 
     void releaseBoard() {
@@ -105,12 +110,12 @@ public class BoardManager {
 
         private Text text;
 
-        public LoadingBoard(int x, int y, int width, int height) {
+        public LoadingBoard(float x, float y, float width, float height) {
             super();
-            super.setArea(new Rect(x, y, x + width, y + height));
+            super.setArea(new RectF(x, y, x + width, y + height));
             super.getDefaultPaint().setColor(Color.WHITE);
             this.text = new Text(this, "Loading");
-            this.text.setTextSize(50);
+            this.text.setSize(50);
             this.text.setColor(Color.BLACK);
         }
 

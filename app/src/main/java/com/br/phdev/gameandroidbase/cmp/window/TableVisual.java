@@ -19,6 +19,7 @@ package com.br.phdev.gameandroidbase.cmp.window;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
@@ -29,20 +30,20 @@ public class TableVisual extends Entity {
 
     private Label head;
 
-    private Rect leftBodyArea;
-    private Rect rightBodyArea;
-    private Rect topBodyArea;
-    private Rect bottomBodyArea;
-    private Rect centerBodyArea;
+    private RectF leftBodyArea;
+    private RectF rightBodyArea;
+    private RectF topBodyArea;
+    private RectF bottomBodyArea;
+    private RectF centerBodyArea;
 
-    private final int divideV = 16;
-    private final int divideH = 16;
+    private final float divideV = 16;
+    private final float divideH = 16;
 
-    private int rateHeadV = 2;
-    private int rateLeftH = 2;
-    private int rateRightH = 2;
-    private int rateTopV = 1;
-    private int rateBottomV = 1;
+    private float rateHeadV = 2;
+    private float rateLeftH = 2;
+    private float rateRightH = 2;
+    private float rateTopV = 1;
+    private float rateBottomV = 1;
 
     public TableVisual() {
         super();
@@ -55,42 +56,42 @@ public class TableVisual extends Entity {
         this.text = new Text(text);
     }
 
-    void set(Rect tableArea) {
+    void set(RectF tableArea) {
         super.setArea(tableArea);
-        int rateV = super.getHeight() / 16;
-        int rateH = super.getWidth() / 16;
-        this.head = new Label(new Rect(
+        float rateV = super.getHeight() / 16;
+        float rateH = super.getWidth() / 16;
+        this.head = new Label(new RectF(
                 super.getX(),
                 super.getY(),
                 super.getX() + super.getWidth(),
                 super.getY() + rateV * this.rateHeadV));
         this.head.getDefaultPaint().setColor(Color.GRAY);
         this.head.setEdgeVisible(false);
-        this.topBodyArea = new Rect(
+        this.topBodyArea = new RectF(
                 super.getX(),
                 this.head.getArea().bottom,
                 super.getX() + super.getWidth(),
                 this.head.getArea().bottom + rateV * rateTopV
         );
-        this.bottomBodyArea = new Rect(
+        this.bottomBodyArea = new RectF(
                 super.getX(),
                 super.getY() + super.getHeight() - (rateV * this.rateBottomV),
                 super.getX() + super.getWidth(),
                 super.getY() + super.getHeight()
         );
-        this.leftBodyArea = new Rect(
+        this.leftBodyArea = new RectF(
                 super.getX(),
                 this.topBodyArea.bottom,
                 this.getX() + rateH * this.rateLeftH,
                 this.bottomBodyArea.top
         );
-        this.rightBodyArea = new Rect(
+        this.rightBodyArea = new RectF(
                 super.getX() + super.getWidth() - (rateH * this.rateRightH),
                 this.topBodyArea.bottom,
                 this.getX() + super.getWidth(),
                 this.bottomBodyArea.top
         );
-        this.centerBodyArea = new Rect(
+        this.centerBodyArea = new RectF(
                 this.leftBodyArea.right,
                 this.topBodyArea.bottom,
                 this.rightBodyArea.left,
@@ -101,7 +102,7 @@ public class TableVisual extends Entity {
         }
     }
 
-    Rect getElementsArea() {
+    RectF getElementsArea() {
         return this.centerBodyArea;
     }
 

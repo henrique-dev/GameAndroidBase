@@ -17,6 +17,7 @@
 package com.br.phdev.gameandroidbase.cmp.window;
 
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.br.phdev.gameandroidbase.cmp.Entity;
 
@@ -81,18 +82,18 @@ public class GridLayout extends Layout {
         if (componentsSource == null || !(componentsSource.size() > 0))
             return;
 
-        int x = super.entity.getArea().left;
-        int y = super.entity.getArea().top;
+        float x = super.entity.getArea().left;
+        float y = super.entity.getArea().top;
 
-        int cmpHeight = (super.entity.getArea().height() - super.spaceV * (this.rows+2)) / this.rows;
-        int cmpWidth = (super.entity.getArea().width() - super.spaceH * (this.columns+2)) / this.columns;
+        float cmpHeight = (super.entity.getArea().height() - super.spaceV * (this.rows+2)) / this.rows;
+        float cmpWidth = (super.entity.getArea().width() - super.spaceH * (this.columns+2)) / this.columns;
 
         int counter = 0;
 
         for (int i=0; i<this.rows; i++) {
             for (int j=0; j<this.columns; j++) {
                 Entity ent = componentsSource.get(counter);
-                ent.setArea( new Rect(
+                ent.setArea( new RectF(
                         (super.spaceH + super.spaceH * j) + super.spaceH + x + (j * cmpWidth),
                         (super.spaceV + super.spaceV * i) + super.spaceV + y + (i * cmpHeight),
                         (super.spaceH + super.spaceH * j) + x + ((j+1) * cmpWidth),

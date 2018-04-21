@@ -19,6 +19,7 @@ package com.br.phdev.gameandroidbase.cmp.window;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import com.br.phdev.gameandroidbase.GameLog;
@@ -65,25 +66,25 @@ public class Table extends WindowEntity implements ActionListener {
         this.rows = new ArrayList<>();
     }
 
-    public Table(int x, int y, int width, int height) {
-        super(new Rect(x, y, x + width, y + height));
+    public Table(float x, float y, float width, float height) {
+        super(new RectF(x, y, x + width, y + height));
         super.defaultPaint.setColor(Color.GREEN);
         this.rows = new ArrayList<>();
     }
 
     @Override
-    public void setArea(Rect area) {
+    public void setArea(RectF area) {
         super.setArea(area);
-        Rect tmpArea;
+        RectF tmpArea;
         if (this.tableVisual != null) {
             this.tableVisual.set(super.area);
             tmpArea = this.tableVisual.getElementsArea();
         } else
             tmpArea = area;
 
-        int rowHeight = super.getHeight() / this.rowsPerView;
+        float rowHeight = super.getHeight() / this.rowsPerView;
         for (int i=0; i<this.rows.size(); i++) {
-            this.rows.get(i).setArea(new Rect(
+            this.rows.get(i).setArea(new RectF(
                     tmpArea.left,
                     tmpArea.top + (i * rowHeight),
                     tmpArea.left + tmpArea.width(),
@@ -123,10 +124,10 @@ public class Table extends WindowEntity implements ActionListener {
         flashEffect.setSpeed(1);
         row.setClickEffect(flashEffect);
 
-        int rowHeight = super.getHeight() / rowsPerView;
-        int x = super.getX();
-        int y = super.getY() + this.rows.size() * rowHeight;
-        row.setArea(new Rect(x, y, x + super.getWidth(), y + rowHeight));
+        float rowHeight = super.getHeight() / rowsPerView;
+        float x = super.getX();
+        float y = super.getY() + this.rows.size() * rowHeight;
+        row.setArea(new RectF(x, y, x + super.getWidth(), y + rowHeight));
         this.rows.add(row);
     }
 
@@ -217,10 +218,10 @@ public class Table extends WindowEntity implements ActionListener {
                                 move(y - py);
                             else {
                                 if (this.rows.get(0).getY() > (this.tableVisual == null ? super.getY() : this.tableVisual.getElementsArea().top)) {
-                                    int exceeded = (this.tableVisual == null ? super.getY() : this.tableVisual.getElementsArea().top) - this.rows.get(0).getY();
+                                    float exceeded = (this.tableVisual == null ? super.getY() : this.tableVisual.getElementsArea().top) - this.rows.get(0).getY();
                                     move(exceeded);
                                 } else if (this.rows.get(this.rows.size()-1).getArea().bottom < (this.tableVisual == null ? super.getArea().bottom : this.tableVisual.getElementsArea().bottom)) {
-                                    int exceeded = (this.tableVisual == null ? super.getArea().bottom : this.tableVisual.getElementsArea().bottom) - this.rows.get(this.rows.size()-1).getArea().bottom;
+                                    float exceeded = (this.tableVisual == null ? super.getArea().bottom : this.tableVisual.getElementsArea().bottom) - this.rows.get(this.rows.size()-1).getArea().bottom;
                                     move(exceeded);
                                 }
                             }
@@ -236,10 +237,10 @@ public class Table extends WindowEntity implements ActionListener {
                     case MotionEvent.ACTION_UP:
                         this.clickedOnArea = false;
                         if (this.rows.get(0).getY() > (this.tableVisual == null ? super.getY() : this.tableVisual.getElementsArea().top)) {
-                            int exceeded = (this.tableVisual == null ? super.getY() : this.tableVisual.getElementsArea().top) - this.rows.get(0).getY();
+                            float exceeded = (this.tableVisual == null ? super.getY() : this.tableVisual.getElementsArea().top) - this.rows.get(0).getY();
                             move(exceeded);
                         } else if (this.rows.get(this.rows.size()-1).getArea().bottom < (this.tableVisual == null ? super.getArea().bottom : this.tableVisual.getElementsArea().bottom)) {
-                            int exceeded = (this.tableVisual == null ? super.getArea().bottom : this.tableVisual.getElementsArea().bottom) - this.rows.get(this.rows.size()-1).getArea().bottom;
+                            float exceeded = (this.tableVisual == null ? super.getArea().bottom : this.tableVisual.getElementsArea().bottom) - this.rows.get(this.rows.size()-1).getArea().bottom;
                             move(exceeded);
                         }
                         break;
@@ -256,13 +257,13 @@ public class Table extends WindowEntity implements ActionListener {
         private TableObject tableObject;
 
         Row(TableObject tableObject) {
-            super(new Rect(), new Text(tableObject.getName()));
+            super(new RectF(), new Text(tableObject.getName()));
             super.defaultPaint.setColor(Color.YELLOW);
             this.tableObject = tableObject;
         }
 
         Row(String text) {
-            super(new Rect(), new Text(text));
+            super(new RectF(), new Text(text));
             this.tableObject = new TableObject(text);
             super.defaultPaint.setColor(Color.YELLOW);
         }

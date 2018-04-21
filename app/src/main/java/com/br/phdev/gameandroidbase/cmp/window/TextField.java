@@ -18,6 +18,7 @@ package com.br.phdev.gameandroidbase.cmp.window;
 
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.br.phdev.gameandroidbase.cmp.devices.Keyboard;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
@@ -41,7 +42,7 @@ public class TextField extends WindowEntity implements KeyboardListener {
      * Usado para colocar a entidade em um layout, e deixar ela definir a area para o campo de texto.
      */
     public TextField() {
-        super(new Rect(), new Text(""));
+        super(new RectF(), new Text(""));
         super.defaultPaint.setColor(Color.WHITE);
     }
 
@@ -51,7 +52,7 @@ public class TextField extends WindowEntity implements KeyboardListener {
      * @param text
      */
     public TextField(String text) {
-        super(new Rect(), new Text(text));
+        super(new RectF(), new Text(text));
         super.defaultPaint.setColor(Color.WHITE);
     }
 

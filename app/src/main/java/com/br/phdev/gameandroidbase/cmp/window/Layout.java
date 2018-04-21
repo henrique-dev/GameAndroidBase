@@ -47,7 +47,7 @@ public abstract class Layout {
      * Retorna o tamanho espaçamento horizontal entre os componentes.
      * @return tamanho do espaçamento horizontal.
      */
-    public int getSpaceH() {
+    public float getSpaceH() {
         return this.spaceH;
     }
 
@@ -63,7 +63,7 @@ public abstract class Layout {
      * Retorna o tamanho espaçamento vertical entre os componentes.
      * @return tamanho do espaçamento vertical.
      */
-    public int getSpaceV() {
+    public float getSpaceV() {
         return this.spaceV;
     }
 
