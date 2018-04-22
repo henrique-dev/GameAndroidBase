@@ -26,6 +26,7 @@ import android.view.SurfaceView;
 
 import com.br.phdev.gameandroidbase.cmp.listeners.ActivityStateListener;
 import com.br.phdev.gameandroidbase.test.MainBoard;
+import com.br.phdev.gameandroidbase.test.MenuConnectionBoard;
 
 /**
  * View aplicada na activity, contendo os metodos base para o loop do jogo.
@@ -199,7 +200,8 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         // --------------------------------
         // START YOUR BOARD HERE
 
-        new MainBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom);
+        //new MainBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom);
+        new MenuConnectionBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
 
         // --------------------------------
     }
