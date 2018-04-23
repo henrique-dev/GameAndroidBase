@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.cmp.listeners;
+package com.br.phdev.gameandroidbase.connection;
 
-public interface OnConnectReadListener {
+public interface OnConnectionWriteListener {
 
-    void read(String msg);
+    void write(String msg);
 
 }

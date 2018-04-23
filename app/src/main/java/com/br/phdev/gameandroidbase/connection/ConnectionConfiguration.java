@@ -14,10 +14,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.cmp.listeners;
+package com.br.phdev.gameandroidbase.connection;
 
-public interface OnConnectListener {
+public class ConnectionConfiguration {
 
-    void onConnect();
+    private int port;
+    private String hostIP;
+    private boolean server;
+
+    public ConnectionConfiguration(String hostIP, int port) {
+        this.hostIP = hostIP;
+        this.port = port;
+        this.server = false;
+    }
+
+    public ConnectionConfiguration(int port) {
+        this.port = port;
+        this.server = true;
+    }
+
+    public String getHostIP() {
+        return hostIP;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public boolean isServer() {
+        return this.server;
+    }
+
 
 }

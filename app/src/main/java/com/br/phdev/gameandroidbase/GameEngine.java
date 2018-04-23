@@ -54,6 +54,8 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      */
     private DeviceManager deviceManager;
 
+    private ConnectionManager connectionManager;
+
     /**
      * Aplica o contexto da activity na view e repassa callback para comunicação entre ambas.
      * Tambem instancia a {@link MainThread}.
@@ -77,6 +79,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
             if (this.soundManager == null) {
                 this.soundManager = new SoundManager(getContext());
                 this.deviceManager = new DeviceManager();
+                this.connectionManager = new ConnectionManager();
             }
         } catch (Exception e) {
             GameLog.error(this, e);
@@ -138,14 +141,13 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         boolean retry = true;
         while (retry) {
             if (this.mainThread != null) {
-                GameLog.debug(this, "Finalizando componentes");
-                finalizeComponents();
-
                 GameLog.debug(this, "Loop da MainThread desativado");
                 this.mainThread.setRunning(false);
 
+                GameLog.debug(this, "Finalizando componentes");
+                finalizeComponents();
+
                 try {
-                    BoardManager.make.loadingThread.join();
                     this.mainThread.join();
                     GameLog.debug(this, "MainThread destruida");
                 } catch (InterruptedException ie) {
@@ -196,7 +198,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      * Inicializa os componentes principais do jogo, como tela e gerenciador de audio.
      */
     private void initComponents() {
-        BoardManager.make.start(this.deviceManager, this.soundManager);
+        BoardManager.make.start(this.deviceManager, this.soundManager, this.connectionManager);
         // --------------------------------
         // START YOUR BOARD HERE
 
@@ -218,6 +220,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      * Finaliza os componentes atuais do jogo.
      */
     private void finalizeComponents() {
+        this.connectionManager.disconnect();
         BoardManager.make.releaseBoard();
         this.soundManager.release();
     }

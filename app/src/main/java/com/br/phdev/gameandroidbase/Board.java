@@ -45,6 +45,8 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
      */
     protected DeviceManager deviceManager;
 
+    protected ConnectionManager connectionManager;
+
     /**
      * Lista de cenas.
      */
@@ -87,6 +89,7 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
     protected void addScene(Scene scene) {
         scene.setSoundManager(this.soundManager);
         scene.setDeviceManager(this.deviceManager);
+        scene.setConnectionManager(this.connectionManager);
         scene.init();
         this.scenes.add(scene);
     }
@@ -131,6 +134,10 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
      */
     public void setDeviceManager(DeviceManager deviceManager) {
         this.deviceManager = deviceManager;
+    }
+
+    public void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
     }
 
     @Override

@@ -47,6 +47,8 @@ public abstract class Scene extends Entity implements Controllable, OnConfigurat
      */
     private DeviceManager deviceManager;
 
+    private ConnectionManager connectionManager;
+
     /**
      * Lista de objetos out-game.
      */
@@ -129,6 +131,14 @@ public abstract class Scene extends Entity implements Controllable, OnConfigurat
      */
     public DeviceManager getDeviceManager() {
         return this.deviceManager;
+    }
+
+    void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
+    public ConnectionManager getConnectionManager() {
+        return connectionManager;
     }
 
     @Override

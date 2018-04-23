@@ -28,10 +28,9 @@ public class BoardManager {
 
     static BoardManager make = new BoardManager();
 
-    Thread loadingThread;
-
     private DeviceManager deviceManager;
     private SoundManager soundManager;
+    private ConnectionManager connectionManager;
 
     private Board loadingBoard;
 
@@ -45,35 +44,19 @@ public class BoardManager {
     private BoardManager() {
     }
 
-    void start(DeviceManager deviceManager, SoundManager soundManager) {
+    void start(DeviceManager deviceManager, SoundManager soundManager, ConnectionManager connectionManager) {
         this.deviceManager = deviceManager;
         this.soundManager = soundManager;
+        this.connectionManager = connectionManager;
         this.loadingBoard = new LoadingBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
         this.currentBoardState = State.LOADING;
-
-        this.loadingThread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    if (BoardManager.this.currentBoardState == BoardManager.State.OFF) {
-                        GameLog.debugr(this, "CANCELOU CARREGAMENTO");
-                        return;
-                    }
-                    BoardManager.this.currentBoard = BoardManager.this.nextBoard;
-                    BoardManager.this.currentBoard.initBoard();
-                    BoardManager.this.currentBoardState = BoardManager.State.RUNNING;
-                    GameLog.debugr(this, "COMPLETOU O CARREGAMENTO");
-                } catch (Exception e) {
-                    GameLog.error(this, e);
-                }
-            }
-        };
     }
 
     void register(Board board) {
         this.nextBoard = board;
         this.nextBoard.setDeviceManager(this.deviceManager);
         this.nextBoard.setSoundManager(this.soundManager);
+        this.nextBoard.setConnectionManager(this.connectionManager);
         post();
     }
 
@@ -83,10 +66,11 @@ public class BoardManager {
             this.currentBoard = null;
         }
         this.currentBoardState = State.LOADING;
-        this.loadingThread.start();
+        new Thread(new LoadingComponents()).start();
     }
 
     void releaseBoard() {
+        GameLog.debug(this, "Finalizando BoardManager");
         this.currentBoardState = State.OFF;
         if (this.currentBoard != null) {
             this.currentBoard.finalizeBoard();
@@ -119,15 +103,6 @@ public class BoardManager {
             this.text.setColor(Color.BLACK);
         }
 
-        /*
-        public LoadingBoard(int x, int y, int width, int height) {
-            super(x, y, width, height);
-            super.getDefaultPaint().setColor(Color.WHITE);
-            this.text = new Text("Loading");
-            this.text.setTextSize(50);
-            this.text.setColor(Color.BLACK);
-        }*/
-
         @Override
         public void update() {
 
@@ -154,6 +129,24 @@ public class BoardManager {
         @Override
         public void finalizeBoard() {
 
+        }
+    }
+
+    private class LoadingComponents implements Runnable {
+        @Override
+        public void run() {
+            try {
+                if (BoardManager.this.currentBoardState == BoardManager.State.OFF) {
+                    //GameLog.debugr(this, "CANCELOU CARREGAMENTO");
+                    return;
+                }
+                BoardManager.this.currentBoard = BoardManager.this.nextBoard;
+                BoardManager.this.currentBoard.initBoard();
+                BoardManager.this.currentBoardState = BoardManager.State.RUNNING;
+                //GameLog.debugr(this, "COMPLETOU O CARREGAMENTO");
+            } catch (Exception e) {
+                GameLog.error(this, e);
+            }
         }
     }
 }

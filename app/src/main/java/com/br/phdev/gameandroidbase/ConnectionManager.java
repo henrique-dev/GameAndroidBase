@@ -17,122 +17,52 @@
  */
 package com.br.phdev.gameandroidbase;
 
-import com.br.phdev.gameandroidbase.cmp.listeners.OnConnectListener;
-import com.br.phdev.gameandroidbase.cmp.listeners.OnConnectReadListener;
-import com.br.phdev.gameandroidbase.cmp.listeners.OnConnectionWriteListener;
-
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Scanner;
+import com.br.phdev.gameandroidbase.connection.Connection;
+import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
+import com.br.phdev.gameandroidbase.connection.OnConnectStatusListener;
+import com.br.phdev.gameandroidbase.connection.OnConnectReadListener;
+import com.br.phdev.gameandroidbase.connection.OnConnectionWriteListener;
+import com.br.phdev.gameandroidbase.connection.tcp.TCPClient;
+import com.br.phdev.gameandroidbase.connection.tcp.TCPServer;
 
 /**
  * Classe responsavel por conexões do jogo.
  */
 public class ConnectionManager {
 
-    public enum ConnectionType {HOST, CLIENT}
-
+    private Thread connectionThread;
     private Connection connection;
 
-    private OnConnectReadListener onConnectReadListener;
-
-
-    public ConnectionManager(ConnectionType connectionType) {
-        if (connectionType == ConnectionType.HOST) {
-            this.connection = new Server();
+    public void set(ConnectionConfiguration connectionConfiguration) {
+        if (connectionConfiguration.isServer()) {
+            this.connection = new TCPServer(connectionConfiguration);
         } else {
-            this.connection = new Client();
+            this.connection = new TCPClient(connectionConfiguration);
         }
     }
 
     public OnConnectionWriteListener setOnConnectReadListener(OnConnectReadListener onConnectReadListener) {
-        this.onConnectReadListener = onConnectReadListener;
-        return connection;
+        this.connection.setOnConnectReadListener(onConnectReadListener);
+        return this.connection;
     }
 
-    public void setOnConnectListener(OnConnectListener onConnectListener) {
+    public void setOnConnectListener(OnConnectStatusListener onConnectListener) {
         this.connection.setOnConnectListener(onConnectListener);
     }
 
-    public void start() {
-        Thread connectionThread;
-        connectionThread = new Thread(this.connection);
-        connectionThread.start();
+    public void connect() {
+        this.connectionThread = new Thread(this.connection);
+        this.connectionThread.start();
     }
 
-    private abstract class Connection implements OnConnectionWriteListener, Runnable {
-
-        OnConnectListener onConnectListener;
-        void setOnConnectListener(OnConnectListener onConnectListener) {
-            this.onConnectListener = onConnectListener;
-        }
-    }
-
-    private class Server extends Connection {
-
-        private ServerSocket serverSocket;
-        private Socket socket;
-        private int port = 5000;
-
-        private PrintWriter printWriter;
-        private Scanner scanner;
-
-        @Override
-        public void run() {
+    public void disconnect() {
+        if (this.connection != null) {
+            this.connection.disconnect();
             try {
-                this.serverSocket = new ServerSocket(port);
-                GameLog.debug(this, "AGUARDANDO CONEXÃO");
-                this.socket = this.serverSocket.accept();
-                super.onConnectListener.onConnect();
-                this.printWriter = new PrintWriter(this.socket.getOutputStream());
-                this.scanner = new Scanner(this.socket.getInputStream());
-                String msg = "";
-                while ((msg = this.scanner.nextLine()) != null) {
-                    ConnectionManager.this.onConnectReadListener.read(msg);
-                }
-
+                this.connectionThread.join();
             } catch (Exception e) {
                 GameLog.error(this, e);
             }
-        }
-
-        @Override
-        public void write(String msg) {
-            this.printWriter.write(msg);
-            this.printWriter.flush();
-        }
-    }
-
-    private class Client extends Connection {
-
-        private Socket socket;
-        private int port = 5000;
-        private String host = "192.168.2.115";
-
-        private PrintWriter printWriter;
-        private Scanner scanner;
-
-        @Override
-        public void run() {
-            try {
-                this.socket = new Socket(host, port);
-                super.onConnectListener.onConnect();
-                this.printWriter = new PrintWriter(this.socket.getOutputStream());
-                this.scanner = new Scanner(this.socket.getInputStream());
-                String msg = "";
-                while ((msg = scanner.nextLine()) != null) {
-                    ConnectionManager.this.onConnectReadListener.read(msg);
-                }
-            } catch (Exception e) {
-                GameLog.error(this, e);
-            }
-        }
-
-        @Override
-        public void write(String msg) {
-            this.printWriter.write(msg);
-            this.printWriter.flush();
         }
     }
 
