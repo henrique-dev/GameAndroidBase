@@ -1,3 +1,5 @@
+package com.br.phdev.gameandroidbase.connection;
+
 /*
  * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
  *
@@ -14,33 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.connection;
-
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.Scanner;
-
-public abstract class Connection implements Runnable, OnConnectionWriteListener {
-
-    protected Socket socket;
-
-    protected PrintWriter printWriter;
-    protected Scanner scanner;
+public abstract class Connection {
 
     protected boolean connected;
 
-    protected OnConnectReadListener onConnectReadListener;
+    protected OnConnectionReadListener onConnectReadListener;
     protected OnConnectStatusListener onConnectListener;
 
-    public void setOnConnectListener(OnConnectStatusListener onConnectListener) {
+    public void setOnConnectionStatusListener(OnConnectStatusListener onConnectListener) {
         this.onConnectListener = onConnectListener;
     }
 
-    public void setOnConnectReadListener(OnConnectReadListener onConnectReadListener) {
+    public void setOnConnectReadListener(OnConnectionReadListener onConnectReadListener) {
         this.onConnectReadListener = onConnectReadListener;
     }
 
-    public OnConnectReadListener getOnConnectReadListener() {
+    public OnConnectionReadListener getOnConnectReadListener() {
         return this.onConnectReadListener;
     }
 

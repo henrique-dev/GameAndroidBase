@@ -17,10 +17,10 @@
  */
 package com.br.phdev.gameandroidbase;
 
-import com.br.phdev.gameandroidbase.connection.Connection;
+import com.br.phdev.gameandroidbase.connection.tcp.TCPConnection;
 import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
 import com.br.phdev.gameandroidbase.connection.OnConnectStatusListener;
-import com.br.phdev.gameandroidbase.connection.OnConnectReadListener;
+import com.br.phdev.gameandroidbase.connection.OnConnectionReadListener;
 import com.br.phdev.gameandroidbase.connection.OnConnectionWriteListener;
 import com.br.phdev.gameandroidbase.connection.tcp.TCPClient;
 import com.br.phdev.gameandroidbase.connection.tcp.TCPServer;
@@ -31,23 +31,32 @@ import com.br.phdev.gameandroidbase.connection.tcp.TCPServer;
 public class ConnectionManager {
 
     private Thread connectionThread;
-    private Connection connection;
+    private TCPConnection connection;
 
     public void set(ConnectionConfiguration connectionConfiguration) {
-        if (connectionConfiguration.isServer()) {
-            this.connection = new TCPServer(connectionConfiguration);
-        } else {
-            this.connection = new TCPClient(connectionConfiguration);
+        if (connectionConfiguration.getType() == ConnectionConfiguration.TCP) {
+            if (connectionConfiguration.isServer()) {
+                this.connection = new TCPServer(connectionConfiguration);
+            } else {
+                this.connection = new TCPClient(connectionConfiguration);
+            }
+        } else if (connectionConfiguration.getType() == ConnectionConfiguration.UDP) {
+            if (connectionConfiguration.isServer()) {
+                this.connection = new TCPServer(connectionConfiguration);
+            } else {
+                this.connection = new TCPClient(connectionConfiguration);
+            }
         }
+
     }
 
-    public OnConnectionWriteListener setOnConnectReadListener(OnConnectReadListener onConnectReadListener) {
+    public OnConnectionWriteListener setOnConnectReadListener(OnConnectionReadListener onConnectReadListener) {
         this.connection.setOnConnectReadListener(onConnectReadListener);
         return this.connection;
     }
 
     public void setOnConnectListener(OnConnectStatusListener onConnectListener) {
-        this.connection.setOnConnectListener(onConnectListener);
+        this.connection.setOnConnectionStatusListener(onConnectListener);
     }
 
     public void connect() {

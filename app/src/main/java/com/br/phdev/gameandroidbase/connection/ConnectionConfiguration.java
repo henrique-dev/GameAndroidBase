@@ -18,19 +18,25 @@ package com.br.phdev.gameandroidbase.connection;
 
 public class ConnectionConfiguration {
 
+    public static final int TCP = 0;
+    public static final int UDP = 0;
+
     private int port;
     private String hostIP;
     private boolean server;
+    private int type;
 
-    public ConnectionConfiguration(String hostIP, int port) {
+    public ConnectionConfiguration(String hostIP, int port, int type) {
         this.hostIP = hostIP;
         this.port = port;
         this.server = false;
+        this.type = type;
     }
 
-    public ConnectionConfiguration(int port) {
+    public ConnectionConfiguration(int port, int type) {
         this.port = port;
         this.server = true;
+        this.type = type;
     }
 
     public String getHostIP() {
@@ -45,5 +51,7 @@ public class ConnectionConfiguration {
         return this.server;
     }
 
-
+    public int getType() {
+        return type;
+    }
 }

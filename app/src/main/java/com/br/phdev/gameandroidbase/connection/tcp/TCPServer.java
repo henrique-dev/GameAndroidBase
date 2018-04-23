@@ -17,15 +17,13 @@
 package com.br.phdev.gameandroidbase.connection.tcp;
 
 import com.br.phdev.gameandroidbase.GameLog;
-import com.br.phdev.gameandroidbase.connection.Connection;
 import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
 
 import java.io.PrintWriter;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Scanner;
 
-public class TCPServer extends Connection {
+public class TCPServer extends TCPConnection {
 
     private int port;
 

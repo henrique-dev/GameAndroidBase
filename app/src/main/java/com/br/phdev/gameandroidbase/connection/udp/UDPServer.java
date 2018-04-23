@@ -1,3 +1,13 @@
+package com.br.phdev.gameandroidbase.connection.udp;
+
+import com.br.phdev.gameandroidbase.GameLog;
+import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
 /*
  * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
  *
@@ -14,38 +24,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.connection.tcp;
-
-import com.br.phdev.gameandroidbase.GameLog;
-import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
-
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.Scanner;
-
-public class TCPClient extends TCPConnection {
+public class UDPServer extends UDPConnection{
 
     private int port;
-    private String host;
+    private boolean running;
 
-    public TCPClient(ConnectionConfiguration connectionConfiguration) {
-        this.host = connectionConfiguration.getHostIP();
+    public UDPServer(ConnectionConfiguration connectionConfiguration) {
         this.port = connectionConfiguration.getPort();
     }
 
     @Override
     public void run() {
         try {
-            super.socket = new Socket(this.host, this.port);
+            super.socket = new DatagramSocket(this.port);
+            this.running = true;
+            this.connected = true;
             super.onConnectListener.onConnect();
-            super.printWriter = new PrintWriter(super.socket.getOutputStream());
-            super.scanner = new Scanner(super.socket.getInputStream());
-            super.connected = true;
-            String msg = "";
-            while ((msg = super.scanner.nextLine()) != null) {
-                if (msg.equals("exit"))
+            byte[] buffer = new byte[1024];
+            DatagramPacket packet = new DatagramPacket(buffer, 0, 1024);
+            while(this.running) {
+                super.socket.receive(packet);
+                String msg = new String(packet.getData());
+                if (msg.trim().equals("EXIT")) {
                     break;
-                super.onConnectReadListener.read(msg);
+                }
+                super.onConnectReadListener.read(msg.trim());
             }
         } catch (Exception e) {
             GameLog.error(this, e);
@@ -56,30 +59,30 @@ public class TCPClient extends TCPConnection {
 
     @Override
     public void write(String msg) {
-        super.printWriter.write(msg);
-        super.printWriter.flush();
+        DatagramPacket packet = new DatagramPacket(msg.getBytes(), 0, msg.length());
+        try {
+            super.socket.send(packet);
+        } catch (IOException e) {
+            GameLog.error(this, e);
+        }
     }
 
     @Override
     public Runnable connect() {
-        return this;
+        return null;
     }
 
     @Override
-    synchronized public void disconnect() {
+    public void disconnect() {
         if (!super.connected)
             return;
+        this.running = false;
         try {
-            if (super.printWriter != null)
-                super.printWriter.close();
-            if (super.scanner != null)
-                super.scanner.close();
             if (super.socket != null)
                 super.socket.close();
             super.onConnectListener.onDisconnect();
         } catch (Exception e) {
             GameLog.error(this, e);
         }
-        super.connected = false;
     }
 }

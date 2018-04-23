@@ -16,7 +16,7 @@
  */
 package com.br.phdev.gameandroidbase.connection;
 
-public interface OnConnectReadListener {
+public interface OnConnectionReadListener {
 
     void read(String msg);
 
