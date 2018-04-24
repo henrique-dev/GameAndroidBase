@@ -114,165 +114,181 @@ public final class Keyboard extends WindowEntity implements ActionListener{
 
     private void setKeys() {
 
-        {
-            this.letterKeys = new ArrayList<>();
-            this.letters = new Window(super.getX(), super.getY(), super.getWidth(), super.getHeight());
-
-            float keyHeight = super.getHeight() / 4;
-            float keyWidth = super.getWidth() / 10;
-
-            int letterKeyCode[] = {16, 23, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5,
-                    6, 7, 9, 10, 11, 25, 22, 2, 21, 1, 13, 12, 26, 27};
-
-
-            for (int i = 0; i < 10; i++) {
-                Key key = new Key(letterKeyCode[i]);
-                key.addActionListener(this);
-                key.setColor(Color.GREEN);
-                key.setArea(new RectF(i * keyWidth, super.getY(), (i + 1) * keyWidth, super.getY() + keyHeight));
-                this.letterKeys.add(key);
-
-            }
-
-            for (int i = 0; i < 9; i++) {
-                Key key = new Key(letterKeyCode[i + 10]);
-                key.addActionListener(this);
-                key.setColor(Color.GREEN);
-                key.setArea(new RectF(
-                        keyWidth / 2 + i * keyWidth,
-                        super.getY() + keyHeight,
-                        keyWidth / 2 + (i + 1) * keyWidth,
-                        super.getY() + (keyHeight * 2)));
-                this.letterKeys.add(key);
-            }
-
-            for (int i = 0; i < 7; i++) {
-                Key key = new Key(letterKeyCode[i + 19]);
-                key.addActionListener(this);
-                key.setColor(Color.GREEN);
-                key.setArea(new RectF(
-                        keyWidth / 2 + (i * keyWidth),
-                        super.getY() + (keyHeight * 2),
-                        keyWidth / 2 + (i + 1) * keyWidth,
-                        super.getY() + (keyHeight * 3)));
-                this.letterKeys.add(key);
-
-                if (i == 6) {
-                    Key backspaceKey = new Key(KeyboardEvent.KEY_BACKSPACE);
-                    backspaceKey.addActionListener(this);
-                    backspaceKey.setColor(Color.GREEN);
-                    backspaceKey.setArea(new RectF(
-                            keyWidth / 2 + ((i + 1) * keyWidth),
-                            super.getY() + (keyHeight * 2),
-                            keyWidth / 2 + ((i + 3) * keyWidth),
-                            super.getY() + (keyHeight * 3)));
-                    this.letterKeys.add(backspaceKey);
-                }
-            }
-
-            Key spaceKey = new Key(KeyboardEvent.KEY_SPACE);
-            spaceKey.addActionListener(this);
-            spaceKey.setColor(Color.GREEN);
-            spaceKey.setArea(new RectF(
-                    super.area.centerX() - (keyWidth * 2),
-                    super.getY() + (keyHeight * 3),
-                    super.area.centerX() + (keyWidth * 2),
-                    super.getY() + (keyHeight * 4)
-            ));
-            this.letterKeys.add(spaceKey);
-
-            Key switchKey = new Key(KeyboardEvent.KEY_SWITCH);
-            switchKey.addActionListener(this);
-            switchKey.setColor(Color.GREEN);
-            switchKey.setArea(new RectF(
-                    spaceKey.getArea().left - (keyWidth * 2),
-                    super.getY() + (keyHeight * 3),
-                    spaceKey.getArea().left,
-                    super.getY() + (keyHeight * 4)
-            ));
-            this.letterKeys.add(switchKey);
-
-            Key confirmKey = new Key(KeyboardEvent.KEY_CONFIRM);
-            confirmKey.addActionListener(this);
-            confirmKey.setColor(Color.GREEN);
-            confirmKey.setArea(new RectF(
-                    spaceKey.getArea().right,
-                    super.getY() + (keyHeight * 3),
-                    spaceKey.getArea().right + (keyWidth * 2),
-                    super.getY() + (keyHeight * 4)
-            ));
-            this.letterKeys.add(confirmKey);
-        }
-
-        {
-            this.numberKeys = new ArrayList<>();
-            this.numbers = new Window(super.getX(), super.getY(), super.getWidth(), super.getHeight());
-
-            float keyHeight = super.getHeight() / 5;
-            float keyWidth = super.getWidth() / 3;
-
-            int numberKeyCode[] = {29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
-
-            int tempCounter = 0;
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    Key key = new Key(numberKeyCode[tempCounter++]);
-                    key.addActionListener(this);
-                    key.setColor(Color.GREEN);
-                    key.setArea(new RectF(
-                            j * keyWidth,
-                            (i * keyHeight) + super.getY(),
-                            (j + 1) * keyWidth,
-                            (i * keyHeight) + super.getY() + keyHeight));
-                    this.numberKeys.add(key);
-                }
-            }
-            Key zeroKey = new Key(38);
-            zeroKey.addActionListener(this);
-            zeroKey.setColor(Color.GREEN);
-            zeroKey.setArea(new RectF(
-                    1 * keyWidth,
-                    (3 * keyHeight) + super.getY(),
-                    2 * keyWidth,
-                    (3 * keyHeight) + super.getY() + keyHeight));
-            this.numberKeys.add(zeroKey);
-
-            Key switchKey = new Key(KeyboardEvent.KEY_SWITCH);
-            switchKey.addActionListener(this);
-            switchKey.setColor(Color.GREEN);
-            switchKey.setArea(new RectF(
-                    0,
-                    (4 * keyHeight) + super.getY(),
-                    keyWidth,
-                    (4 * keyHeight) + super.getY() + keyHeight));
-            this.numberKeys.add(switchKey);
-
-            Key backspaceKey = new Key(KeyboardEvent.KEY_BACKSPACE);
-            backspaceKey.addActionListener(this);
-            backspaceKey.setColor(Color.GREEN);
-            backspaceKey.setArea(new RectF(
-                    keyWidth,
-                    (4 * keyHeight) + super.getY(),
-                    2 * keyWidth,
-                    (4 * keyHeight) + super.getY() + keyHeight));
-            this.numberKeys.add(backspaceKey);
-
-            Key confirmKey = new Key(KeyboardEvent.KEY_CONFIRM);
-            confirmKey.addActionListener(this);
-            confirmKey.setColor(Color.GREEN);
-            confirmKey.setArea(new RectF(
-                    2 * keyWidth,
-                    (4 * keyHeight) + super.getY(),
-                    3 * keyWidth,
-                    (4 * keyHeight) + super.getY() + keyHeight));
-            this.numberKeys.add(confirmKey);
-        }
-
-        this.numbers.add(this.numberKeys);
-        this.letters.add(this.letterKeys);
+        this.addLetterKeys();
+        this.addNumberKeys();
 
         this.currentKeyboardType = this.letters;
 
+    }
+
+    private void addLetterKeys() {
+
+        this.letterKeys = new ArrayList<>();
+        this.letters = new Window(super.getX(), super.getY(), super.getWidth(), super.getHeight());
+
+        float keyHeight = super.getHeight() / 4;
+        float keyWidth = super.getWidth() / 10;
+
+        int letterKeyCode[] = {16, 23, 4, 17, 19, 24, 20, 8, 14, 15, 0, 18, 3, 5,
+                6, 7, 9, 10, 11, 25, 22, 2, 21, 1, 13, 12, 26, 27};
+
+
+        for (int i = 0; i < 10; i++) {
+            Key key = new Key(letterKeyCode[i]);
+            key.addActionListener(this);
+            key.setColor(Color.GREEN);
+            key.setArea(new RectF(i * keyWidth, super.getY(), (i + 1) * keyWidth, super.getY() + keyHeight));
+            this.letterKeys.add(key);
+
+        }
+
+        for (int i = 0; i < 9; i++) {
+            Key key = new Key(letterKeyCode[i + 10]);
+            key.addActionListener(this);
+            key.setColor(Color.GREEN);
+            key.setArea(new RectF(
+                    keyWidth / 2 + i * keyWidth,
+                    super.getY() + keyHeight,
+                    keyWidth / 2 + (i + 1) * keyWidth,
+                    super.getY() + (keyHeight * 2)));
+            this.letterKeys.add(key);
+        }
+
+        for (int i = 0; i < 7; i++) {
+            Key key = new Key(letterKeyCode[i + 19]);
+            key.addActionListener(this);
+            key.setColor(Color.GREEN);
+            key.setArea(new RectF(
+                    keyWidth / 2 + (i * keyWidth),
+                    super.getY() + (keyHeight * 2),
+                    keyWidth / 2 + (i + 1) * keyWidth,
+                    super.getY() + (keyHeight * 3)));
+            this.letterKeys.add(key);
+
+            if (i == 6) {
+                Key backspaceKey = new Key(KeyboardEvent.KEY_BACKSPACE);
+                backspaceKey.addActionListener(this);
+                backspaceKey.setColor(Color.GREEN);
+                backspaceKey.setArea(new RectF(
+                        keyWidth / 2 + ((i + 1) * keyWidth),
+                        super.getY() + (keyHeight * 2),
+                        keyWidth / 2 + ((i + 3) * keyWidth),
+                        super.getY() + (keyHeight * 3)));
+                this.letterKeys.add(backspaceKey);
+            }
+        }
+
+        Key spaceKey = new Key(KeyboardEvent.KEY_SPACE);
+        spaceKey.addActionListener(this);
+        spaceKey.setColor(Color.GREEN);
+        spaceKey.setArea(new RectF(
+                super.area.centerX() - (keyWidth * 2),
+                super.getY() + (keyHeight * 3),
+                super.area.centerX() + (keyWidth * 2),
+                super.getY() + (keyHeight * 4)
+        ));
+        this.letterKeys.add(spaceKey);
+
+        Key switchKey = new Key(KeyboardEvent.KEY_SWITCH);
+        switchKey.addActionListener(this);
+        switchKey.setColor(Color.GREEN);
+        switchKey.setArea(new RectF(
+                spaceKey.getArea().left - (keyWidth * 2),
+                super.getY() + (keyHeight * 3),
+                spaceKey.getArea().left,
+                super.getY() + (keyHeight * 4)
+        ));
+        this.letterKeys.add(switchKey);
+
+        Key confirmKey = new Key(KeyboardEvent.KEY_CONFIRM);
+        confirmKey.addActionListener(this);
+        confirmKey.setColor(Color.GREEN);
+        confirmKey.setArea(new RectF(
+                spaceKey.getArea().right,
+                super.getY() + (keyHeight * 3),
+                spaceKey.getArea().right + (keyWidth * 2),
+                super.getY() + (keyHeight * 4)
+        ));
+        this.letterKeys.add(confirmKey);
+
+        this.letters.add(this.letterKeys);
+    }
+
+    private void addNumberKeys() {
+
+        this.numberKeys = new ArrayList<>();
+        this.numbers = new Window(super.getX(), super.getY(), super.getWidth(), super.getHeight());
+
+        float keyHeight = super.getHeight() / 5;
+        float keyWidth = super.getWidth() / 3;
+
+        int numberKeyCode[] = {29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
+
+        int tempCounter = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Key key = new Key(numberKeyCode[tempCounter++]);
+                key.addActionListener(this);
+                key.setColor(Color.GREEN);
+                key.setArea(new RectF(
+                        j * keyWidth,
+                        (i * keyHeight) + super.getY(),
+                        (j + 1) * keyWidth,
+                        (i * keyHeight) + super.getY() + keyHeight));
+                this.numberKeys.add(key);
+            }
+        }
+        Key zeroKey = new Key(38);
+        zeroKey.addActionListener(this);
+        zeroKey.setColor(Color.GREEN);
+        zeroKey.setArea(new RectF(
+                1 * keyWidth,
+                (3 * keyHeight) + super.getY(),
+                2 * keyWidth,
+                (3 * keyHeight) + super.getY() + keyHeight));
+        this.numberKeys.add(zeroKey);
+
+        Key pointKey = new Key(KeyboardEvent.KEY_POINT);
+        pointKey.addActionListener(this);
+        pointKey.setColor(Color.GREEN);
+        pointKey.setArea(new RectF(
+                0,
+                (3 * keyHeight) + super.getY(),
+                keyWidth,
+                (3 * keyHeight) + super.getY() + keyHeight));
+        this.numberKeys.add(pointKey);
+
+        Key switchKey = new Key(KeyboardEvent.KEY_SWITCH);
+        switchKey.addActionListener(this);
+        switchKey.setColor(Color.GREEN);
+        switchKey.setArea(new RectF(
+                0,
+                (4 * keyHeight) + super.getY(),
+                keyWidth,
+                (4 * keyHeight) + super.getY() + keyHeight));
+        this.numberKeys.add(switchKey);
+
+        Key backspaceKey = new Key(KeyboardEvent.KEY_BACKSPACE);
+        backspaceKey.addActionListener(this);
+        backspaceKey.setColor(Color.GREEN);
+        backspaceKey.setArea(new RectF(
+                keyWidth,
+                (4 * keyHeight) + super.getY(),
+                2 * keyWidth,
+                (4 * keyHeight) + super.getY() + keyHeight));
+        this.numberKeys.add(backspaceKey);
+
+        Key confirmKey = new Key(KeyboardEvent.KEY_CONFIRM);
+        confirmKey.addActionListener(this);
+        confirmKey.setColor(Color.GREEN);
+        confirmKey.setArea(new RectF(
+                2 * keyWidth,
+                (4 * keyHeight) + super.getY(),
+                3 * keyWidth,
+                (4 * keyHeight) + super.getY() + keyHeight));
+        this.numberKeys.add(confirmKey);
+
+        this.numbers.add(this.numberKeys);
     }
 
     private void addKeyboardEffect() {
@@ -432,6 +448,8 @@ public final class Keyboard extends WindowEntity implements ActionListener{
                 return "8";
             case KeyboardEvent.KEY_9:
                 return "9";
+            case KeyboardEvent.KEY_POINT:
+                return ".";
             default:
                 return "?";
         }
@@ -513,6 +531,8 @@ public final class Keyboard extends WindowEntity implements ActionListener{
                 return '9';
             case KeyboardEvent.KEY_SPACE:
                 return ' ';
+            case KeyboardEvent.KEY_POINT:
+                return '.';
             default:
                 return '?';
         }

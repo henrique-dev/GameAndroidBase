@@ -20,13 +20,16 @@ import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
 
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.Scanner;
 
 public class TCPClient extends TCPConnection {
 
     private int port;
     private String host;
+    private boolean sConnecting;
 
     public TCPClient(ConnectionConfiguration connectionConfiguration) {
         this.host = connectionConfiguration.getHostIP();
@@ -36,7 +39,10 @@ public class TCPClient extends TCPConnection {
     @Override
     public void run() {
         try {
-            super.socket = new Socket(this.host, this.port);
+            this.sConnecting = true;
+            super.socket = new Socket();
+            SocketAddress socketAddress = new InetSocketAddress(host, port);
+            super.socket.connect(socketAddress);
             super.onConnectListener.onConnect();
             super.printWriter = new PrintWriter(super.socket.getOutputStream());
             super.scanner = new Scanner(super.socket.getInputStream());
@@ -67,15 +73,18 @@ public class TCPClient extends TCPConnection {
 
     @Override
     synchronized public void disconnect() {
-        if (!super.connected)
+        if (!super.connected && !this.sConnecting)
             return;
+        GameLog.debugr(this, "DESCONECTANDO");
+        this.sConnecting = false;
         try {
             if (super.printWriter != null)
                 super.printWriter.close();
             if (super.scanner != null)
                 super.scanner.close();
-            if (super.socket != null)
+            if (super.socket != null && !this.socket.isClosed())
                 super.socket.close();
+            super.socket = null;
             super.onConnectListener.onDisconnect();
         } catch (Exception e) {
             GameLog.error(this, e);

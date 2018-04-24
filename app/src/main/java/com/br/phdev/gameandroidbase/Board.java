@@ -25,8 +25,11 @@ import android.view.MotionEvent;
 import com.br.phdev.gameandroidbase.cmp.Controllable;
 import com.br.phdev.gameandroidbase.cmp.Entity;
 import com.br.phdev.gameandroidbase.cmp.listeners.OnConfigurationChangedListener;
+import com.br.phdev.gameandroidbase.cmp.window.WindowEntity;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Classe responsavel pela criação de telas, que fazem o intermedio entre a @{@link GameEngine} e as @{@link Scene}.
@@ -51,6 +54,7 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
      * Lista de cenas.
      */
     private ArrayList<Scene> scenes;
+    private Queue<Scene> scenesForAdd = new LinkedList<>();
 
     Board() {
         super();
@@ -63,7 +67,7 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
      * @param width largura da tela.
      * @param height altura da tela.
      */
-    protected Board(float x, float y, float width, float height) {
+    public Board(float x, float y, float width, float height) {
         super(new RectF(x, y, x + width, y + height));
         this.scenes = new ArrayList<>();
         super.active = true;
@@ -86,12 +90,22 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
      *
      * @param scene cena a ser adicionada.
      */
-    protected void addScene(Scene scene) {
+    public void addScene(Scene scene) {
         scene.setSoundManager(this.soundManager);
         scene.setDeviceManager(this.deviceManager);
         scene.setConnectionManager(this.connectionManager);
+        scene.setParentBoard(this);
         scene.init();
         this.scenes.add(scene);
+    }
+
+    public void safeAddScene(Scene scene) {
+        scene.setSoundManager(this.soundManager);
+        scene.setDeviceManager(this.deviceManager);
+        scene.setConnectionManager(this.connectionManager);
+        scene.setParentBoard(this);
+        scene.init();
+        this.scenesForAdd.add(scene);
     }
 
     /**
@@ -99,7 +113,7 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
      *
      * @param scene cena a ser removida.
      */
-    protected void removeScene(Scene scene) {
+    public void removeScene(Scene scene) {
         this.scenes.remove(scene);
     }
 
@@ -108,7 +122,7 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
      * @param index posição da cena na lista.
      * @return determinada cena da lista.
      */
-    protected Scene getScene(int index) {
+    public Scene getScene(int index) {
         return this.scenes.get(index);
     }
 
@@ -116,7 +130,7 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
      * Pega a lista de cenas.
      * @return a lista de cenas da tela.
      */
-    protected ArrayList<Scene> getScenes() {
+    public ArrayList<Scene> getScenes() {
         return this.scenes;
     }
 
@@ -124,7 +138,7 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
      * Define o gerenciador de audio da tela.
      * @param soundManager gerenciador de audio para a tela.
      */
-    public void setSoundManager(SoundManager soundManager) {
+    void setSoundManager(SoundManager soundManager) {
         this.soundManager = soundManager;
     }
 
@@ -132,11 +146,11 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
      * Define p gerenciador de dispositivos.
      * @param deviceManager gerenciador de dispositivos.
      */
-    public void setDeviceManager(DeviceManager deviceManager) {
+    void setDeviceManager(DeviceManager deviceManager) {
         this.deviceManager = deviceManager;
     }
 
-    public void setConnectionManager(ConnectionManager connectionManager) {
+    void setConnectionManager(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
 
@@ -145,6 +159,10 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
         for (Scene sc : this.scenes)
             if (sc.isActive())
                 sc.update();
+        if (this.scenesForAdd.size() > 0) {
+            this.scenes.addAll(this.scenesForAdd);
+            this.scenesForAdd.clear();
+        }
         if (this.deviceManager.getKeyboard().isKeyboardOn())
             this.deviceManager.getKeyboard().update();
     }

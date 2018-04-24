@@ -78,7 +78,7 @@ public abstract class WindowEntity extends Entity implements Controllable {
     /**
      * Atributos referentes a borda da entidade.
      */
-    private boolean edgeVisible; private Paint edgePaint; private int edgeSize;
+    protected boolean edgeVisible; protected Paint edgePaint; protected int edgeSize;
 
     /**
      * Estado de selecionado da entidade.

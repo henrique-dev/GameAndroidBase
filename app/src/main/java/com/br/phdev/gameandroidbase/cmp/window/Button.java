@@ -40,6 +40,7 @@ public class Button extends WindowEntity {
     public Button(float x, float y, float width, float height) {
         super(new RectF(x, y, x + width, y + height));
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
+        super.defaultPaint.setColor(Color.YELLOW);
     }
 
     /**
@@ -49,6 +50,7 @@ public class Button extends WindowEntity {
     public Button(RectF area) {
         super(area);
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
+        super.defaultPaint.setColor(Color.YELLOW);
     }
 
     /**
@@ -62,6 +64,7 @@ public class Button extends WindowEntity {
     public Button(float x, float y, float width, float height, String buttonText) {
         super(new RectF(x, y, x + width, y + height), new Text(buttonText));
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
+        super.defaultPaint.setColor(Color.YELLOW);
     }
 
     /**
@@ -72,6 +75,7 @@ public class Button extends WindowEntity {
     public Button(RectF area, String buttonText) {
         super(area, new Text(buttonText));
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
+        super.defaultPaint.setColor(Color.YELLOW);
     }
 
     /**
@@ -82,6 +86,7 @@ public class Button extends WindowEntity {
     public Button(RectF area, Text buttonText) {
         super(area, buttonText);
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
+        super.defaultPaint.setColor(Color.YELLOW);
     }
 
     /**

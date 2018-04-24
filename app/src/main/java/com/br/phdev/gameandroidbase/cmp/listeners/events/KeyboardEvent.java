@@ -64,6 +64,8 @@ public class KeyboardEvent extends Event {
 
     public static final int KEY_SWITCH = 39;
 
+    public static final int KEY_POINT = 40;
+
     /**
      * Keycode lançado pela tecla do teclado.
      */

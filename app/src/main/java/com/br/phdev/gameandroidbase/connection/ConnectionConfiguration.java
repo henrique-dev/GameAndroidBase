@@ -19,7 +19,7 @@ package com.br.phdev.gameandroidbase.connection;
 public class ConnectionConfiguration {
 
     public static final int TCP = 0;
-    public static final int UDP = 0;
+    public static final int UDP = 1;
 
     private int port;
     private String hostIP;

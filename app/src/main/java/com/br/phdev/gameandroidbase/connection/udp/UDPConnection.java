@@ -23,7 +23,7 @@ import java.net.DatagramSocket;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public abstract class UDPConnection extends Connection implements Runnable, OnConnectionWriteListener{
+public abstract class UDPConnection extends Connection{
 
     DatagramSocket socket;
 

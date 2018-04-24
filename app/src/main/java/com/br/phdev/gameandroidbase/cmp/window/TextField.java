@@ -64,6 +64,11 @@ public class TextField extends WindowEntity implements KeyboardListener {
         this.entityText.setText(text);
     }
 
+    public void setTextSize(float size) {
+        super.entityText.setSize(size);
+        //super.entityText.setTextSizeAdjusted(false);
+    }
+
     /**
      * Pega e registra a instancia do teclado do jogo.
      * @param keyboard

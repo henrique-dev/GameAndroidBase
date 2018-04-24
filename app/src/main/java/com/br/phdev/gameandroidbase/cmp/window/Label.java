@@ -16,6 +16,7 @@
  */
 package com.br.phdev.gameandroidbase.cmp.window;
 
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -31,6 +32,8 @@ public class Label extends WindowEntity {
 
     public Label() {
         super();
+        super.defaultPaint.setColor(Color.WHITE);
+        super.edgeVisible = false;
     }
 
     /**
@@ -42,6 +45,8 @@ public class Label extends WindowEntity {
      */
     public Label(float x, float y, float width, float height) {
         super(new RectF(x, y, x + width, y + height));
+        super.defaultPaint.setColor(Color.WHITE);
+        super.edgeVisible = false;
     }
 
     /**
@@ -50,6 +55,8 @@ public class Label extends WindowEntity {
      */
     public Label(RectF area) {
         super(area);
+        super.defaultPaint.setColor(Color.WHITE);
+        super.edgeVisible = false;
     }
 
     /**
@@ -59,6 +66,8 @@ public class Label extends WindowEntity {
      */
     public Label(RectF area, String labelText) {
         super(area, new Text(labelText));
+        super.defaultPaint.setColor(Color.WHITE);
+        super.edgeVisible = false;
     }
 
     /**
@@ -68,6 +77,8 @@ public class Label extends WindowEntity {
      */
     public Label(RectF area, Text text) {
         super(area, text);
+        super.defaultPaint.setColor(Color.WHITE);
+        super.edgeVisible = false;
     }
 
     /**
@@ -77,6 +88,8 @@ public class Label extends WindowEntity {
      */
     public Label(String text) {
         super(new RectF(), new Text(text));
+        super.defaultPaint.setColor(Color.WHITE);
+        super.edgeVisible = false;
     }
 
     /**
@@ -86,6 +99,8 @@ public class Label extends WindowEntity {
      */
     public Label(Text text) {
         super(new RectF(), text);
+        super.defaultPaint.setColor(Color.WHITE);
+        super.edgeVisible = false;
     }
 
     public void setText(String text) {
@@ -94,6 +109,10 @@ public class Label extends WindowEntity {
 
     public String getText() {
         return super.entityText.toString();
+    }
+
+    public void setTextSize(float size) {
+        super.entityText.setSize(size);
     }
 
     /**

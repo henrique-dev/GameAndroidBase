@@ -29,6 +29,8 @@ import com.br.phdev.gameandroidbase.cmp.listeners.OnConfigurationChangedListener
 import com.br.phdev.gameandroidbase.cmp.window.WindowEntity;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Classe responsavel pela criação de cenas, que faz o intermedio entre a classe @{@link Board} e as classes @{@link Entity}.
@@ -36,6 +38,8 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public abstract class Scene extends Entity implements Controllable, OnConfigurationChangedListener {
+
+    private Board parentBoard;
 
     /**
      * Gerenciador de audio do jogo.
@@ -66,7 +70,7 @@ public abstract class Scene extends Entity implements Controllable, OnConfigurat
      * @param width largura da cena.
      * @param height altura da cena.
      */
-    protected Scene(float x, float y, float width, float height) {
+    public Scene(float x, float y, float width, float height) {
         super(new RectF(x, y, x + width, y + height));
         this.windowEntities = new ArrayList<>();
         this.gameEntities = new ArrayList<>();
@@ -137,6 +141,14 @@ public abstract class Scene extends Entity implements Controllable, OnConfigurat
         this.connectionManager = connectionManager;
     }
 
+    void setParentBoard(Board parentBoard) {
+        this.parentBoard = parentBoard;
+    }
+
+    public Board getParentBoard() {
+        return this.parentBoard;
+    }
+
     public ConnectionManager getConnectionManager() {
         return connectionManager;
     }
@@ -153,12 +165,15 @@ public abstract class Scene extends Entity implements Controllable, OnConfigurat
 
     @Override
     public void draw(Canvas canvas) {
+        int savedCount = canvas.save();
+        canvas.drawRect(super.area, super.defaultPaint);
         for (Entity ent : this.gameEntities)
             if (ent.isVisible())
                 ent.draw(canvas);
         for (Entity ent : this.windowEntities)
             if (ent.isVisible())
                 ent.draw(canvas);
+        canvas.restoreToCount(savedCount);
     }
 
     @Override

@@ -45,10 +45,15 @@ public class UDPClient extends UDPConnection{
             super.onConnectListener.onConnect();
             byte[] buffer = new byte[1024];
             DatagramPacket packet = new DatagramPacket(buffer, 0, 1024);
+
+            super.socket.send(packet);
+
             while(this.running) {
                 super.socket.receive(packet);
                 String msg = new String(packet.getData());
                 if (msg.trim().equals("EXIT")) {
+                    write("EXIT");
+                    this.running = false;
                     break;
                 }
                 super.onConnectReadListener.read(msg.trim());
@@ -76,7 +81,7 @@ public class UDPClient extends UDPConnection{
     }
 
     @Override
-    public void disconnect() {
+    synchronized public void disconnect() {
         if (!super.connected)
             return;
         this.running = false;

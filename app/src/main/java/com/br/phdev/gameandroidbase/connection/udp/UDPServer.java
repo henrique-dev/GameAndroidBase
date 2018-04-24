@@ -26,6 +26,7 @@ import java.net.InetAddress;
  */
 public class UDPServer extends UDPConnection{
 
+    private String clientIP;
     private int port;
     private boolean running;
 
@@ -37,15 +38,31 @@ public class UDPServer extends UDPConnection{
     public void run() {
         try {
             super.socket = new DatagramSocket(this.port);
+
             this.running = true;
             this.connected = true;
-            super.onConnectListener.onConnect();
             byte[] buffer = new byte[1024];
             DatagramPacket packet = new DatagramPacket(buffer, 0, 1024);
+
+            while (true) {
+                super.socket.receive(packet);
+                if (packet.getAddress() != null) {
+                    this.clientIP = packet.getAddress().getHostAddress();
+                    break;
+                }
+            }
+
+            super.onConnectListener.onConnect();
+
             while(this.running) {
                 super.socket.receive(packet);
+
+                GameLog.debugr(this, "Pacote recebido: " + packet.getAddress().getHostAddress());
+
                 String msg = new String(packet.getData());
                 if (msg.trim().equals("EXIT")) {
+                    write("EXIT");
+                    this.running = false;
                     break;
                 }
                 super.onConnectReadListener.read(msg.trim());
@@ -59,8 +76,8 @@ public class UDPServer extends UDPConnection{
 
     @Override
     public void write(String msg) {
-        DatagramPacket packet = new DatagramPacket(msg.getBytes(), 0, msg.length());
         try {
+            DatagramPacket packet = new DatagramPacket(msg.getBytes(), 0, msg.length(), InetAddress.getByName(this.clientIP), this.port);
             super.socket.send(packet);
         } catch (IOException e) {
             GameLog.error(this, e);
@@ -73,7 +90,7 @@ public class UDPServer extends UDPConnection{
     }
 
     @Override
-    public void disconnect() {
+    synchronized public void disconnect() {
         if (!super.connected)
             return;
         this.running = false;

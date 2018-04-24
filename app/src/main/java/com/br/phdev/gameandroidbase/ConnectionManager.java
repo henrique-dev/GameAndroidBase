@@ -17,6 +17,7 @@
  */
 package com.br.phdev.gameandroidbase;
 
+import com.br.phdev.gameandroidbase.connection.Connection;
 import com.br.phdev.gameandroidbase.connection.tcp.TCPConnection;
 import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
 import com.br.phdev.gameandroidbase.connection.OnConnectStatusListener;
@@ -24,6 +25,8 @@ import com.br.phdev.gameandroidbase.connection.OnConnectionReadListener;
 import com.br.phdev.gameandroidbase.connection.OnConnectionWriteListener;
 import com.br.phdev.gameandroidbase.connection.tcp.TCPClient;
 import com.br.phdev.gameandroidbase.connection.tcp.TCPServer;
+import com.br.phdev.gameandroidbase.connection.udp.UDPClient;
+import com.br.phdev.gameandroidbase.connection.udp.UDPServer;
 
 /**
  * Classe responsavel por conexões do jogo.
@@ -31,7 +34,7 @@ import com.br.phdev.gameandroidbase.connection.tcp.TCPServer;
 public class ConnectionManager {
 
     private Thread connectionThread;
-    private TCPConnection connection;
+    private Connection connection;
 
     public void set(ConnectionConfiguration connectionConfiguration) {
         if (connectionConfiguration.getType() == ConnectionConfiguration.TCP) {
@@ -42,9 +45,9 @@ public class ConnectionManager {
             }
         } else if (connectionConfiguration.getType() == ConnectionConfiguration.UDP) {
             if (connectionConfiguration.isServer()) {
-                this.connection = new TCPServer(connectionConfiguration);
+                this.connection = new UDPServer(connectionConfiguration);
             } else {
-                this.connection = new TCPClient(connectionConfiguration);
+                this.connection = new UDPClient(connectionConfiguration);
             }
         }
 
@@ -55,7 +58,7 @@ public class ConnectionManager {
         return this.connection;
     }
 
-    public void setOnConnectListener(OnConnectStatusListener onConnectListener) {
+    public void setOnConnectiotStatusListener(OnConnectStatusListener onConnectListener) {
         this.connection.setOnConnectionStatusListener(onConnectListener);
     }
 

@@ -1,3 +1,8 @@
+package com.br.phdev.gameandroidbase.test.simplechat;
+
+import com.br.phdev.gameandroidbase.Board;
+import com.br.phdev.gameandroidbase.Scene;
+
 /*
  * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
  *
@@ -14,22 +19,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.connection.tcp;
+public class SimpleChatBoard extends Board {
 
-import com.br.phdev.gameandroidbase.connection.Connection;
-import com.br.phdev.gameandroidbase.connection.OnConnectionReadListener;
-import com.br.phdev.gameandroidbase.connection.OnConnectStatusListener;
-import com.br.phdev.gameandroidbase.connection.OnConnectionWriteListener;
+    public SimpleChatBoard(float x, float y, float width, float height) {
+        super(x, y, width, height);
+    }
 
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.Scanner;
-
-public abstract class TCPConnection extends Connection {
-
-    Socket socket;
-
-    PrintWriter printWriter;
-    Scanner scanner;
-
+    @Override
+    public void initBoard() {
+        Scene menu = new MainMenuScene(getX(), getY(), getWidth(), getHeight());
+        addScene(menu);
+    }
 }

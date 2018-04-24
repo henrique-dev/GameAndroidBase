@@ -21,12 +21,13 @@ import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
 
 import java.io.PrintWriter;
 import java.net.ServerSocket;
+import java.net.SocketException;
 import java.util.Scanner;
 
 public class TCPServer extends TCPConnection {
 
     private int port;
-
+    private boolean ssAccepting;
     private ServerSocket serverSocket;
 
     public TCPServer(ConnectionConfiguration connectionConfiguration) {
@@ -37,6 +38,7 @@ public class TCPServer extends TCPConnection {
     public void run() {
         try {
             this.serverSocket = new ServerSocket(this.port);
+            this.ssAccepting = true;
             super.socket = serverSocket.accept();
             GameLog.debug(this, "AGUARDANDO CONEXÃO");
             super.onConnectListener.onConnect();
@@ -50,7 +52,8 @@ public class TCPServer extends TCPConnection {
                 super.onConnectReadListener.read(msg);
             }
         } catch (Exception e) {
-            GameLog.error(this, e);
+            if (!(e instanceof SocketException && !this.ssAccepting))
+                GameLog.error(this, e);
         } finally {
             this.disconnect();
         }
@@ -68,16 +71,17 @@ public class TCPServer extends TCPConnection {
     }
 
     @Override
-    public void disconnect() {
-        if (!super.connected)
+    synchronized public void disconnect() {
+        if (!super.connected && !this.ssAccepting)
             return;
+        this.ssAccepting = false;
         try {
             if (super.printWriter != null)
                 super.printWriter.close();
             if (super.scanner != null)
                 super.scanner.close();
-            if (super.socket != null)
-                super.socket.close();
+            if (super.socket != null && !this.socket.isClosed())
+                    super.socket.close();
             if (this.serverSocket != null)
                 this.serverSocket.close();
             super.onConnectListener.onDisconnect();
