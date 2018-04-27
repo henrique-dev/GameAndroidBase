@@ -80,13 +80,29 @@ public class Sprite implements Drawable {
      * @param imageClip area da textura consumida pelo sprite.
      * @throws Error caso a textura ou a area inserida sejam nulas.
      */
+    public Sprite(Texture texture, RectF imageClip, Entity entity) throws Exception {
+        if (texture == null || imageClip == null || entity == null)
+            throw new Exception("A textura, area ou entidade não podem ser nulos.");
+        if (imageClip.width() == 0 || imageClip.height() == 0)
+            throw new Exception("A area não pode ter largura igual a 0 ou altura igual a 0.");
+        this.texture = texture;
+        this.imageClip = new Rect((int)imageClip.left, (int)imageClip.top, (int)imageClip.left, (int)imageClip.bottom);
+        this.matrix = new Matrix();
+        this.paint = new Paint();
+        this.debugPaint1 = new Paint();
+        this.debugPaint1.setColor(Color.GRAY);
+        this.debugPaint2 = new Paint();
+        this.debugPaint2.setColor(Color.RED);
+        this.entity = entity;
+    }
+
     public Sprite(Texture texture, Rect imageClip, Entity entity) throws Exception {
         if (texture == null || imageClip == null || entity == null)
             throw new Exception("A textura, area ou entidade não podem ser nulos.");
         if (imageClip.width() == 0 || imageClip.height() == 0)
             throw new Exception("A area não pode ter largura igual a 0 ou altura igual a 0.");
         this.texture = texture;
-        this.imageClip = imageClip;
+        this.imageClip = new Rect((int)imageClip.left, (int)imageClip.top, (int)imageClip.left, (int)imageClip.bottom);
         this.matrix = new Matrix();
         this.paint = new Paint();
         this.debugPaint1 = new Paint();

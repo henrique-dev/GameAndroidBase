@@ -12,8 +12,8 @@ import com.br.phdev.gameandroidbase.cmp.window.TextField;
 import com.br.phdev.gameandroidbase.cmp.window.Window;
 import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
 import com.br.phdev.gameandroidbase.connection.OnConnectStatusListener;
-import com.br.phdev.gameandroidbase.connection.OnConnectionReadListener;
-import com.br.phdev.gameandroidbase.connection.OnConnectionWriteListener;
+import com.br.phdev.gameandroidbase.connection.OnReadListener;
+import com.br.phdev.gameandroidbase.connection.OnWriteListener;
 
 /*
  * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
@@ -31,7 +31,7 @@ import com.br.phdev.gameandroidbase.connection.OnConnectionWriteListener;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class ChatScene extends Scene implements OnConnectionReadListener, OnConnectStatusListener {
+public class ChatScene extends Scene implements OnReadListener, OnConnectStatusListener {
 
     private ConnectionConfiguration cc;
 
@@ -46,7 +46,7 @@ public class ChatScene extends Scene implements OnConnectionReadListener, OnConn
     Window connectedWindow;
     Window notconnectedWindow;
 
-    private OnConnectionWriteListener onConnectionWriteListener;
+    private OnWriteListener onConnectionWriteListener;
 
     public ChatScene(float x, float y, float width, float height, ConnectionConfiguration cc) {
         super(x, y, width, height);
@@ -62,9 +62,9 @@ public class ChatScene extends Scene implements OnConnectionReadListener, OnConn
         getDeviceManager().initKeyboard();
 
         getConnectionManager().set(cc);
-        this.onConnectionWriteListener = getConnectionManager().setOnConnectReadListener(this);
-        getConnectionManager().setOnConnectiotStatusListener(this);
-        getConnectionManager().connect();
+        this.onConnectionWriteListener = getConnectionManager().setOnReadListenerTCP(this);
+        getConnectionManager().setOnConnectionStatusListenerTCP(this);
+        getConnectionManager().connectTCP();
 
         label_receivedmsg = new Label("Mensagem recebida:");
         label_receivedmsg.setTextSize(defaultTextSize);

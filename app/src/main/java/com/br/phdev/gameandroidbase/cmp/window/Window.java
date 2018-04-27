@@ -208,7 +208,10 @@ public class Window extends WindowEntity implements Formable {
     @Override
     public void draw(Canvas canvas) {
         int savedState = canvas.save();
-        canvas.drawRect(super.area, super.defaultPaint);
+        if (super.texture != null)
+            canvas.drawBitmap(super.texture.getBitmap(), super.texture.getArea(), super.area, super.defaultPaint);
+        else
+            canvas.drawRect(super.area, super.defaultPaint);
         for (Entity ent : entities)
             if (ent.isVisible())
                 ent.draw(canvas);

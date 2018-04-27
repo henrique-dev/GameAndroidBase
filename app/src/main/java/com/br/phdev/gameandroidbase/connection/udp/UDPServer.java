@@ -57,8 +57,6 @@ public class UDPServer extends UDPConnection{
             while(this.running) {
                 super.socket.receive(packet);
 
-                GameLog.debugr(this, "Pacote recebido: " + packet.getAddress().getHostAddress());
-
                 String msg = new String(packet.getData());
                 if (msg.trim().equals("EXIT")) {
                     write("EXIT");

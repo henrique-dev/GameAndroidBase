@@ -1,3 +1,5 @@
+package com.br.phdev.gameandroidbase.connection;
+
 /*
  * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
  *
@@ -14,10 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.connection;
-
-public interface OnConnectionWriteListener {
-
-    void write(String msg);
+public interface OnDiscoveryAndConnectListener extends OnConnectStatusListener {
 
 }

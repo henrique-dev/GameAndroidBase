@@ -31,6 +31,7 @@ import com.br.phdev.gameandroidbase.cmp.effect.ClickEffect;
 import com.br.phdev.gameandroidbase.cmp.effect.Effect;
 import com.br.phdev.gameandroidbase.cmp.effect.FadeEffect;
 import com.br.phdev.gameandroidbase.cmp.effect.FlashEffect;
+import com.br.phdev.gameandroidbase.cmp.graphics.Texture;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.Listener;
@@ -69,6 +70,8 @@ public abstract class WindowEntity extends Entity implements Controllable {
      * Lista de escutas da entidade para acionar eventos.
      */
     protected ArrayList<Listener> listeners;
+
+    protected Texture texture;
 
     /**
      * Texto a ser vinculado com a entidade.
@@ -142,6 +145,20 @@ public abstract class WindowEntity extends Entity implements Controllable {
         super.active = true;
     }
 
+    protected WindowEntity(RectF area, Text entityText, Texture texture) {
+        super(area);
+        this.effects = new ArrayList<>();
+        this.listeners = new ArrayList<>();
+        this.entityText = entityText;
+        this.entityText.setEntity(this);
+        this.edgeVisible = true;
+        this.edgePaint = new Paint();
+        this.edgeSize = 5;
+        super.visible = true;
+        super.active = true;
+        this.texture = texture;
+    }
+
     @Override
     public void setArea(RectF area) {
         super.setArea(area);
@@ -188,6 +205,14 @@ public abstract class WindowEntity extends Entity implements Controllable {
      */
     public void setEntityText(Text entityText) {
         this.entityText = entityText;
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public void setTexture(Texture texture) {
+        this.texture = texture;
     }
 
     /**
@@ -311,20 +336,20 @@ public abstract class WindowEntity extends Entity implements Controllable {
         int savedState = canvas.save();
 
         canvas.clipRect(super.area);
-        canvas.drawRect(super.area, super.defaultPaint);
+        if (texture != null) {
+            canvas.drawBitmap(this.texture.getBitmap(), this.texture.getArea(), super.area, super.defaultPaint);
+        } else {
+            canvas.drawRect(super.area, super.defaultPaint);
+            if (this.edgeVisible) {
+                canvas.drawRect(super.area.left, super.area.top, super.area.right, super.area.top + this.edgeSize, this.edgePaint);
+                canvas.drawRect(super.area.right - this.edgeSize, super.area.top, super.area.right, super.area.bottom, this.edgePaint);
+                canvas.drawRect(super.area.left, super.area.bottom - this.edgeSize, super.area.right, super.area.bottom, this.edgePaint);
+                canvas.drawRect(super.area.left, super.area.top, super.area.left + this.edgeSize, super.area.bottom, this.edgePaint);
+            }
+        }
         if (this.entityText != null) {
             this.entityText.draw(canvas);
         }
-        if (this.edgeVisible) {
-            canvas.drawRect(super.area.left, super.area.top, super.area.right, super.area.top + this.edgeSize, this.edgePaint);
-            canvas.drawRect(super.area.right - this.edgeSize, super.area.top, super.area.right, super.area.bottom, this.edgePaint);
-            canvas.drawRect(super.area.left, super.area.bottom - this.edgeSize, super.area.right, super.area.bottom, this.edgePaint);
-            canvas.drawRect(super.area.left, super.area.top, super.area.left + this.edgeSize, super.area.bottom, this.edgePaint);
-        }
-        /*
-        for (Effect effect : this.effects)
-            effect.draw(canvas);
-            */
 
         canvas.restoreToCount(savedState);
     }

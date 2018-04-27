@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.br.phdev.gameandroidbase.cmp.graphics.Texture;
 import com.br.phdev.gameandroidbase.cmp.listeners.ActionListener;
 import com.br.phdev.gameandroidbase.cmp.listeners.ClickListener;
 import com.br.phdev.gameandroidbase.cmp.utils.Text;
@@ -74,6 +75,12 @@ public class Button extends WindowEntity {
      */
     public Button(RectF area, String buttonText) {
         super(area, new Text(buttonText));
+        super.changeClickEffect(DEFAULT_CLICK_EFFECT);
+        super.defaultPaint.setColor(Color.YELLOW);
+    }
+
+    public Button(RectF area, String buttonText, Texture texture) {
+        super(area, new Text(buttonText), texture);
         super.changeClickEffect(DEFAULT_CLICK_EFFECT);
         super.defaultPaint.setColor(Color.YELLOW);
     }

@@ -166,7 +166,7 @@ public abstract class Scene extends Entity implements Controllable, OnConfigurat
     @Override
     public void draw(Canvas canvas) {
         int savedCount = canvas.save();
-        canvas.drawRect(super.area, super.defaultPaint);
+        //canvas.drawRect(super.area, super.defaultPaint);
         for (Entity ent : this.gameEntities)
             if (ent.isVisible())
                 ent.draw(canvas);

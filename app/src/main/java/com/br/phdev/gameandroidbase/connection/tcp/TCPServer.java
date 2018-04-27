@@ -20,8 +20,12 @@ import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
 
 import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.Scanner;
 
 public class TCPServer extends TCPConnection {
@@ -39,8 +43,8 @@ public class TCPServer extends TCPConnection {
         try {
             this.serverSocket = new ServerSocket(this.port);
             this.ssAccepting = true;
-            super.socket = serverSocket.accept();
             GameLog.debug(this, "AGUARDANDO CONEXÃO");
+            super.socket = serverSocket.accept();
             super.onConnectListener.onConnect();
             super.printWriter = new PrintWriter(super.socket.getOutputStream());
             super.scanner = new Scanner(super.socket.getInputStream());

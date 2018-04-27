@@ -81,8 +81,11 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
     public abstract void initBoard();
 
     public void finalizeBoard() {
+        super.visible = false;
+        super.active = false;
         for (Scene scene : this.scenes)
             scene.finalizeScene();
+        this.scenes.clear();
     }
 
     /**
@@ -170,7 +173,7 @@ public abstract class Board extends Entity implements Controllable, OnConfigurat
     @Override
     public void draw(Canvas canvas) {
         int savedState = canvas.save();
-        canvas.drawRect(super.area, super.defaultPaint);
+        //canvas.drawRect(super.area, super.defaultPaint);
         for (Scene sc : this.scenes) {
             if (sc.isVisible())
                 sc.draw(canvas);

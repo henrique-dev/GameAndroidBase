@@ -16,23 +16,27 @@ package com.br.phdev.gameandroidbase.connection;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public abstract class Connection implements Runnable, OnConnectionWriteListener {
+public abstract class Connection implements Runnable, OnWriteListener {
 
     protected boolean connected;
 
-    protected OnConnectionReadListener onConnectReadListener;
+    protected OnReadListener onConnectReadListener;
     protected OnConnectStatusListener onConnectListener;
 
     public void setOnConnectionStatusListener(OnConnectStatusListener onConnectListener) {
         this.onConnectListener = onConnectListener;
     }
 
-    public void setOnConnectReadListener(OnConnectionReadListener onConnectReadListener) {
+    public void setOnConnectReadListener(OnReadListener onConnectReadListener) {
         this.onConnectReadListener = onConnectReadListener;
     }
 
-    public OnConnectionReadListener getOnConnectReadListener() {
+    public OnReadListener getOnConnectReadListener() {
         return this.onConnectReadListener;
+    }
+
+    public OnWriteListener getOnWriteListener() {
+        return this;
     }
 
     public abstract Runnable connect();

@@ -20,12 +20,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.br.phdev.gameandroidbase.cmp.listeners.ActivityStateListener;
-import com.br.phdev.gameandroidbase.test.simplechat.SimpleChatBoard;
+import com.br.phdev.gameandroidbase.test.pengapong.MainBoard;
 
 /**
  * View aplicada na activity, contendo os metodos base para o loop do jogo.
@@ -93,7 +96,12 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         GameLog.debug(this, "Surface criada.");
-        startApplication();
+        new Thread(){
+            @Override
+            public void run() {
+                startApplication();
+            }
+        }.start();
     }
 
     public void startApplication() {
@@ -158,6 +166,7 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+
     /**
      * Desenha a tela no canvas.
      * @param canvas
@@ -203,7 +212,8 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
 
         //new MainBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom);
         //new MenuConnectionBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
-        new SimpleChatBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
+        //new SimpleChatBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
+        new MainBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
 
         // --------------------------------
     }
@@ -220,7 +230,8 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
      * Finaliza os componentes atuais do jogo.
      */
     private void finalizeComponents() {
-        this.connectionManager.disconnect();
+        this.connectionManager.disconnectTCP();
+        this.connectionManager.disconnectUDP();
         BoardManager.make.releaseBoard();
         this.soundManager.release();
     }

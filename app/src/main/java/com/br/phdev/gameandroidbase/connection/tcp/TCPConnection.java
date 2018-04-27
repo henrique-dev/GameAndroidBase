@@ -17,9 +17,6 @@
 package com.br.phdev.gameandroidbase.connection.tcp;
 
 import com.br.phdev.gameandroidbase.connection.Connection;
-import com.br.phdev.gameandroidbase.connection.OnConnectionReadListener;
-import com.br.phdev.gameandroidbase.connection.OnConnectStatusListener;
-import com.br.phdev.gameandroidbase.connection.OnConnectionWriteListener;
 
 import java.io.PrintWriter;
 import java.net.Socket;

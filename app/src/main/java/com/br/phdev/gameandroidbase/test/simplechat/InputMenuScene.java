@@ -77,7 +77,8 @@ public class InputMenuScene extends Scene {
                     int port = Integer.parseInt(textField_port.getText());
                     ConnectionConfiguration cc = new ConnectionConfiguration(port, ConnectionConfiguration.TCP);
                     getConnectionManager().set(cc);
-                    getParentBoard().safeAddScene(new ChatScene(getX(), getY(), getWidth(), getHeight(), cc));
+                    //getParentBoard().safeAddScene(new ChatScene(getX(), getY(), getWidth(), getHeight(), cc));
+                    getParentBoard().safeAddScene(new GameScene(getX(), getY(), getWidth(), getHeight(), cc));
                     setVisible(false);
                     setActive(false);
                 }
@@ -115,7 +116,8 @@ public class InputMenuScene extends Scene {
                     int port = Integer.parseInt(textField_port.getText());
                     ConnectionConfiguration cc = new ConnectionConfiguration(ip, port, ConnectionConfiguration.TCP);
                     getConnectionManager().set(cc);
-                    getParentBoard().safeAddScene(new ChatScene(getX(), getY(), getWidth(), getHeight(), cc));
+                    //getParentBoard().safeAddScene(new ChatScene(getX(), getY(), getWidth(), getHeight(), cc));
+                    getParentBoard().safeAddScene(new GameScene(getX(), getY(), getWidth(), getHeight(), cc));
                     setVisible(false);
                     setActive(false);
                 }

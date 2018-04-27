@@ -26,6 +26,15 @@ public class ConnectionConfiguration {
     private boolean server;
     private int type;
 
+    private OnDiscoveryAndConnectListener onDiscoveryAndConnectListener;
+
+    public ConnectionConfiguration(int port, OnDiscoveryAndConnectListener onDiscoveryAndConnectListener) {
+        this.port = port;
+        this.server = false;
+        this.type = TCP;
+        this.onDiscoveryAndConnectListener = onDiscoveryAndConnectListener;
+    }
+
     public ConnectionConfiguration(String hostIP, int port, int type) {
         this.hostIP = hostIP;
         this.port = port;
@@ -36,6 +45,10 @@ public class ConnectionConfiguration {
     public ConnectionConfiguration(int port, int type) {
         this.port = port;
         this.server = true;
+        this.type = type;
+    }
+
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -53,5 +66,9 @@ public class ConnectionConfiguration {
 
     public int getType() {
         return type;
+    }
+
+    public OnDiscoveryAndConnectListener getOnDiscoveryAndConnectListener() {
+        return onDiscoveryAndConnectListener;
     }
 }

@@ -18,11 +18,10 @@
 package com.br.phdev.gameandroidbase;
 
 import com.br.phdev.gameandroidbase.connection.Connection;
-import com.br.phdev.gameandroidbase.connection.tcp.TCPConnection;
 import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
 import com.br.phdev.gameandroidbase.connection.OnConnectStatusListener;
-import com.br.phdev.gameandroidbase.connection.OnConnectionReadListener;
-import com.br.phdev.gameandroidbase.connection.OnConnectionWriteListener;
+import com.br.phdev.gameandroidbase.connection.OnReadListener;
+import com.br.phdev.gameandroidbase.connection.OnWriteListener;
 import com.br.phdev.gameandroidbase.connection.tcp.TCPClient;
 import com.br.phdev.gameandroidbase.connection.tcp.TCPServer;
 import com.br.phdev.gameandroidbase.connection.udp.UDPClient;
@@ -33,49 +32,88 @@ import com.br.phdev.gameandroidbase.connection.udp.UDPServer;
  */
 public class ConnectionManager {
 
-    private Thread connectionThread;
-    private Connection connection;
+    private Thread connectionThreadTCP;
+    private Thread connectionThreadUDP;
+
+    private Connection connectionTCP;
+    private Connection connectionUDP;
 
     public void set(ConnectionConfiguration connectionConfiguration) {
         if (connectionConfiguration.getType() == ConnectionConfiguration.TCP) {
             if (connectionConfiguration.isServer()) {
-                this.connection = new TCPServer(connectionConfiguration);
+                this.connectionTCP = new TCPServer(connectionConfiguration);
             } else {
-                this.connection = new TCPClient(connectionConfiguration);
+                this.connectionTCP = new TCPClient(connectionConfiguration);
             }
         } else if (connectionConfiguration.getType() == ConnectionConfiguration.UDP) {
             if (connectionConfiguration.isServer()) {
-                this.connection = new UDPServer(connectionConfiguration);
+                this.connectionUDP = new UDPServer(connectionConfiguration);
             } else {
-                this.connection = new UDPClient(connectionConfiguration);
+                this.connectionUDP = new UDPClient(connectionConfiguration);
             }
         }
 
     }
 
-    public OnConnectionWriteListener setOnConnectReadListener(OnConnectionReadListener onConnectReadListener) {
-        this.connection.setOnConnectReadListener(onConnectReadListener);
-        return this.connection;
+    public OnWriteListener setOnReadListenerTCP(OnReadListener onReadListener) {
+        this.connectionTCP.setOnConnectReadListener(onReadListener);
+        return this.connectionTCP;
     }
 
-    public void setOnConnectiotStatusListener(OnConnectStatusListener onConnectListener) {
-        this.connection.setOnConnectionStatusListener(onConnectListener);
+    public void setOnConnectionStatusListenerTCP(OnConnectStatusListener onConnectStatusListener) {
+        this.connectionTCP.setOnConnectionStatusListener(onConnectStatusListener);
     }
 
-    public void connect() {
-        this.connectionThread = new Thread(this.connection);
-        this.connectionThread.start();
+    public OnWriteListener setOnReadListenerUDP(OnReadListener onReadListener) {
+        this.connectionUDP.setOnConnectReadListener(onReadListener);
+        return this.connectionUDP;
     }
 
-    public void disconnect() {
-        if (this.connection != null) {
-            this.connection.disconnect();
+    public void setOnConnectionStatusListenerUDP(OnConnectStatusListener onConnectStatusListener) {
+        this.connectionUDP.setOnConnectionStatusListener(onConnectStatusListener);
+    }
+
+    public OnWriteListener getOnReadListener() {
+        return this.connectionTCP;
+    }
+
+    public void connectTCP() {
+        this.connectionThreadTCP = new Thread(this.connectionTCP);
+        this.connectionThreadTCP.start();
+    }
+
+    public void disconnectTCP() {
+        if (this.connectionTCP != null) {
+            this.connectionTCP.disconnect();
             try {
-                this.connectionThread.join();
+                this.connectionThreadTCP.join();
             } catch (Exception e) {
                 GameLog.error(this, e);
             }
         }
+    }
+
+    public void connectUDP() {
+        this.connectionThreadUDP = new Thread(this.connectionUDP);
+        this.connectionThreadUDP.start();
+    }
+
+    public void disconnectUDP() {
+        if (this.connectionUDP != null) {
+            this.connectionUDP.disconnect();
+            try {
+                this.connectionThreadUDP.join();
+            } catch (Exception e) {
+                GameLog.error(this, e);
+            }
+        }
+    }
+
+    public boolean isServer() {
+        if (connectionTCP != null)
+            return (connectionTCP instanceof TCPServer);
+        else
+            return (connectionUDP instanceof UDPServer);
     }
 
 }

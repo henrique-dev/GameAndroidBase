@@ -18,6 +18,8 @@ package com.br.phdev.gameandroidbase.cmp.graphics;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.br.phdev.gameandroidbase.GameLog;
 import com.br.phdev.gameandroidbase.GameParameters;
@@ -45,10 +47,7 @@ public class Texture {
      */
     private Bitmap bitmap;
 
-    /**
-     * Largura e altura da textura.
-     */
-    private int width, height;
+    private Rect area;
 
     /**
      * Cria uma textura.
@@ -56,22 +55,19 @@ public class Texture {
      */
     public Texture(String path) throws IOException {
         this.bitmap = openImage(path, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        this.width = this.bitmap.getWidth();
-        this.height = this.bitmap.getHeight();
+        this.area = new Rect(0, 0, this.bitmap.getWidth(), this.bitmap.getHeight());
     }
 
     @Deprecated
     public Texture(String path, int reqWidth, int reqHeight) throws IOException {
         this.bitmap = openImage(path, reqWidth, reqHeight);
-        this.width = this.bitmap.getWidth();
-        this.height = this.bitmap.getHeight();
+        this.area = new Rect(0, 0, this.bitmap.getWidth(), this.bitmap.getHeight());
     }
 
     @Deprecated
     public Texture(Bitmap bitmap) {
         this.bitmap = bitmap;
-        this.width = this.bitmap.getWidth();
-        this.height = this.bitmap.getHeight();
+        this.area = new Rect(0, 0, this.bitmap.getWidth(), this.bitmap.getHeight());
     }
 
     /**
@@ -90,16 +86,20 @@ public class Texture {
      * Retorna a largura da textura.
      * @return largura.
      */
-    public int getWidth() {
-        return this.width;
+    public float getWidth() {
+        return this.area.width();
     }
 
     /**
      * Retorna a altura da textura.
      * @return altura.
      */
-    public int getHeight() {
-        return this.height;
+    public float getHeight() {
+        return this.area.height();
+    }
+
+    public Rect getArea() {
+        return area;
     }
 
     /**

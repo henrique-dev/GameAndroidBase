@@ -67,8 +67,8 @@ public class UDPClient extends UDPConnection{
 
     @Override
     public void write(String msg) {
-        DatagramPacket packet = new DatagramPacket(msg.getBytes(), 0, msg.length());
         try {
+            DatagramPacket packet = new DatagramPacket(msg.getBytes(), 0, msg.length());
             super.socket.send(packet);
         } catch (IOException e) {
             GameLog.error(this, e);
