@@ -16,17 +16,46 @@
  */
 package com.br.phdev.gameandroidbase.connection.tcp;
 
-import com.br.phdev.gameandroidbase.connection.Connection;
+import com.br.phdev.gameandroidbase.connection.listeners.OnConnectStatusListener;
+import com.br.phdev.gameandroidbase.connection.listeners.OnReadTCPListener;
+import com.br.phdev.gameandroidbase.connection.listeners.OnWriteTCPListener;
 
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public abstract class TCPConnection extends Connection {
+public abstract class TCPConnection implements Runnable, OnWriteTCPListener {
 
     Socket socket;
 
     PrintWriter printWriter;
     Scanner scanner;
+
+    protected boolean autoConnect;
+
+    protected boolean connected;
+
+    protected OnReadTCPListener onReadListener;
+    protected OnConnectStatusListener onConnectStatusListener;
+
+    public void setOnConnectionStatusListener(OnConnectStatusListener onConnectListener) {
+        this.onConnectStatusListener = onConnectListener;
+    }
+
+    public void setOnReadListener(OnReadTCPListener onReadListener) {
+        this.onReadListener = onReadListener;
+    }
+
+    public OnWriteTCPListener getOnWriteListener() {
+        return this;
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public abstract Runnable connect();
+
+    public abstract void disconnect();
 
 }

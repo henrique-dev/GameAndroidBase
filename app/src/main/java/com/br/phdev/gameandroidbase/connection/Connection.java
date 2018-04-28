@@ -1,5 +1,15 @@
 package com.br.phdev.gameandroidbase.connection;
 
+import com.br.phdev.gameandroidbase.connection.tcp.TCPClient;
+import com.br.phdev.gameandroidbase.connection.tcp.TCPConnection;
+import com.br.phdev.gameandroidbase.connection.tcp.TCPServer;
+import com.br.phdev.gameandroidbase.connection.udp.UDPClient;
+import com.br.phdev.gameandroidbase.connection.udp.UDPConnection;
+import com.br.phdev.gameandroidbase.connection.udp.UDPServer;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
  *
@@ -16,31 +26,23 @@ package com.br.phdev.gameandroidbase.connection;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public abstract class Connection implements Runnable, OnWriteListener {
+public abstract class Connection {
 
-    protected boolean connected;
+    protected String myIP;
+    protected int port;
 
-    protected OnReadListener onConnectReadListener;
-    protected OnConnectStatusListener onConnectListener;
+    protected TCPConnection tcpConnection;
+    protected UDPConnection udpConnection;
 
-    public void setOnConnectionStatusListener(OnConnectStatusListener onConnectListener) {
-        this.onConnectListener = onConnectListener;
+    public abstract Runnable connectUsingUDP();
+    public abstract Runnable connectUsingTCP();
+
+    public abstract TCPConnection getTcpConnection();
+
+    public abstract UDPConnection getUdpConnection();
+
+    public int getPort() {
+        return port;
     }
-
-    public void setOnConnectReadListener(OnReadListener onConnectReadListener) {
-        this.onConnectReadListener = onConnectReadListener;
-    }
-
-    public OnReadListener getOnConnectReadListener() {
-        return this.onConnectReadListener;
-    }
-
-    public OnWriteListener getOnWriteListener() {
-        return this;
-    }
-
-    public abstract Runnable connect();
-
-    public abstract void disconnect();
 
 }

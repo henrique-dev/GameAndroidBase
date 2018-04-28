@@ -1,4 +1,4 @@
-package com.br.phdev.gameandroidbase.connection;
+package com.br.phdev.gameandroidbase.connection.listeners;
 
 /*
  * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar

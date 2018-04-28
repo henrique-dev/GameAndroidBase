@@ -16,6 +16,8 @@
  */
 package com.br.phdev.gameandroidbase.connection;
 
+import com.br.phdev.gameandroidbase.connection.listeners.OnDiscoveryAndConnectListener;
+
 public class ConnectionConfiguration {
 
     public static final int TCP = 0;

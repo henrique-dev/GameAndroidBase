@@ -1,6 +1,10 @@
 package com.br.phdev.gameandroidbase.connection.udp;
 
-import com.br.phdev.gameandroidbase.connection.Connection;
+import com.br.phdev.gameandroidbase.connection.listeners.OnConnectStatusListener;
+import com.br.phdev.gameandroidbase.connection.listeners.OnReadTCPListener;
+import com.br.phdev.gameandroidbase.connection.listeners.OnReadUDPListener;
+import com.br.phdev.gameandroidbase.connection.listeners.OnWriteTCPListener;
+import com.br.phdev.gameandroidbase.connection.listeners.OnWriteUDPListener;
 
 import java.net.DatagramSocket;
 
@@ -20,8 +24,33 @@ import java.net.DatagramSocket;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public abstract class UDPConnection extends Connection{
+public abstract class UDPConnection implements Runnable, OnWriteUDPListener {
 
     DatagramSocket socket;
+
+    protected boolean connected;
+
+    protected OnReadUDPListener onReadListener;
+    protected OnConnectStatusListener onConnectStatusListener;
+
+    public void setOnConnectionStatusListener(OnConnectStatusListener onConnectListener) {
+        this.onConnectStatusListener = onConnectListener;
+    }
+
+    public void setOnReadListener(OnReadUDPListener onReadListener) {
+        this.onReadListener = onReadListener;
+    }
+
+    public OnWriteUDPListener getOnWriteListener() {
+        return this;
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public abstract Runnable connect();
+
+    public abstract void disconnect();
 
 }

@@ -11,9 +11,9 @@ import com.br.phdev.gameandroidbase.cmp.window.ListLayout;
 import com.br.phdev.gameandroidbase.cmp.window.TextField;
 import com.br.phdev.gameandroidbase.cmp.window.Window;
 import com.br.phdev.gameandroidbase.connection.ConnectionConfiguration;
-import com.br.phdev.gameandroidbase.connection.OnConnectStatusListener;
-import com.br.phdev.gameandroidbase.connection.OnReadListener;
-import com.br.phdev.gameandroidbase.connection.OnWriteListener;
+import com.br.phdev.gameandroidbase.connection.listeners.OnConnectStatusListener;
+import com.br.phdev.gameandroidbase.connection.listeners.OnReadTCPListener;
+import com.br.phdev.gameandroidbase.connection.listeners.OnWriteTCPListener;
 
 /*
  * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
@@ -31,7 +31,7 @@ import com.br.phdev.gameandroidbase.connection.OnWriteListener;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class ChatScene extends Scene implements OnReadListener, OnConnectStatusListener {
+public class ChatScene extends Scene implements OnReadTCPListener, OnConnectStatusListener {
 
     private ConnectionConfiguration cc;
 
@@ -46,7 +46,7 @@ public class ChatScene extends Scene implements OnReadListener, OnConnectStatusL
     Window connectedWindow;
     Window notconnectedWindow;
 
-    private OnWriteListener onConnectionWriteListener;
+    private OnWriteTCPListener onConnectionWriteListener;
 
     public ChatScene(float x, float y, float width, float height, ConnectionConfiguration cc) {
         super(x, y, width, height);
@@ -61,9 +61,9 @@ public class ChatScene extends Scene implements OnReadListener, OnConnectStatusL
         connectedWindow.getDefaultPaint().setColor(Color.WHITE);
         getDeviceManager().initKeyboard();
 
-        getConnectionManager().set(cc);
-        this.onConnectionWriteListener = getConnectionManager().setOnReadListenerTCP(this);
-        getConnectionManager().setOnConnectionStatusListenerTCP(this);
+        //getConnectionManager().set(cc);
+        //this.onConnectionWriteListener = getConnectionManager().setOnReadListenerTCP(this);
+        //getConnectionManager().setOnConnectionStatusListenerTCP(this);
         getConnectionManager().connectTCP();
 
         label_receivedmsg = new Label("Mensagem recebida:");
@@ -92,7 +92,7 @@ public class ChatScene extends Scene implements OnReadListener, OnConnectStatusL
             @Override
             public void actionPerformed(Event evt) {
                 String msg = textField_sendmsg.getText();
-                onConnectionWriteListener.write(msg);
+                onConnectionWriteListener.writeTCP(msg);
             }
         });
         connectedWindow.add(button_send);
@@ -128,7 +128,7 @@ public class ChatScene extends Scene implements OnReadListener, OnConnectStatusL
     }
 
     @Override
-    public void read(String msg) {
+    public void readTCP(String msg) {
         textField_receivedmsg.setText(msg);
     }
 

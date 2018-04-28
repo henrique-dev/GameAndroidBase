@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.br.phdev.gameandroidbase.connection;
+package com.br.phdev.gameandroidbase.connection.listeners;
 
-public interface OnWriteListener {
+public interface OnReadTCPListener {
 
-    void write(String msg);
+    void readTCP(String msg);
 
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.List;
 
 /*
  * Copyright (C) 2018 Paulo Henrique Gonçalves Bacelar
@@ -26,13 +27,21 @@ import java.net.InetAddress;
  */
 public class UDPServer extends UDPConnection{
 
-    private String clientIP;
+    //private String clientIP;
+    private List<String> clientIps;
     private int port;
     private boolean running;
+
 
     public UDPServer(ConnectionConfiguration connectionConfiguration) {
         this.port = connectionConfiguration.getPort();
     }
+
+    public UDPServer(int port, List<String> clientIps) {
+        this.port = port;
+        this.clientIps = clientIps;
+    }
+
 
     @Override
     public void run() {
@@ -44,26 +53,19 @@ public class UDPServer extends UDPConnection{
             byte[] buffer = new byte[1024];
             DatagramPacket packet = new DatagramPacket(buffer, 0, 1024);
 
-            while (true) {
-                super.socket.receive(packet);
-                if (packet.getAddress() != null) {
-                    this.clientIP = packet.getAddress().getHostAddress();
-                    break;
-                }
-            }
-
-            super.onConnectListener.onConnect();
+            //super.onConnectStatusListener.onConnect();
 
             while(this.running) {
                 super.socket.receive(packet);
 
                 String msg = new String(packet.getData());
                 if (msg.trim().equals("EXIT")) {
-                    write("EXIT");
+                    writeUDP("EXIT");
                     this.running = false;
                     break;
                 }
-                super.onConnectReadListener.read(msg.trim());
+                super.onReadListener.readUDP(msg.trim());
+                super.onReadListener.readUDP(packet.getData());
             }
         } catch (Exception e) {
             GameLog.error(this, e);
@@ -73,10 +75,24 @@ public class UDPServer extends UDPConnection{
     }
 
     @Override
-    public void write(String msg) {
+    public void writeUDP(String msg) {
         try {
-            DatagramPacket packet = new DatagramPacket(msg.getBytes(), 0, msg.length(), InetAddress.getByName(this.clientIP), this.port);
-            super.socket.send(packet);
+            for (String hostAddress : clientIps) {
+                DatagramPacket packet = new DatagramPacket(msg.getBytes(), 0, msg.length(), InetAddress.getByName(hostAddress), this.port);
+                super.socket.send(packet);
+            }
+        } catch (IOException e) {
+            GameLog.error(this, e);
+        }
+    }
+
+    @Override
+    public void writeUDP(byte[] buffer) {
+        try {
+            for (String hostAddress : clientIps) {
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(hostAddress), this.port);
+                super.socket.send(packet);
+            }
         } catch (IOException e) {
             GameLog.error(this, e);
         }
@@ -95,7 +111,7 @@ public class UDPServer extends UDPConnection{
         try {
             if (super.socket != null)
                 super.socket.close();
-            super.onConnectListener.onDisconnect();
+            super.onConnectStatusListener.onDisconnect();
         } catch (Exception e) {
             GameLog.error(this, e);
         }

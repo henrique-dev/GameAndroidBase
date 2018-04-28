@@ -28,6 +28,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.br.phdev.gameandroidbase.cmp.listeners.ActivityStateListener;
+import com.br.phdev.gameandroidbase.test.pengapong.GameBoard;
 import com.br.phdev.gameandroidbase.test.pengapong.MainBoard;
 
 /**
@@ -213,7 +214,9 @@ public class GameEngine extends SurfaceView implements SurfaceHolder.Callback {
         //new MainBoard(0,0, GameParameters.getInstance().screenSize.right, GameParameters.getInstance().screenSize.bottom);
         //new MenuConnectionBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
         //new SimpleChatBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
-        new MainBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
+
+        //new MainBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
+        new GameBoard(0,0,GameParameters.getInstance().screenSize.width(), GameParameters.getInstance().screenSize.height());
 
         // --------------------------------
     }
